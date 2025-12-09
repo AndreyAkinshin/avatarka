@@ -1,5 +1,9 @@
 # Avatarka
 
+[![npm avatarka](https://img.shields.io/npm/v/avatarka?label=npm%20avatarka)](https://www.npmjs.com/package/avatarka)
+[![npm avatarka-react](https://img.shields.io/npm/v/avatarka-react?label=npm%20avatarka-react)](https://www.npmjs.com/package/avatarka-react)
+[![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://andreyakinshin.github.io/avatarka/)
+
 Generate unique, customizable SVG and PNG avatars with multiple themes. Zero dependencies in the core library.
 
 ## Features

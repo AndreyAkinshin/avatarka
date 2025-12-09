@@ -1,5 +1,7 @@
 # avatarka-react
 
+[![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://andreyakinshin.github.io/avatarka/)
+
 React components for the [avatarka](https://www.npmjs.com/package/avatarka) SVG avatar generator.
 
 ## Installation

@@ -1,5 +1,7 @@
 # avatarka
 
+[![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://andreyakinshin.github.io/avatarka/)
+
 Generate unique, customizable SVG avatars with multiple themes. Zero runtime dependencies.
 
 ## Features
