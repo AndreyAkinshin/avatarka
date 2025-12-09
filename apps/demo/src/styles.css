@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-gradient-start: #667eea;
+  --bg-gradient-end: #764ba2;
+  --card-bg: white;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-heading: #374151;
+  --border-color: #e5e7eb;
+  --input-bg: white;
+  --preview-bg: #f9fafb;
+  --btn-secondary-bg: #f3f4f6;
+  --btn-secondary-hover: #e5e7eb;
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg-gradient-start: #1e1b4b;
+  --bg-gradient-end: #312e81;
+  --card-bg: #1f2937;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-heading: #e5e7eb;
+  --border-color: #374151;
+  --input-bg: #374151;
+  --preview-bg: #111827;
+  --btn-secondary-bg: #374151;
+  --btn-secondary-hover: #4b5563;
+  --accent-color: #818cf8;
+  --accent-hover: #6366f1;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-light: rgba(0, 0, 0, 0.3);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    sans-serif;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  min-height: 100vh;
+  color: var(--text-primary);
+  transition: background 0.3s ease;
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-spacer {
+  width: 100px;
+}
+
+.header-title {
+  text-align: center;
+  flex: 1;
+}
+
+.color-mode-switcher {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.color-mode-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.color-mode-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.color-mode-btn.active {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.main-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px var(--shadow-color);
+  padding: 24px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* AvatarPicker theme integration - override CSS custom properties */
+.avatarka-picker {
+  --avatarka-bg: var(--card-bg);
+  --avatarka-accent: var(--accent-color);
+  --avatarka-text: var(--text-primary);
+  --avatarka-text-secondary: var(--text-secondary);
+  --avatarka-border: var(--border-color);
+  --avatarka-input-bg: var(--input-bg);
+  --avatarka-btn-bg: var(--btn-secondary-bg);
+  --avatarka-shadow: var(--shadow-light);
+}
+
+/* Save Buttons */
+.save-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--btn-secondary-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.save-btn:hover {
+  background: var(--btn-secondary-hover);
+  border-color: var(--accent-color);
+}
+
+.save-btn svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .main-card {
+    padding: 16px;
+  }
+
+  .save-buttons {
+    flex-direction: column;
+  }
+
+  .save-btn {
+    justify-content: center;
+  }
+}

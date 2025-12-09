@@ -1,0 +1,693 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PRNG determinism snapshots > createRng with string seed produces consistent params 1`] = `
+[
+  0.6416134552564472,
+  0.5333009087480605,
+  0.7096757439430803,
+  0.40082285506650805,
+  0.28849114617332816,
+  0.29321534163318574,
+  0.32960218051448464,
+  0.005651818122714758,
+  0.07716484926640987,
+  0.7204158948734403,
+]
+`;
+
+exports[`PRNG determinism snapshots > mulberry32 produces consistent sequence 1`] = `
+[
+  0.6011037519201636,
+  0.44829055899754167,
+  0.8524657934904099,
+  0.6697340414393693,
+  0.17481389874592423,
+  0.5265925421845168,
+  0.2732279943302274,
+  0.6247446539346129,
+  0.8654746483080089,
+  0.4723170551005751,
+  0.24992373422719538,
+  0.8820588334929198,
+  0.7457375649828464,
+  0.3070015134289861,
+  0.19725383794866502,
+  0.5007294877432287,
+  0.6866120179183781,
+  0.6106208984274417,
+  0.003842951962724328,
+  0.47078192373737693,
+]
+`;
+
+exports[`PRNG determinism snapshots > stringToSeed produces consistent hashes 1`] = `
+[
+  {
+    "hash": 99162322,
+    "input": "hello",
+  },
+  {
+    "hash": 113318802,
+    "input": "world",
+  },
+  {
+    "hash": 62400029,
+    "input": "test-user@example.com",
+  },
+  {
+    "hash": 46792755,
+    "input": "12345",
+  },
+  {
+    "hash": 1787288687,
+    "input": "avatarka",
+  },
+  {
+    "hash": 0,
+    "input": "",
+  },
+  {
+    "hash": 97,
+    "input": "a",
+  },
+  {
+    "hash": 129196997,
+    "input": "emoji😀test",
+  },
+]
+`;
+
+exports[`SVG snapshots > aliens theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#0a0a23"/>
+    <g>
+    
+    
+        <ellipse cx="50" cy="45" rx="28" ry="32" fill="#7ed321"/>
+        <ellipse cx="50" cy="70" rx="12" ry="16" fill="#7ed321"/>
+        <ellipse cx="50" cy="42" rx="24" ry="26" fill="#92e735" opacity="0.3"/>
+      
+    
+    
+        <ellipse cx="38" cy="48" rx="10" ry="14" fill="#1a1a2e"/>
+        <ellipse cx="62" cy="48" rx="10" ry="14" fill="#1a1a2e"/>
+        <ellipse cx="36" cy="44" rx="3" ry="5" fill="#424256" opacity="0.6"/>
+        <ellipse cx="60" cy="44" rx="3" ry="5" fill="#424256" opacity="0.6"/>
+      
+    <line x1="44" y1="68" x2="56" y2="68" stroke="#56ab00" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > aliens theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#1e272e"/>
+    <g>
+    
+        <path d="M38,22 Q28,12 22,14" stroke="#a0a0a0" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M62,22 Q72,12 78,14" stroke="#a0a0a0" stroke-width="3" fill="none" stroke-linecap="round"/>
+      
+    
+        <ellipse cx="50" cy="50" rx="32" ry="34" fill="#a0a0a0"/>
+        <ellipse cx="38" cy="38" rx="12" ry="14" fill="#b4b4b4" opacity="0.3"/>
+        <ellipse cx="62" cy="38" rx="12" ry="14" fill="#b4b4b4" opacity="0.3"/>
+        <ellipse cx="50" cy="35" rx="16" ry="12" fill="#b4b4b4" opacity="0.2"/>
+      
+    
+        <path d="M30,36 Q50,32 70,36" stroke="#878787" stroke-width="2.5" fill="none" opacity="0.4"/>
+        <path d="M26,48 Q50,44 74,48" stroke="#878787" stroke-width="2.5" fill="none" opacity="0.4"/>
+        <path d="M30,60 Q50,56 70,60" stroke="#878787" stroke-width="2.5" fill="none" opacity="0.4"/>
+      
+    
+        <ellipse cx="34" cy="50" rx="7" ry="10" fill="#9b59b6"/>
+        <ellipse cx="50" cy="44" rx="8" ry="11" fill="#9b59b6"/>
+        <ellipse cx="66" cy="50" rx="7" ry="10" fill="#9b59b6"/>
+        <ellipse cx="32" cy="47" rx="2" ry="3" fill="#c381de" opacity="0.6"/>
+        <ellipse cx="48" cy="41" rx="2" ry="3" fill="#c381de" opacity="0.6"/>
+        <ellipse cx="64" cy="47" rx="2" ry="3" fill="#c381de" opacity="0.6"/>
+      
+    
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > aliens theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#1a1a2e"/>
+    <g>
+    
+        <path d="M40,20 Q32,10 24,12" stroke="#9b59b6" stroke-width="2" fill="none"/>
+        <path d="M38,22 Q26,14 18,18" stroke="#9b59b6" stroke-width="2" fill="none"/>
+        <path d="M60,20 Q68,10 76,12" stroke="#9b59b6" stroke-width="2" fill="none"/>
+        <path d="M62,22 Q74,14 82,18" stroke="#9b59b6" stroke-width="2" fill="none"/>
+      
+    
+        <ellipse cx="50" cy="50" rx="32" ry="34" fill="#9b59b6"/>
+        <ellipse cx="38" cy="38" rx="12" ry="14" fill="#af6dca" opacity="0.3"/>
+        <ellipse cx="62" cy="38" rx="12" ry="14" fill="#af6dca" opacity="0.3"/>
+        <ellipse cx="50" cy="35" rx="16" ry="12" fill="#af6dca" opacity="0.2"/>
+      
+    
+        <circle cx="28" cy="40" r="3" fill="#82409d" opacity="0.5"/>
+        <circle cx="72" cy="40" r="3" fill="#82409d" opacity="0.5"/>
+        <circle cx="32" cy="56" r="2.5" fill="#82409d" opacity="0.5"/>
+        <circle cx="68" cy="56" r="2.5" fill="#82409d" opacity="0.5"/>
+        <circle cx="25" cy="52" r="2" fill="#82409d" opacity="0.5"/>
+        <circle cx="75" cy="52" r="2" fill="#82409d" opacity="0.5"/>
+      
+    
+        <ellipse cx="38" cy="48" rx="12" ry="14" fill="#0f0f1a"/>
+        <ellipse cx="62" cy="48" rx="12" ry="14" fill="#0f0f1a"/>
+        <circle cx="34" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="38" cy="42" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="42" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="35" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="41" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="58" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="62" cy="42" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="66" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="59" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
+        <circle cx="65" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
+      
+    <ellipse cx="50" cy="68" rx="3" ry="2.5" fill="#73318e"/>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > animals theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#ecf0f1"/>
+    <g><g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+    <polygon points="15,35 25,5 40,30" fill="#e67e22"/>
+    <polygon points="20,32 27,12 37,30" fill="#ffa64a"/>
+    <polygon points="85,35 75,5 60,30" fill="#e67e22"/>
+    <polygon points="80,32 73,12 63,30" fill="#ffa64a"/>
+  
+    <ellipse cx="50" cy="55" rx="38" ry="35" fill="#e67e22"/>
+    <ellipse cx="50" cy="60" rx="25" ry="22" fill="#ffffff"/>
+  
+        <ellipse cx="35" cy="50" rx="8" ry="9" fill="#2ecc71"/>
+        <ellipse cx="65" cy="50" rx="8" ry="9" fill="#2ecc71"/>
+        <ellipse cx="35" cy="51" rx="4" ry="6" fill="#2c3e50"/>
+        <ellipse cx="65" cy="51" rx="4" ry="6" fill="#2c3e50"/>
+        <circle cx="33" cy="48" r="2" fill="white"/>
+        <circle cx="63" cy="48" r="2" fill="white"/>
+      
+    <ellipse cx="50" cy="65" rx="5" ry="4" fill="#c86004"/>
+    <path d="M50,69 L50,74" stroke="#c86004" stroke-width="2"/>
+    <path d="M45,76 Q50,80 55,76" stroke="#c86004" stroke-width="2" fill="none"/>
+  
+    <line x1="10" y1="60" x2="30" y2="65" stroke="#c86004" stroke-width="1.5"/>
+    <line x1="10" y1="70" x2="30" y2="70" stroke="#c86004" stroke-width="1.5"/>
+    <line x1="10" y1="80" x2="30" y2="75" stroke="#c86004" stroke-width="1.5"/>
+    <line x1="90" y1="60" x2="70" y2="65" stroke="#c86004" stroke-width="1.5"/>
+    <line x1="90" y1="70" x2="70" y2="70" stroke="#c86004" stroke-width="1.5"/>
+    <line x1="90" y1="80" x2="70" y2="75" stroke="#c86004" stroke-width="1.5"/>
+  </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > animals theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#51d6a8"/>
+    <g><g transform="translate(50, 50) scale(0.82) translate(-50, -50)">
+    <circle cx="20" cy="25" r="15" fill="#1a1a2e"/>
+    <circle cx="80" cy="25" r="15" fill="#1a1a2e"/>
+  
+    <circle cx="50" cy="55" r="40" fill="#ffffff"/>
+  
+        <ellipse cx="32" cy="48" rx="14" ry="16" fill="#1a1a2e"/>
+        <ellipse cx="68" cy="48" rx="14" ry="16" fill="#1a1a2e"/>
+        <path d="M24,50 Q32,45 40,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M60,50 Q68,45 76,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+      
+    <ellipse cx="50" cy="70" rx="8" ry="5" fill="#1a1a2e"/>
+    <path d="M50,75 L50,80" stroke="#1a1a2e" stroke-width="2"/>
+    <path d="M42,83 Q50,88 58,83" stroke="#1a1a2e" stroke-width="2" fill="none"/>
+  </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > animals theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#2fac2f"/>
+    <g><g transform="translate(50, 50) scale(0.8) translate(-50, -50)">
+    <ellipse cx="30" cy="20" rx="10" ry="25" fill="#b89932"/>
+    <ellipse cx="30" cy="20" rx="5" ry="18" fill="#e0c15a"/>
+    <ellipse cx="70" cy="20" rx="10" ry="25" fill="#b89932"/>
+    <ellipse cx="70" cy="20" rx="5" ry="18" fill="#e0c15a"/>
+  
+    <circle cx="50" cy="60" r="35" fill="#b89932"/>
+    <ellipse cx="50" cy="70" rx="15" ry="12" fill="#ffffff"/>
+  
+        <circle cx="35" cy="50" r="10" fill="#18f2d4"/>
+        <circle cx="65" cy="50" r="10" fill="#18f2d4"/>
+        <circle cx="35" cy="50" r="5" fill="#2c3e50"/>
+        <circle cx="65" cy="50" r="5" fill="#2c3e50"/>
+      
+    <ellipse cx="50" cy="68" rx="5" ry="4" fill="#ffb6c1"/>
+    <path d="M50,72 L45,78 M50,72 L55,78" stroke="#2c3e50" stroke-width="2" stroke-linecap="round"/>
+  
+    <circle cx="25" cy="65" r="6" fill="#ffb6c1" opacity="0.5"/>
+    <circle cx="75" cy="65" r="6" fill="#ffb6c1" opacity="0.5"/>
+  </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > geometric theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#3498db"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
+      <g transform="rotate(0 50 50)">
+        <polygon points="15,25 37,53 7,53" fill="#e74c3c" opacity="0.8"/><polygon points="29,43 51,71 21,71" fill="#f39c12" opacity="0.8"/><polygon points="43,61 65,89 35,89" fill="#e74c3c" opacity="0.8"/><polygon points="57,25 79,53 49,53" fill="#f39c12" opacity="0.8"/><polygon points="71,43 93,71 63,71" fill="#e74c3c" opacity="0.8"/>
+      </g>
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > geometric theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#63c6ee"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
+      <g transform="rotate(330 50 50)">
+        <polygon points="35.4,29.0 35.4,41.0 25.0,47.0 14.6,41.0 14.6,29.0 25.0,23.0" fill="#57e826" opacity="0.75"/><polygon points="47.2,42.0 47.2,58.0 33.3,66.0 19.5,58.0 19.5,42.0 33.3,34.0" fill="#29d153" opacity="0.75"/><polygon points="59.0,55.0 59.0,75.0 41.7,85.0 24.3,75.0 24.3,55.0 41.7,45.0" fill="#57e826" opacity="0.75"/><polygon points="60.4,29.0 60.4,41.0 50.0,47.0 39.6,41.0 39.6,29.0 50.0,23.0" fill="#29d153" opacity="0.75"/><polygon points="72.2,42.0 72.2,58.0 58.3,66.0 44.5,58.0 44.5,42.0 58.3,34.0" fill="#57e826" opacity="0.75"/><polygon points="84.0,55.0 84.0,75.0 66.7,85.0 49.3,75.0 49.3,55.0 66.7,45.0" fill="#29d153" opacity="0.75"/>
+      </g>
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > geometric theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#34b255"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
+      <g transform="rotate(165 50 50)">
+        <polygon points="15,25 37,53 7,53" fill="#c6e679" opacity="0.8"/><polygon points="25,43 47,71 17,71" fill="#2abb70" opacity="0.8"/><polygon points="35,61 57,89 27,89" fill="#c6e679" opacity="0.8"/><polygon points="45,25 67,53 37,53" fill="#2abb70" opacity="0.8"/><polygon points="55,43 77,71 47,71" fill="#c6e679" opacity="0.8"/><polygon points="65,61 87,89 57,89" fill="#2abb70" opacity="0.8"/><polygon points="75,25 97,53 67,53" fill="#c6e679" opacity="0.8"/>
+      </g>
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > monsters theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#e8f4f8"/>
+    <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
+    
+    <polygon points="25,23 30,33 20,33" fill="#73318e"/>
+    <polygon points="75,23 80,33 70,33" fill="#73318e"/>
+  
+    
+        <ellipse cx="50" cy="55" rx="35" ry="38" fill="#9b59b6"/>
+        <ellipse cx="50" cy="58" rx="30" ry="32" fill="#7d3b98" opacity="0.3"/>
+      
+    <ellipse cx="40" cy="40" rx="10" ry="12" fill="#ffffff"/><circle cx="40" cy="40" r="5" fill="#2c3e50"/><circle cx="39" cy="39" r="2" fill="#ffffff"/><ellipse cx="60" cy="45" rx="10" ry="12" fill="#ffffff"/><circle cx="60" cy="45" r="5" fill="#2c3e50"/><circle cx="59" cy="44" r="2" fill="#ffffff"/>
+    <path d="M30,70 Q50,85 70,70" fill="none" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+          <rect x="38" y="68" width="6" height="8" fill="white" rx="1"/>
+          <rect x="48" y="68" width="6" height="8" fill="white" rx="1"/>
+          <rect x="58" y="68" width="6" height="8" fill="white" rx="1"/>
+        
+  </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > monsters theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#63c6ee"/>
+    <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
+    
+    
+        <path d="M20,50 Q10,30 30,20 Q50,10 70,20 Q90,30 80,50 Q90,70 70,80 Q50,95 30,80 Q10,70 20,50" fill="#57e826"/>
+        <path d="M25,50 Q15,32 32,23 Q50,15 68,23 Q85,32 77,50 Q85,68 68,77 Q50,88 32,77 Q15,68 25,50" fill="#39ca08" opacity="0.3"/>
+      
+    <ellipse cx="35" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="35" cy="39" r="4.5" fill="#2c3e50"/><circle cx="34" cy="38" r="1.8" fill="#ffffff"/><ellipse cx="50" cy="45" rx="9" ry="11" fill="#ffffff"/><circle cx="50" cy="44" r="4.5" fill="#2c3e50"/><circle cx="49" cy="43" r="1.8" fill="#ffffff"/><ellipse cx="65" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="65" cy="39" r="4.5" fill="#2c3e50"/><circle cx="64" cy="38" r="1.8" fill="#ffffff"/>
+    <ellipse cx="50" cy="75" rx="10" ry="12" fill="#29d153"/>
+  </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > monsters theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#34b255"/>
+    <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
+    
+    <polygon points="25,23 30,33 20,33" fill="#9ebe51"/>
+    <polygon points="75,23 80,33 70,33" fill="#9ebe51"/>
+  
+    
+        <ellipse cx="50" cy="55" rx="35" ry="38" fill="#c6e679"/>
+        <ellipse cx="50" cy="58" rx="30" ry="32" fill="#a8c85b" opacity="0.3"/>
+      
+    <ellipse cx="35" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="35" cy="39" r="4.5" fill="#2c3e50"/><circle cx="34" cy="38" r="1.8" fill="#ffffff"/><ellipse cx="50" cy="45" rx="9" ry="11" fill="#ffffff"/><circle cx="50" cy="44" r="4.5" fill="#2c3e50"/><circle cx="49" cy="43" r="1.8" fill="#ffffff"/><ellipse cx="65" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="65" cy="39" r="4.5" fill="#2c3e50"/><circle cx="64" cy="38" r="1.8" fill="#ffffff"/>
+    <ellipse cx="50" cy="75" rx="10" ry="12" fill="#2abb70"/>
+  </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > people theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#ecf0f1"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+    
+    <ellipse cx="18" cy="55" rx="5" ry="8" fill="#f5d0c5"/>
+    <ellipse cx="18" cy="55" rx="3" ry="5" fill="#e6c1b6" opacity="0.3"/>
+    <ellipse cx="82" cy="55" rx="5" ry="8" fill="#f5d0c5"/>
+    <ellipse cx="82" cy="55" rx="3" ry="5" fill="#e6c1b6" opacity="0.3"/>
+  
+    
+    <ellipse cx="50" cy="55" rx="32" ry="38" fill="#f5d0c5"/>
+    <ellipse cx="50" cy="58" rx="28" ry="32" fill="#e1bcb1" opacity="0.1"/>
+  
+    
+        <ellipse cx="50" cy="28" rx="30" ry="20" fill="#5d4e37"/>
+        <path d="M20,35 Q25,20 50,15 Q75,20 80,35" fill="#5d4e37"/>
+        <path d="M25,32 Q30,22 50,18 Q70,22 75,32" fill="#3f3019" opacity="0.3"/>
+      
+    
+        <ellipse cx="38" cy="50" rx="7" ry="8" fill="white"/>
+        <ellipse cx="62" cy="50" rx="7" ry="8" fill="white"/>
+        <circle cx="38" cy="51" r="4" fill="#3498db"/>
+        <circle cx="62" cy="51" r="4" fill="#3498db"/>
+        <circle cx="38" cy="51" r="2" fill="#2c3e50"/>
+        <circle cx="62" cy="51" r="2" fill="#2c3e50"/>
+        <circle cx="36" cy="49" r="1.5" fill="white"/>
+        <circle cx="60" cy="49" r="1.5" fill="white"/>
+      
+      <path d="M30,44 Q38,42 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M70,44 Q62,42 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+    
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#d7b2a7" stroke-width="1.5" fill="none"/><path d="M40,78 Q50,86 60,78" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > people theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#39d5a4"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+        <ellipse cx="50" cy="28" rx="32" ry="22" fill="#4a0080"/>
+        <path d="M18,30 Q18,95 30,95 L30,45 Q25,30 18,30" fill="#4a0080"/>
+        <path d="M82,30 Q82,95 70,95 L70,45 Q75,30 82,30" fill="#4a0080"/>
+        <path d="M20,35 Q25,15 50,12 Q75,15 80,35" fill="#4a0080"/>
+      
+    
+    <ellipse cx="18" cy="55" rx="5" ry="8" fill="#8d5524"/>
+    <ellipse cx="18" cy="55" rx="3" ry="5" fill="#7e4615" opacity="0.3"/>
+    <ellipse cx="82" cy="55" rx="5" ry="8" fill="#8d5524"/>
+    <ellipse cx="82" cy="55" rx="3" ry="5" fill="#7e4615" opacity="0.3"/>
+  
+    
+    <ellipse cx="50" cy="55" rx="32" ry="38" fill="#8d5524"/>
+    <ellipse cx="50" cy="58" rx="28" ry="32" fill="#794110" opacity="0.1"/>
+  
+    
+    
+        <ellipse cx="38" cy="50" rx="6" ry="7" fill="white"/>
+        <ellipse cx="62" cy="50" rx="6" ry="7" fill="white"/>
+        <circle cx="38" cy="50" r="3" fill="#da67bc"/>
+        <circle cx="62" cy="50" r="3" fill="#da67bc"/>
+        <circle cx="38" cy="50" r="1.5" fill="#2c3e50"/>
+        <circle cx="62" cy="50" r="1.5" fill="#2c3e50"/>
+      
+      <path d="M30,44 Q38,42 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M70,44 Q62,42 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+    
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#6f3706" stroke-width="1.5" fill="none"/><line x1="42" y1="80" x2="58" y2="80" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"/>
+    
+        <rect x="26" y="44" width="22" height="14" rx="3" fill="#2c3e50"/>
+        <rect x="52" y="44" width="22" height="14" rx="3" fill="#2c3e50"/>
+        <line x1="48" y1="50" x2="52" y2="50" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="26" y1="48" x2="18" y2="46" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="74" y1="48" x2="82" y2="46" stroke="#2c3e50" stroke-width="2"/>
+      
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > people theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#d42b37"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+        <ellipse cx="50" cy="28" rx="32" ry="22" fill="#5d4e37"/>
+        <path d="M18,30 Q18,95 30,95 L30,45 Q25,30 18,30" fill="#5d4e37"/>
+        <path d="M82,30 Q82,95 70,95 L70,45 Q75,30 82,30" fill="#5d4e37"/>
+        <path d="M20,35 Q25,15 50,12 Q75,15 80,35" fill="#5d4e37"/>
+      
+    
+    <ellipse cx="18" cy="55" rx="5" ry="8" fill="#c68642"/>
+    <ellipse cx="18" cy="55" rx="3" ry="5" fill="#b77733" opacity="0.3"/>
+    <ellipse cx="82" cy="55" rx="5" ry="8" fill="#c68642"/>
+    <ellipse cx="82" cy="55" rx="3" ry="5" fill="#b77733" opacity="0.3"/>
+  
+    
+    <ellipse cx="50" cy="55" rx="32" ry="38" fill="#c68642"/>
+    <ellipse cx="50" cy="58" rx="28" ry="32" fill="#b2722e" opacity="0.1"/>
+  
+    
+    
+        <ellipse cx="38" cy="52" rx="6" ry="7" fill="white"/>
+        <ellipse cx="62" cy="52" rx="6" ry="7" fill="white"/>
+        <circle cx="38" cy="53" r="3" fill="#bcce46"/>
+        <circle cx="62" cy="53" r="3" fill="#bcce46"/>
+        <circle cx="38" cy="53" r="1.5" fill="#2c3e50"/>
+        <circle cx="62" cy="53" r="1.5" fill="#2c3e50"/>
+        <path d="M32,46 Q38,49 44,46" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
+        <path d="M56,46 Q62,49 68,46" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
+      
+      <path d="M30,42 Q38,40 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M70,42 Q62,40 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+    
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#a86824" stroke-width="1.5" fill="none"/><path d="M40,84 Q50,76 60,84" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > robots theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#2c3e50"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+        <line x1="50" y1="18" x2="50" y2="6" stroke="#3498db" stroke-width="3"/>
+        <circle cx="50" cy="4" r="4" fill="#3498db"/>
+        <circle cx="50" cy="4" r="2" fill="#5cc0ff"/>
+      
+    
+    <rect x="5" y="37" width="10" height="16" rx="2" fill="#95a5a6"/>
+    <rect x="85" y="37" width="10" height="16" rx="2" fill="#95a5a6"/>
+    <rect x="7" y="39" width="6" height="12" rx="1" fill="#778788" opacity="0.5"/>
+    <rect x="87" y="39" width="6" height="12" rx="1" fill="#778788" opacity="0.5"/>
+    <circle cx="10" cy="45" r="2" fill="#3498db"/>
+    <circle cx="90" cy="45" r="2" fill="#3498db"/>
+  
+    
+        <rect x="18" y="18" width="64" height="64" rx="8" fill="#95a5a6"/>
+        <rect x="22" y="22" width="56" height="56" rx="6" fill="#7c8c8d" opacity="0.3"/>
+        <rect x="22" y="22" width="56" height="8" fill="#b3c3c4" opacity="0.5"/>
+      
+    
+        <circle cx="35" cy="42" r="10" fill="#1a1a2e"/>
+        <circle cx="65" cy="42" r="10" fill="#1a1a2e"/>
+        <circle cx="35" cy="42" r="6" fill="#e74c3c"/>
+        <circle cx="65" cy="42" r="6" fill="#e74c3c"/>
+        <circle cx="33" cy="40" r="2" fill="#ff7464"/>
+        <circle cx="63" cy="40" r="2" fill="#ff7464"/>
+      
+    
+        <rect x="32" y="65" width="36" height="12" rx="2" fill="#1a1a2e"/>
+        <line x1="35" y1="67" x2="35" y2="75" stroke="#3498db" stroke-width="2"/>
+        <line x1="42" y1="67" x2="42" y2="75" stroke="#3498db" stroke-width="2"/>
+        <line x1="50" y1="67" x2="50" y2="75" stroke="#3498db" stroke-width="2"/>
+        <line x1="58" y1="67" x2="58" y2="75" stroke="#3498db" stroke-width="2"/>
+        <line x1="65" y1="67" x2="65" y2="75" stroke="#3498db" stroke-width="2"/>
+      
+    
+      <circle cx="25" cy="25" r="3" fill="#778788"/>
+      <circle cx="75" cy="25" r="3" fill="#778788"/>
+      <circle cx="25" cy="75" r="3" fill="#778788"/>
+      <circle cx="75" cy="75" r="3" fill="#778788"/>
+    
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > robots theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#51d6a8"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+        <path d="M45,-7 L50,0 L45,0 L50,8" fill="#8812e2"/>
+        <path d="M55,-7 L50,0 L55,0 L50,8" fill="#8812e2" transform="scale(-1,1) translate(-100,0)"/>
+      
+    
+    <rect x="5" y="32" width="10" height="16" rx="2" fill="#2c3e50"/>
+    <rect x="85" y="32" width="10" height="16" rx="2" fill="#2c3e50"/>
+    <rect x="7" y="34" width="6" height="12" rx="1" fill="#0e2032" opacity="0.5"/>
+    <rect x="87" y="34" width="6" height="12" rx="1" fill="#0e2032" opacity="0.5"/>
+    <circle cx="10" cy="40" r="2" fill="#8812e2"/>
+    <circle cx="90" cy="40" r="2" fill="#8812e2"/>
+  
+    
+        <rect x="22" y="8" width="56" height="80" rx="10" fill="#2c3e50"/>
+        <rect x="26" y="12" width="48" height="72" rx="8" fill="#132537" opacity="0.3"/>
+        <rect x="26" y="12" width="48" height="10" fill="#4a5c6e" opacity="0.5"/>
+      
+    
+        <circle cx="50" cy="35" r="15" fill="#1a1a2e"/>
+        <circle cx="50" cy="35" r="10" fill="#a92ed6"/>
+        <circle cx="50" cy="35" r="5" fill="#1a1a2e"/>
+        <circle cx="47" cy="32" r="3" fill="#d156fe"/>
+      
+    
+    
+      <circle cx="30" cy="15" r="3" fill="#0e2032"/>
+      <circle cx="70" cy="15" r="3" fill="#0e2032"/>
+      <circle cx="30" cy="80" r="3" fill="#0e2032"/>
+      <circle cx="70" cy="80" r="3" fill="#0e2032"/>
+    <rect x="30" y="75" width="40" height="8" rx="2" fill="#0e2032"/><circle cx="50" cy="79" r="2" fill="#8812e2"/>
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > robots theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#2fac2f"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+    
+    
+        <rect x="8" y="28" width="84" height="52" rx="8" fill="#839192"/>
+        <rect x="12" y="32" width="76" height="44" rx="6" fill="#6a7879" opacity="0.3"/>
+        <rect x="12" y="32" width="76" height="8" fill="#a1afb0" opacity="0.5"/>
+      
+    
+        <rect x="22" y="40" width="56" height="16" rx="4" fill="#1a1a2e"/>
+        <rect x="25" y="43" width="50" height="10" rx="2" fill="#18f2d4" opacity="0.8"/>
+        <rect x="25" y="43" width="50" height="3" fill="#40fffc" opacity="0.5"/>
+      
+    
+        <path d="M30,70 L38,65 L46,75 L54,65 L62,75 L70,70" stroke="#b89932" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      
+    
+      <circle cx="15" cy="35" r="3" fill="#657374"/>
+      <circle cx="85" cy="35" r="3" fill="#657374"/>
+      <circle cx="15" cy="70" r="3" fill="#657374"/>
+      <circle cx="85" cy="70" r="3" fill="#657374"/>
+    
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`generateParams determinism > aliens params are deterministic with seed 1`] = `
+{
+  "antennae": "straight",
+  "backgroundColor": "#1b1b2f",
+  "backgroundShape": "circle",
+  "eyeColor": "#000000",
+  "eyeStyle": "compound",
+  "headShape": "classic",
+  "markings": "none",
+  "mouthStyle": "none",
+  "skinColor": "#95a5a6",
+}
+`;
+
+exports[`generateParams determinism > animals params are deterministic with seed 1`] = `
+{
+  "animalType": "koala",
+  "backgroundColor": "#d77733",
+  "backgroundShape": "circle",
+  "expression": "happy",
+  "eyeColor": "#30cfbc",
+  "primaryColor": "#21b04e",
+  "secondaryColor": "#ffffff",
+}
+`;
+
+exports[`generateParams determinism > geometric params are deterministic with seed 1`] = `
+{
+  "backgroundColor": "#613dd6",
+  "backgroundShape": "circle",
+  "complexity": 3,
+  "pattern": "squares",
+  "primaryColor": "#d34f27",
+  "rotation": 255,
+  "secondaryColor": "#49c55e",
+}
+`;
+
+exports[`generateParams determinism > monsters params are deterministic with seed 1`] = `
+{
+  "backgroundColor": "#613dd6",
+  "backgroundShape": "circle",
+  "bodyColor": "#d34f27",
+  "bodyShape": "square",
+  "expression": "surprised",
+  "eyeColor": "#ffffff",
+  "eyeCount": 1,
+  "hasHorns": "no",
+  "hasTeeth": "no",
+  "mouthColor": "#49c55e",
+}
+`;
+
+exports[`generateParams determinism > people params are deterministic with seed 1`] = `
+{
+  "accessory": "glasses",
+  "backgroundColor": "#37b027",
+  "backgroundShape": "circle",
+  "expression": "happy",
+  "eyeColor": "#4ec6ae",
+  "hairColor": "#d2691e",
+  "hairStyle": "curly",
+  "skinColor": "#6b4423",
+}
+`;
+
+exports[`generateParams determinism > robots params are deterministic with seed 1`] = `
+{
+  "accentColor": "#21b04e",
+  "antennaStyle": "bunny",
+  "backgroundColor": "#d77733",
+  "backgroundShape": "circle",
+  "bodyColor": "#9b59b6",
+  "eyeColor": "#30cfbc",
+  "eyeStyle": "angry",
+  "hasPanel": "no",
+  "headShape": "square",
+  "mouthStyle": "none",
+  "panelLights": 5,
+}
+`;
