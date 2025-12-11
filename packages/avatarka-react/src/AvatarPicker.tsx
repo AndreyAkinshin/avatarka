@@ -28,8 +28,12 @@ export interface AvatarPickerProps {
   style?: React.CSSProperties;
   /** Callback when avatar parameters change */
   onParamsChange?: (theme: ThemeName, params: ThemeParams<ThemeName>) => void;
-  /** Grid size for gallery mode - creates an n×n grid (default: 5) */
+  /** Grid size for gallery mode - creates an n×n grid (default: 5). Used as fallback for gridWidth/gridHeight. */
   gridSize?: number;
+  /** Number of columns in the gallery grid (defaults to gridSize) */
+  gridWidth?: number;
+  /** Number of rows in the gallery grid (defaults to gridSize) */
+  gridHeight?: number;
   /** Background color for the picker (CSS color value) */
   backgroundColor?: string;
   /** Accent color for buttons and active elements (CSS color value) */
@@ -67,11 +71,15 @@ export function AvatarPicker({
   style,
   onParamsChange,
   gridSize = 5,
+  gridWidth,
+  gridHeight,
   backgroundColor,
   accentColor,
   layout = 'default',
 }: AvatarPickerProps) {
-  const galleryCount = gridSize * gridSize;
+  const effectiveGridWidth = gridWidth ?? gridSize;
+  const effectiveGridHeight = gridHeight ?? gridSize;
+  const galleryCount = effectiveGridWidth * effectiveGridHeight;
   const themeNames = getThemeNames();
   const [theme, setTheme] = useState<ThemeName>(defaultTheme);
   const [params, setParams] = useState<DynamicParams>(() => ({
@@ -220,7 +228,7 @@ export function AvatarPicker({
     ...style,
     ...(backgroundColor && { '--avatarka-bg': backgroundColor }),
     ...(accentColor && { '--avatarka-accent': accentColor }),
-    '--avatarka-grid-size': gridSize,
+    '--avatarka-grid-width': effectiveGridWidth,
   } as React.CSSProperties;
 
   const layoutClass = layout === 'compact' ? 'avatarka-picker--compact' : '';

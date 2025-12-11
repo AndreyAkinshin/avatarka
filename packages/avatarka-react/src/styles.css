@@ -25,7 +25,7 @@
   --_avatarka-input-bg: var(--avatarka-input-bg, #ffffff);
   --_avatarka-btn-bg: var(--avatarka-btn-bg, #f3f4f6);
   --_avatarka-shadow: var(--avatarka-shadow, rgba(0, 0, 0, 0.1));
-  --_avatarka-grid-size: var(--avatarka-grid-size, 5);
+  --_avatarka-grid-width: var(--avatarka-grid-width, 5);
 
   display: flex;
   flex-direction: column;
@@ -207,7 +207,7 @@
 
 .avatarka-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(var(--_avatarka-grid-size, 5), 1fr);
+  grid-template-columns: repeat(var(--_avatarka-grid-width, 5), 1fr);
   gap: 8px;
 }
 
@@ -239,7 +239,7 @@
   }
 
   .avatarka-gallery-grid {
-    grid-template-columns: repeat(min(var(--_avatarka-grid-size, 5), 4), 1fr);
+    grid-template-columns: repeat(min(var(--_avatarka-grid-width, 5), 4), 1fr);
     gap: 6px;
   }
 }
