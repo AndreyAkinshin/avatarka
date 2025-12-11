@@ -1,6 +1,6 @@
 export { Avatar, type AvatarProps } from './Avatar';
 export { AvatarEditor, type AvatarEditorProps } from './AvatarEditor';
-export { AvatarPicker, type AvatarPickerProps } from './AvatarPicker';
+export { AvatarPicker, type AvatarPickerProps, type AvatarPickerLayout } from './AvatarPicker';
 
 // Re-export useful types and functions from core
 export {

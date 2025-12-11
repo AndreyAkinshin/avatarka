@@ -17,6 +17,8 @@ interface GalleryItem {
   svg: string;
 }
 
+export type AvatarPickerLayout = 'default' | 'compact';
+
 export interface AvatarPickerProps {
   /** Initial theme to use (default: 'people') */
   defaultTheme?: ThemeName;
@@ -32,6 +34,8 @@ export interface AvatarPickerProps {
   backgroundColor?: string;
   /** Accent color for buttons and active elements (CSS color value) */
   accentColor?: string;
+  /** Layout mode: 'default' (stacked) or 'compact' (side-by-side with reduced spacing) */
+  layout?: AvatarPickerLayout;
 }
 
 function formatLabel(name: string): string {
@@ -65,6 +69,7 @@ export function AvatarPicker({
   gridSize = 5,
   backgroundColor,
   accentColor,
+  layout = 'default',
 }: AvatarPickerProps) {
   const galleryCount = gridSize * gridSize;
   const themeNames = getThemeNames();
@@ -218,8 +223,10 @@ export function AvatarPicker({
     '--avatarka-grid-size': gridSize,
   } as React.CSSProperties;
 
+  const layoutClass = layout === 'compact' ? 'avatarka-picker--compact' : '';
+
   return (
-    <div className={`avatarka-picker ${className || ''}`} style={containerStyle}>
+    <div className={`avatarka-picker ${layoutClass} ${className || ''}`.trim()} style={containerStyle}>
       {/* Tab bar */}
       <div className="avatarka-tabs">
         <button
@@ -239,27 +246,56 @@ export function AvatarPicker({
       {/* Content area */}
       {mode === 'editor' ? (
         <div className="avatarka-editor">
-          <select
-            className="avatarka-theme-dropdown"
-            value={theme}
-            onChange={(e) => handleThemeChange(e.target.value as ThemeName)}
-          >
-            {themeNames.map((t) => (
-              <option key={t} value={t}>
-                {getTheme(t).name}
-              </option>
-            ))}
-          </select>
+          {layout === 'compact' ? (
+            <>
+              <div className="avatarka-editor-left">
+                <div className="avatarka-preview" dangerouslySetInnerHTML={{ __html: svg }} />
+                <button className="avatarka-btn avatarka-btn-primary" onClick={handleRandomize}>
+                  Randomize
+                </button>
+              </div>
+              <div className="avatarka-editor-right">
+                <select
+                  className="avatarka-theme-dropdown"
+                  value={theme}
+                  onChange={(e) => handleThemeChange(e.target.value as ThemeName)}
+                >
+                  {themeNames.map((t) => (
+                    <option key={t} value={t}>
+                      {getTheme(t).name}
+                    </option>
+                  ))}
+                </select>
+                <div className="avatarka-controls-grid">
+                  {sortedSchemaEntries.map(([name, def]) => renderControl(name, def))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <select
+                className="avatarka-theme-dropdown"
+                value={theme}
+                onChange={(e) => handleThemeChange(e.target.value as ThemeName)}
+              >
+                {themeNames.map((t) => (
+                  <option key={t} value={t}>
+                    {getTheme(t).name}
+                  </option>
+                ))}
+              </select>
 
-          <div className="avatarka-preview" dangerouslySetInnerHTML={{ __html: svg }} />
+              <div className="avatarka-preview" dangerouslySetInnerHTML={{ __html: svg }} />
 
-          <button className="avatarka-btn avatarka-btn-primary" onClick={handleRandomize}>
-            Randomize
-          </button>
+              <button className="avatarka-btn avatarka-btn-primary" onClick={handleRandomize}>
+                Randomize
+              </button>
 
-          <div className="avatarka-controls-grid">
-            {sortedSchemaEntries.map(([name, def]) => renderControl(name, def))}
-          </div>
+              <div className="avatarka-controls-grid">
+                {sortedSchemaEntries.map(([name, def]) => renderControl(name, def))}
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <div className="avatarka-gallery">

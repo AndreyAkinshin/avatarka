@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { AvatarPicker } from 'avatarka-react';
+import { AvatarPicker, type AvatarPickerLayout } from 'avatarka-react';
 import { generateAvatar, svgToPng, type ThemeName, type ThemeParams } from 'avatarka';
 
 type ColorMode = 'system' | 'light' | 'dark';
@@ -10,6 +10,11 @@ function App() {
   const [colorMode, setColorMode] = useState<ColorMode>(() => {
     const stored = localStorage.getItem('avatarka-color-mode');
     return (stored as ColorMode) || 'system';
+  });
+
+  const [layout, setLayout] = useState<AvatarPickerLayout>(() => {
+    const stored = localStorage.getItem('avatarka-layout');
+    return (stored as AvatarPickerLayout) || 'default';
   });
 
   const [currentTheme, setCurrentTheme] = useState<ThemeName>('people');
@@ -80,11 +85,35 @@ function App() {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [colorMode]);
 
+  // Persist layout preference
+  useEffect(() => {
+    localStorage.setItem('avatarka-layout', layout);
+  }, [layout]);
+
   return (
     <div className="app">
       <header className="header">
         <div className="header-top">
-          <div className="header-spacer" />
+          <div className="layout-switcher">
+            <button
+              className={`layout-btn ${layout === 'default' ? 'active' : ''}`}
+              onClick={() => setLayout('default')}
+              title="Default Layout"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M3 3h18v2H3V3zm0 8h18v2H3v-2zm0 8h18v2H3v-2z"/>
+              </svg>
+            </button>
+            <button
+              className={`layout-btn ${layout === 'compact' ? 'active' : ''}`}
+              onClick={() => setLayout('compact')}
+              title="Compact Layout"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z"/>
+              </svg>
+            </button>
+          </div>
           <div className="header-title">
             <h1>Avatarka</h1>
           </div>
@@ -121,7 +150,7 @@ function App() {
       </header>
 
       <main className="main-card">
-        <AvatarPicker onParamsChange={handleParamsChange} />
+        <AvatarPicker layout={layout} onParamsChange={handleParamsChange} />
         <div className="save-buttons">
           <button className="save-btn" onClick={handleSaveToSvg}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
