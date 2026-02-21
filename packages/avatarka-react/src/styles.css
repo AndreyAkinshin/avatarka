@@ -12,7 +12,7 @@
  *   --avatarka-border: border color
  *   --avatarka-input-bg: input background color
  *   --avatarka-btn-bg: button background color
- *   --avatarka-shadow: shadow color
+ *   --avatarka-shadow: (unused, kept for API compatibility)
  */
 
 .avatarka-picker {
@@ -47,6 +47,7 @@
 /* Tabs */
 .avatarka-tabs {
   display: flex;
+  align-items: center;
   gap: 16px;
 }
 
@@ -70,6 +71,64 @@
 .avatarka-tab.active {
   color: var(--_avatarka-accent);
   font-weight: 600;
+}
+
+/* Header Actions (right side of tab bar) */
+.avatarka-tabs-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+/* Header Action Buttons (SVG, PNG) */
+.avatarka-action-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--_avatarka-text-secondary);
+  opacity: 0.6;
+  transition: opacity 0.2s, color 0.2s;
+  font-family: inherit;
+  outline: none;
+}
+
+.avatarka-action-btn:hover {
+  color: var(--_avatarka-accent);
+  opacity: 1;
+}
+
+/* Dice (Randomize) Button */
+.avatarka-dice-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--_avatarka-text-secondary);
+  opacity: 0.6;
+  transition: opacity 0.2s, color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.avatarka-dice-btn:hover {
+  color: var(--_avatarka-accent);
+  opacity: 1;
+  transform: rotate(15deg);
+}
+
+.avatarka-dice-btn.spinning {
+  animation: avatarka-dice-spin 0.4s ease-in-out;
+}
+
+@keyframes avatarka-dice-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Theme Dropdown */
@@ -165,7 +224,6 @@
 .avatarka-control-group select:focus {
   outline: none;
   border-color: var(--_avatarka-accent);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 /* Control Row (input + lock button) */
@@ -291,6 +349,10 @@
 .avatarka-picker--compact .avatarka-tab {
   padding: 6px 0;
   font-size: 13px;
+}
+
+.avatarka-picker--compact .avatarka-action-btn {
+  font-size: 11px;
 }
 
 .avatarka-picker--compact .avatarka-editor {

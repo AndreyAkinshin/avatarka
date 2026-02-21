@@ -29,6 +29,19 @@ function UnlockIcon() {
   );
 }
 
+function DiceIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="3" ry="3" />
+      <circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 type DynamicParams = Record<string, string | number>;
 
 export type AvatarPickerLayout = 'default' | 'compact';
@@ -56,6 +69,10 @@ export interface AvatarPickerProps {
   layout?: AvatarPickerLayout;
   /** When true, avatar background is always transparent and the background color control is hidden */
   alwaysTransparentBackground?: boolean;
+  /** Callback for SVG save action. When provided, an "SVG" button appears in the header. */
+  onSaveSvg?: () => void;
+  /** Callback for PNG save action. When provided, a "PNG" button appears in the header. */
+  onSavePng?: () => void;
 }
 
 function formatLabel(name: string): string {
@@ -93,6 +110,8 @@ export function AvatarPicker({
   accentColor,
   layout = 'default',
   alwaysTransparentBackground = false,
+  onSaveSvg,
+  onSavePng,
 }: AvatarPickerProps) {
   const effectiveGridWidth = gridWidth ?? gridSize;
   const effectiveGridHeight = gridHeight ?? gridSize;
@@ -105,6 +124,7 @@ export function AvatarPicker({
   }));
   const [mode, setMode] = useState<'editor' | 'gallery'>('editor');
   const [galleryVersion, setGalleryVersion] = useState(0);
+  const [diceSpinning, setDiceSpinning] = useState(false);
   const [lockedParams, setLockedParams] = useState<Set<string>>(new Set());
 
   const handleToggleLock = useCallback((name: string) => {
@@ -304,6 +324,30 @@ export function AvatarPicker({
         >
           Gallery
         </button>
+        <div className="avatarka-tabs-actions">
+          {onSaveSvg && (
+            <button className="avatarka-action-btn" onClick={onSaveSvg} title="Save as SVG">
+              SVG
+            </button>
+          )}
+          {onSavePng && (
+            <button className="avatarka-action-btn" onClick={onSavePng} title="Save as PNG">
+              PNG
+            </button>
+          )}
+          <button
+            className={`avatarka-dice-btn ${diceSpinning ? 'spinning' : ''}`}
+            onClick={() => {
+              setDiceSpinning(true);
+              (mode === 'editor' ? handleRandomize : handleGalleryRandomize)();
+            }}
+            onAnimationEnd={() => setDiceSpinning(false)}
+            title="Randomize"
+            aria-label="Randomize"
+          >
+            <DiceIcon />
+          </button>
+        </div>
       </div>
 
       {/* Content area */}
@@ -313,9 +357,6 @@ export function AvatarPicker({
             <>
               <div className="avatarka-editor-left">
                 <div className="avatarka-preview" dangerouslySetInnerHTML={{ __html: svg }} />
-                <button className="avatarka-btn avatarka-btn-primary" onClick={handleRandomize}>
-                  Randomize
-                </button>
               </div>
               <div className="avatarka-editor-right">
                 <div className="avatarka-control-row">
@@ -370,10 +411,6 @@ export function AvatarPicker({
 
               <div className="avatarka-preview" dangerouslySetInnerHTML={{ __html: svg }} />
 
-              <button className="avatarka-btn avatarka-btn-primary" onClick={handleRandomize}>
-                Randomize
-              </button>
-
               <div className="avatarka-controls-grid">
                 {sortedSchemaEntries.map(([name, def]) => renderControl(name, def))}
               </div>
@@ -393,9 +430,6 @@ export function AvatarPicker({
               />
             ))}
           </div>
-          <button className="avatarka-btn avatarka-btn-primary" onClick={handleGalleryRandomize}>
-            Randomize
-          </button>
         </div>
       )}
     </div>

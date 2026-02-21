@@ -173,38 +173,6 @@ body {
   --avatarka-shadow: var(--shadow-light);
 }
 
-/* Save Buttons */
-.save-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-  justify-content: center;
-}
-
-.save-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--btn-secondary-bg);
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.save-btn:hover {
-  background: var(--btn-secondary-hover);
-  border-color: var(--accent-color);
-}
-
-.save-btn svg {
-  flex-shrink: 0;
-}
-
 /* Footer Links */
 .footer-links {
   display: flex;
@@ -241,13 +209,5 @@ body {
 
   .main-card {
     padding: 16px;
-  }
-
-  .save-buttons {
-    flex-direction: column;
-  }
-
-  .save-btn {
-    justify-content: center;
   }
 }

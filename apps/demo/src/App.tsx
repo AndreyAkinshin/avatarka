@@ -190,21 +190,7 @@ function App() {
       </header>
 
       <main className="main-card">
-        <AvatarPicker defaultTheme={randomTheme} layout={layout} alwaysTransparentBackground={transparentBg} onParamsChange={handleParamsChange} />
-        <div className="save-buttons">
-          <button className="save-btn" onClick={handleSaveToSvg}>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-            </svg>
-            Save to SVG
-          </button>
-          <button className="save-btn" onClick={handleSaveToPng}>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-            </svg>
-            Save to PNG
-          </button>
-        </div>
+        <AvatarPicker defaultTheme={randomTheme} layout={layout} alwaysTransparentBackground={transparentBg} onParamsChange={handleParamsChange} onSaveSvg={handleSaveToSvg} onSavePng={handleSaveToPng} />
       </main>
 
       <footer className="footer-links">
