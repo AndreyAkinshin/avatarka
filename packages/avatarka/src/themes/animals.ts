@@ -43,10 +43,10 @@ function generateCat(params: AnimalParams): string {
 
   // Cat ears
   const ears = `
-    <polygon points="15,35 25,5 40,30" fill="${primaryColor}"/>
-    <polygon points="20,32 27,12 37,30" fill="${lightenColor(primaryColor, 40)}"/>
-    <polygon points="85,35 75,5 60,30" fill="${primaryColor}"/>
-    <polygon points="80,32 73,12 63,30" fill="${lightenColor(primaryColor, 40)}"/>
+    <polygon points="18,39 25,9 40,34" fill="${primaryColor}"/>
+    <polygon points="22,36 27,16 37,34" fill="${lightenColor(primaryColor, 40)}"/>
+    <polygon points="82,39 75,9 60,34" fill="${primaryColor}"/>
+    <polygon points="78,36 73,16 63,34" fill="${lightenColor(primaryColor, 40)}"/>
   `;
 
   // Cat face
@@ -70,6 +70,8 @@ function generateCat(params: AnimalParams): string {
       break;
     case 'sleepy':
       eyes = `
+        <ellipse cx="35" cy="50" rx="6" ry="3" fill="${eyeColor}"/>
+        <ellipse cx="65" cy="50" rx="6" ry="3" fill="${eyeColor}"/>
         <path d="M27,50 Q35,45 43,50" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M57,50 Q65,45 73,50" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -147,6 +149,8 @@ function generateDog(params: AnimalParams): string {
       break;
     case 'sleepy':
       eyes = `
+        <ellipse cx="35" cy="45" rx="5" ry="3" fill="${eyeColor}"/>
+        <ellipse cx="65" cy="45" rx="5" ry="3" fill="${eyeColor}"/>
         <path d="M27,45 Q35,40 43,45" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M57,45 Q65,40 73,45" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -155,16 +159,20 @@ function generateDog(params: AnimalParams): string {
       eyes = `
         <circle cx="35" cy="43" r="10" fill="white"/>
         <circle cx="65" cy="43" r="10" fill="white"/>
-        <circle cx="35" cy="43" r="5" fill="#2c3e50"/>
-        <circle cx="65" cy="43" r="5" fill="#2c3e50"/>
+        <circle cx="35" cy="43" r="6" fill="${eyeColor}"/>
+        <circle cx="65" cy="43" r="6" fill="${eyeColor}"/>
+        <circle cx="35" cy="43" r="3" fill="#2c3e50"/>
+        <circle cx="65" cy="43" r="3" fill="#2c3e50"/>
       `;
       break;
     case 'grumpy':
       eyes = `
         <circle cx="35" cy="45" r="7" fill="white"/>
         <circle cx="65" cy="45" r="7" fill="white"/>
-        <circle cx="35" cy="46" r="4" fill="#2c3e50"/>
-        <circle cx="65" cy="46" r="4" fill="#2c3e50"/>
+        <circle cx="35" cy="45" r="4.5" fill="${eyeColor}"/>
+        <circle cx="65" cy="45" r="4.5" fill="${eyeColor}"/>
+        <circle cx="35" cy="46" r="2.5" fill="#2c3e50"/>
+        <circle cx="65" cy="46" r="2.5" fill="#2c3e50"/>
         <line x1="27" y1="38" x2="43" y2="41" stroke="#2c3e50" stroke-width="2"/>
         <line x1="73" y1="38" x2="57" y2="41" stroke="#2c3e50" stroke-width="2"/>
       `;
@@ -188,7 +196,7 @@ function generateDog(params: AnimalParams): string {
 }
 
 function generateBear(params: AnimalParams): string {
-  const { primaryColor, secondaryColor, expression } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression } = params;
   const darkPrimary = darkenColor(primaryColor, 30);
 
   // Bear ears
@@ -210,14 +218,20 @@ function generateBear(params: AnimalParams): string {
   switch (expression) {
     case 'happy':
       eyes = `
-        <circle cx="35" cy="48" r="6" fill="#2c3e50"/>
-        <circle cx="65" cy="48" r="6" fill="#2c3e50"/>
+        <circle cx="35" cy="48" r="7" fill="white"/>
+        <circle cx="65" cy="48" r="7" fill="white"/>
+        <circle cx="35" cy="48" r="4" fill="${eyeColor}"/>
+        <circle cx="65" cy="48" r="4" fill="${eyeColor}"/>
+        <circle cx="35" cy="48" r="2" fill="#2c3e50"/>
+        <circle cx="65" cy="48" r="2" fill="#2c3e50"/>
         <circle cx="33" cy="46" r="2" fill="white"/>
         <circle cx="63" cy="46" r="2" fill="white"/>
       `;
       break;
     case 'sleepy':
       eyes = `
+        <ellipse cx="35" cy="48" rx="5" ry="2.5" fill="${eyeColor}"/>
+        <ellipse cx="65" cy="48" rx="5" ry="2.5" fill="${eyeColor}"/>
         <path d="M29,48 Q35,43 41,48" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M59,48 Q65,43 71,48" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -226,14 +240,18 @@ function generateBear(params: AnimalParams): string {
       eyes = `
         <circle cx="35" cy="46" r="8" fill="white"/>
         <circle cx="65" cy="46" r="8" fill="white"/>
-        <circle cx="35" cy="46" r="4" fill="#2c3e50"/>
-        <circle cx="65" cy="46" r="4" fill="#2c3e50"/>
+        <circle cx="35" cy="46" r="5" fill="${eyeColor}"/>
+        <circle cx="65" cy="46" r="5" fill="${eyeColor}"/>
+        <circle cx="35" cy="46" r="3" fill="#2c3e50"/>
+        <circle cx="65" cy="46" r="3" fill="#2c3e50"/>
       `;
       break;
     case 'grumpy':
       eyes = `
-        <circle cx="35" cy="48" r="5" fill="#2c3e50"/>
-        <circle cx="65" cy="48" r="5" fill="#2c3e50"/>
+        <circle cx="35" cy="48" r="5" fill="${eyeColor}"/>
+        <circle cx="65" cy="48" r="5" fill="${eyeColor}"/>
+        <circle cx="35" cy="48" r="2.5" fill="#2c3e50"/>
+        <circle cx="65" cy="48" r="2.5" fill="#2c3e50"/>
         <line x1="27" y1="42" x2="43" y2="45" stroke="#2c3e50" stroke-width="2"/>
         <line x1="73" y1="42" x2="57" y2="45" stroke="#2c3e50" stroke-width="2"/>
       `;
@@ -283,6 +301,8 @@ function generateBunny(params: AnimalParams): string {
       break;
     case 'sleepy':
       eyes = `
+        <ellipse cx="35" cy="52" rx="5" ry="3" fill="${eyeColor}"/>
+        <ellipse cx="65" cy="52" rx="5" ry="3" fill="${eyeColor}"/>
         <path d="M27,52 Q35,47 43,52" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M57,52 Q65,47 73,52" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -324,20 +344,20 @@ function generateBunny(params: AnimalParams): string {
 
 function generateFox(params: AnimalParams): string {
   const { primaryColor, secondaryColor, eyeColor, expression } = params;
+  const darkPrimary = darkenColor(primaryColor, 25);
 
   // Fox ears (pointed)
   const ears = `
-    <polygon points="15,45 25,5 40,40" fill="${primaryColor}"/>
-    <polygon points="20,42 27,15 37,40" fill="${secondaryColor}"/>
-    <polygon points="85,45 75,5 60,40" fill="${primaryColor}"/>
-    <polygon points="80,42 73,15 63,40" fill="${secondaryColor}"/>
+    <polygon points="18,52 32,10 46,50" fill="${primaryColor}"/>
+    <polygon points="24,50 32,22 42,48" fill="${secondaryColor}"/>
+    <polygon points="82,52 68,10 54,50" fill="${primaryColor}"/>
+    <polygon points="76,50 68,22 58,48" fill="${secondaryColor}"/>
   `;
 
-  // Fox face
+  // Fox face (mask + pointed muzzle)
   const face = `
-    <ellipse cx="50" cy="55" rx="38" ry="35" fill="${primaryColor}"/>
-    <polygon points="50,95 25,60 75,60" fill="${secondaryColor}"/>
-    <ellipse cx="50" cy="60" rx="20" ry="15" fill="${secondaryColor}"/>
+    <path d="M20 62 C22 36 38 22 50 22 C62 22 78 36 80 62 L50 92 Z" fill="${primaryColor}"/>
+    <path d="M50 88 Q30 74 28 60 Q50 48 72 60 Q70 74 50 88 Z" fill="${secondaryColor}"/>
   `;
 
   // Eyes
@@ -345,52 +365,54 @@ function generateFox(params: AnimalParams): string {
   switch (expression) {
     case 'happy':
       eyes = `
-        <ellipse cx="35" cy="50" rx="7" ry="8" fill="${eyeColor}"/>
-        <ellipse cx="65" cy="50" rx="7" ry="8" fill="${eyeColor}"/>
+        <ellipse cx="36" cy="50" rx="7" ry="8" fill="${eyeColor}"/>
+        <ellipse cx="64" cy="50" rx="7" ry="8" fill="${eyeColor}"/>
         <ellipse cx="36" cy="51" rx="3" ry="5" fill="#2c3e50"/>
-        <ellipse cx="66" cy="51" rx="3" ry="5" fill="#2c3e50"/>
-        <circle cx="34" cy="49" r="1.5" fill="white"/>
-        <circle cx="64" cy="49" r="1.5" fill="white"/>
+        <ellipse cx="64" cy="51" rx="3" ry="5" fill="#2c3e50"/>
+        <circle cx="34" cy="48" r="1.5" fill="white"/>
+        <circle cx="62" cy="48" r="1.5" fill="white"/>
       `;
       break;
     case 'sleepy':
       eyes = `
-        <path d="M28,50 Q35,45 42,50" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <path d="M58,50 Q65,45 72,50" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="36" cy="50" rx="5" ry="3" fill="${eyeColor}"/>
+        <ellipse cx="64" cy="50" rx="5" ry="3" fill="${eyeColor}"/>
+        <path d="M29,50 Q36,45 43,50" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M57,50 Q64,45 71,50" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
       break;
     case 'surprised':
       eyes = `
-        <circle cx="35" cy="48" r="9" fill="${eyeColor}"/>
-        <circle cx="65" cy="48" r="9" fill="${eyeColor}"/>
-        <circle cx="35" cy="48" r="5" fill="#2c3e50"/>
-        <circle cx="65" cy="48" r="5" fill="#2c3e50"/>
+        <circle cx="36" cy="48" r="9" fill="${eyeColor}"/>
+        <circle cx="64" cy="48" r="9" fill="${eyeColor}"/>
+        <circle cx="36" cy="48" r="5" fill="#2c3e50"/>
+        <circle cx="64" cy="48" r="5" fill="#2c3e50"/>
       `;
       break;
     case 'grumpy':
       eyes = `
-        <ellipse cx="35" cy="50" rx="6" ry="7" fill="${eyeColor}"/>
-        <ellipse cx="65" cy="50" rx="6" ry="7" fill="${eyeColor}"/>
-        <ellipse cx="35" cy="51" rx="2" ry="4" fill="#2c3e50"/>
-        <ellipse cx="65" cy="51" rx="2" ry="4" fill="#2c3e50"/>
-        <line x1="28" y1="44" x2="42" y2="47" stroke="#2c3e50" stroke-width="2"/>
-        <line x1="72" y1="44" x2="58" y2="47" stroke="#2c3e50" stroke-width="2"/>
+        <ellipse cx="36" cy="50" rx="6" ry="7" fill="${eyeColor}"/>
+        <ellipse cx="64" cy="50" rx="6" ry="7" fill="${eyeColor}"/>
+        <ellipse cx="36" cy="51" rx="2" ry="4" fill="#2c3e50"/>
+        <ellipse cx="64" cy="51" rx="2" ry="4" fill="#2c3e50"/>
+        <line x1="28" y1="44" x2="44" y2="47" stroke="${darkPrimary}" stroke-width="2"/>
+        <line x1="72" y1="44" x2="56" y2="47" stroke="${darkPrimary}" stroke-width="2"/>
       `;
       break;
   }
 
   // Nose
   const nose = `
-    <ellipse cx="50" cy="68" rx="5" ry="4" fill="#2c3e50"/>
+    <polygon points="50,66 46,72 54,72" fill="#2c3e50"/>
     <path d="M50,72 L50,76" stroke="#2c3e50" stroke-width="2"/>
-    <path d="M44,79 Q50,83 56,79" stroke="#2c3e50" stroke-width="2" fill="none"/>
+    <path d="M44,78 Q50,82 56,78" stroke="#2c3e50" stroke-width="2" fill="none"/>
   `;
 
   return ears + face + eyes + nose;
 }
 
 function generatePanda(params: AnimalParams): string {
-  const { expression } = params;
+  const { expression, eyeColor } = params;
   const primaryColor = '#ffffff';
   const blackColor = '#1a1a2e';
 
@@ -414,14 +436,18 @@ function generatePanda(params: AnimalParams): string {
         <ellipse cx="68" cy="48" rx="14" ry="16" fill="${blackColor}"/>
         <circle cx="32" cy="50" r="6" fill="white"/>
         <circle cx="68" cy="50" r="6" fill="white"/>
-        <circle cx="33" cy="51" r="3" fill="#2c3e50"/>
-        <circle cx="69" cy="51" r="3" fill="#2c3e50"/>
+        <circle cx="32" cy="50" r="4" fill="${eyeColor}"/>
+        <circle cx="68" cy="50" r="4" fill="${eyeColor}"/>
+        <circle cx="33" cy="51" r="2" fill="#2c3e50"/>
+        <circle cx="69" cy="51" r="2" fill="#2c3e50"/>
       `;
       break;
     case 'sleepy':
       eyes = `
         <ellipse cx="32" cy="48" rx="14" ry="16" fill="${blackColor}"/>
         <ellipse cx="68" cy="48" rx="14" ry="16" fill="${blackColor}"/>
+        <ellipse cx="32" cy="50" rx="5" ry="3" fill="${eyeColor}"/>
+        <ellipse cx="68" cy="50" rx="5" ry="3" fill="${eyeColor}"/>
         <path d="M24,50 Q32,45 40,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M60,50 Q68,45 76,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -432,8 +458,10 @@ function generatePanda(params: AnimalParams): string {
         <ellipse cx="68" cy="48" rx="14" ry="16" fill="${blackColor}"/>
         <circle cx="32" cy="48" r="8" fill="white"/>
         <circle cx="68" cy="48" r="8" fill="white"/>
-        <circle cx="32" cy="48" r="4" fill="#2c3e50"/>
-        <circle cx="68" cy="48" r="4" fill="#2c3e50"/>
+        <circle cx="32" cy="48" r="5" fill="${eyeColor}"/>
+        <circle cx="68" cy="48" r="5" fill="${eyeColor}"/>
+        <circle cx="32" cy="48" r="3" fill="#2c3e50"/>
+        <circle cx="68" cy="48" r="3" fill="#2c3e50"/>
       `;
       break;
     case 'grumpy':
@@ -442,6 +470,8 @@ function generatePanda(params: AnimalParams): string {
         <ellipse cx="68" cy="48" rx="14" ry="16" fill="${blackColor}"/>
         <circle cx="32" cy="50" r="5" fill="white"/>
         <circle cx="68" cy="50" r="5" fill="white"/>
+        <circle cx="32" cy="50" r="3" fill="${eyeColor}"/>
+        <circle cx="68" cy="50" r="3" fill="${eyeColor}"/>
         <circle cx="32" cy="51" r="2" fill="#2c3e50"/>
         <circle cx="68" cy="51" r="2" fill="#2c3e50"/>
         <line x1="22" y1="38" x2="42" y2="42" stroke="${blackColor}" stroke-width="3"/>
@@ -530,7 +560,7 @@ function generateOwl(params: AnimalParams): string {
 }
 
 function generateKoala(params: AnimalParams): string {
-  const { primaryColor, secondaryColor, expression } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression } = params;
 
   // Koala ears (big and fluffy)
   const ears = `
@@ -551,14 +581,20 @@ function generateKoala(params: AnimalParams): string {
   switch (expression) {
     case 'happy':
       eyes = `
-        <circle cx="35" cy="48" r="6" fill="#2c3e50"/>
-        <circle cx="65" cy="48" r="6" fill="#2c3e50"/>
+        <circle cx="35" cy="48" r="7" fill="white"/>
+        <circle cx="65" cy="48" r="7" fill="white"/>
+        <circle cx="35" cy="48" r="4" fill="${eyeColor}"/>
+        <circle cx="65" cy="48" r="4" fill="${eyeColor}"/>
+        <circle cx="35" cy="48" r="2" fill="#2c3e50"/>
+        <circle cx="65" cy="48" r="2" fill="#2c3e50"/>
         <circle cx="33" cy="46" r="2" fill="white"/>
         <circle cx="63" cy="46" r="2" fill="white"/>
       `;
       break;
     case 'sleepy':
       eyes = `
+        <ellipse cx="35" cy="48" rx="4.5" ry="2.5" fill="${eyeColor}"/>
+        <ellipse cx="65" cy="48" rx="4.5" ry="2.5" fill="${eyeColor}"/>
         <path d="M29,48 Q35,43 41,48" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M59,48 Q65,43 71,48" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -567,14 +603,18 @@ function generateKoala(params: AnimalParams): string {
       eyes = `
         <circle cx="35" cy="46" r="8" fill="white"/>
         <circle cx="65" cy="46" r="8" fill="white"/>
-        <circle cx="35" cy="46" r="4" fill="#2c3e50"/>
-        <circle cx="65" cy="46" r="4" fill="#2c3e50"/>
+        <circle cx="35" cy="46" r="5" fill="${eyeColor}"/>
+        <circle cx="65" cy="46" r="5" fill="${eyeColor}"/>
+        <circle cx="35" cy="46" r="3" fill="#2c3e50"/>
+        <circle cx="65" cy="46" r="3" fill="#2c3e50"/>
       `;
       break;
     case 'grumpy':
       eyes = `
-        <circle cx="35" cy="48" r="5" fill="#2c3e50"/>
-        <circle cx="65" cy="48" r="5" fill="#2c3e50"/>
+        <circle cx="35" cy="48" r="5" fill="${eyeColor}"/>
+        <circle cx="65" cy="48" r="5" fill="${eyeColor}"/>
+        <circle cx="35" cy="48" r="2.5" fill="#2c3e50"/>
+        <circle cx="65" cy="48" r="2.5" fill="#2c3e50"/>
         <line x1="28" y1="42" x2="42" y2="45" stroke="#2c3e50" stroke-width="2"/>
         <line x1="72" y1="42" x2="58" y2="45" stroke="#2c3e50" stroke-width="2"/>
       `;
@@ -585,8 +625,8 @@ function generateKoala(params: AnimalParams): string {
   const nose = `
     <ellipse cx="50" cy="65" rx="12" ry="10" fill="#2c3e50"/>
     <ellipse cx="48" cy="63" rx="3" ry="2" fill="#555"/>
-    <path d="M50,75 L50,80" stroke="#2c3e50" stroke-width="2"/>
-    <path d="M42,82 Q50,87 58,82" stroke="#2c3e50" stroke-width="2" fill="none"/>
+    <path d="M50,76 L50,79" stroke="#2c3e50" stroke-width="2"/>
+    <path d="M43,79 Q50,82 57,79" stroke="#2c3e50" stroke-width="2" fill="none"/>
   `;
 
   return ears + face + eyes + nose;
@@ -619,6 +659,8 @@ function generatePenguin(params: AnimalParams): string {
       eyes = `
         <circle cx="35" cy="45" r="8" fill="white"/>
         <circle cx="65" cy="45" r="8" fill="white"/>
+        <circle cx="36" cy="46" r="3.5" fill="${eyeColor}"/>
+        <circle cx="66" cy="46" r="3.5" fill="${eyeColor}"/>
         <path d="M28,45 Q35,40 42,45" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M58,45 Q65,40 72,45" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
@@ -627,16 +669,20 @@ function generatePenguin(params: AnimalParams): string {
       eyes = `
         <circle cx="35" cy="43" r="10" fill="white"/>
         <circle cx="65" cy="43" r="10" fill="white"/>
-        <circle cx="35" cy="43" r="5" fill="#2c3e50"/>
-        <circle cx="65" cy="43" r="5" fill="#2c3e50"/>
+        <circle cx="35" cy="43" r="6" fill="${eyeColor}"/>
+        <circle cx="65" cy="43" r="6" fill="${eyeColor}"/>
+        <circle cx="35" cy="43" r="3" fill="#2c3e50"/>
+        <circle cx="65" cy="43" r="3" fill="#2c3e50"/>
       `;
       break;
     case 'grumpy':
       eyes = `
         <circle cx="35" cy="45" r="7" fill="white"/>
         <circle cx="65" cy="45" r="7" fill="white"/>
-        <circle cx="35" cy="46" r="3" fill="#2c3e50"/>
-        <circle cx="65" cy="46" r="3" fill="#2c3e50"/>
+        <circle cx="35" cy="45" r="4" fill="${eyeColor}"/>
+        <circle cx="65" cy="45" r="4" fill="${eyeColor}"/>
+        <circle cx="35" cy="46" r="2" fill="#2c3e50"/>
+        <circle cx="65" cy="46" r="2" fill="#2c3e50"/>
         <line x1="27" y1="38" x2="43" y2="41" stroke="${primaryColor}" stroke-width="2"/>
         <line x1="73" y1="38" x2="57" y2="41" stroke="${primaryColor}" stroke-width="2"/>
       `;
@@ -660,7 +706,7 @@ function generatePenguin(params: AnimalParams): string {
 function generateLion(params: AnimalParams): string {
   const { primaryColor, secondaryColor, eyeColor, expression } = params;
   const darkPrimary = darkenColor(primaryColor, 30);
-  const maneColor = darkenColor(primaryColor, 15);
+  const maneColor = darkenColor(primaryColor, 35);
 
   // Lion mane
   const mane = `
@@ -694,6 +740,8 @@ function generateLion(params: AnimalParams): string {
       break;
     case 'sleepy':
       eyes = `
+        <ellipse cx="38" cy="48" rx="5" ry="3" fill="${eyeColor}"/>
+        <ellipse cx="62" cy="48" rx="5" ry="3" fill="${eyeColor}"/>
         <path d="M31,48 Q38,43 45,48" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M55,48 Q62,43 69,48" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
       `;
