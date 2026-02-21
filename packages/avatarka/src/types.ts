@@ -45,6 +45,8 @@ export type ParamsFromSchema<T extends ParamSchema> = {
 export interface Theme<T extends ParamSchema = ParamSchema> {
   name: string;
   schema: T;
+  /** Schema key that defines the primary visual shape/silhouette of this theme */
+  shapeParam: string & keyof T;
   generate: (params: ParamsFromSchema<T>) => string;
   randomize: (rng: () => number) => ParamsFromSchema<T>;
 }

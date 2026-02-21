@@ -393,6 +393,7 @@ export function randomize(rng: () => number): RobotParams {
 export const robots: Theme<typeof schema> = {
   name: 'Robots',
   schema,
+  shapeParam: 'headShape',
   generate,
   randomize,
 };

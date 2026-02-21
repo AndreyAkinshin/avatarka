@@ -727,6 +727,7 @@ export function randomize(rng: () => number): OceanParams {
 export const ocean: Theme<typeof schema> = {
   name: 'Ocean',
   schema,
+  shapeParam: 'creatureType',
   generate,
   randomize,
 };

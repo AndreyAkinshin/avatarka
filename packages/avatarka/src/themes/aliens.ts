@@ -316,6 +316,7 @@ export function randomize(rng: () => number): AliensParams {
 export const aliens: Theme<typeof schema> = {
   name: 'Aliens',
   schema,
+  shapeParam: 'headShape',
   generate,
   randomize,
 };

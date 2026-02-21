@@ -855,6 +855,7 @@ export function randomize(rng: () => number): AnimalParams {
 export const animals: Theme<typeof schema> = {
   name: 'Animals',
   schema,
+  shapeParam: 'animalType',
   generate,
   randomize,
 };
