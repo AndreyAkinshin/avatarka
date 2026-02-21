@@ -17,6 +17,10 @@ function App() {
     return (stored as AvatarPickerLayout) || 'default';
   });
 
+  const [transparentBg, setTransparentBg] = useState<boolean>(() => {
+    return localStorage.getItem('avatarka-transparent-bg') === 'true';
+  });
+
   const [currentTheme, setCurrentTheme] = useState<ThemeName>('people');
   const [currentParams, setCurrentParams] = useState<DynamicParams | null>(null);
 
@@ -90,6 +94,11 @@ function App() {
     localStorage.setItem('avatarka-layout', layout);
   }, [layout]);
 
+  // Persist transparent background preference
+  useEffect(() => {
+    localStorage.setItem('avatarka-transparent-bg', String(transparentBg));
+  }, [transparentBg]);
+
   return (
     <div className="app">
       <header className="header">
@@ -111,6 +120,18 @@ function App() {
             >
               <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                 <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z"/>
+              </svg>
+            </button>
+            <button
+              className={`layout-btn ${transparentBg ? 'active' : ''}`}
+              onClick={() => setTransparentBg((v) => !v)}
+              title="Transparent Background"
+            >
+              <svg viewBox="0 0 18 18" width="18" height="18" fill="currentColor">
+                <rect x="1" y="1" width="4" height="4"/><rect x="9" y="1" width="4" height="4"/>
+                <rect x="5" y="5" width="4" height="4"/><rect x="13" y="5" width="4" height="4"/>
+                <rect x="1" y="9" width="4" height="4"/><rect x="9" y="9" width="4" height="4"/>
+                <rect x="5" y="13" width="4" height="4"/><rect x="13" y="13" width="4" height="4"/>
               </svg>
             </button>
           </div>
@@ -150,7 +171,7 @@ function App() {
       </header>
 
       <main className="main-card">
-        <AvatarPicker layout={layout} onParamsChange={handleParamsChange} />
+        <AvatarPicker layout={layout} alwaysTransparentBackground={transparentBg} onParamsChange={handleParamsChange} />
         <div className="save-buttons">
           <button className="save-btn" onClick={handleSaveToSvg}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">

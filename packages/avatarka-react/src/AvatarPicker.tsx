@@ -40,6 +40,8 @@ export interface AvatarPickerProps {
   accentColor?: string;
   /** Layout mode: 'default' (stacked) or 'compact' (side-by-side with reduced spacing) */
   layout?: AvatarPickerLayout;
+  /** When true, avatar background is always transparent and the background color control is hidden */
+  alwaysTransparentBackground?: boolean;
 }
 
 function formatLabel(name: string): string {
@@ -76,6 +78,7 @@ export function AvatarPicker({
   backgroundColor,
   accentColor,
   layout = 'default',
+  alwaysTransparentBackground = false,
 }: AvatarPickerProps) {
   const effectiveGridWidth = gridWidth ?? gridSize;
   const effectiveGridHeight = gridHeight ?? gridSize;
@@ -97,9 +100,16 @@ export function AvatarPicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const effectiveParams = useMemo(() => {
+    if (alwaysTransparentBackground) {
+      return { ...params, backgroundColor: 'none' };
+    }
+    return params;
+  }, [params, alwaysTransparentBackground]);
+
   const svg = useMemo(() => {
-    return generateAvatar(theme, params as Parameters<typeof generateAvatar<typeof theme>>[1]);
-  }, [theme, params]);
+    return generateAvatar(theme, effectiveParams as Parameters<typeof generateAvatar<typeof theme>>[1]);
+  }, [theme, effectiveParams]);
 
   const handleThemeChange = useCallback(
     (newTheme: ThemeName) => {
@@ -128,13 +138,15 @@ export function AvatarPicker({
     onParamsChange?.(theme, newParams as ThemeParams<ThemeName>);
   }, [theme, onParamsChange]);
 
-  // Filter out backgroundShape and sort: colors first, then others
+  // Filter out backgroundShape (and backgroundColor when always transparent) and sort: colors first, then others
   const sortedSchemaEntries = useMemo(() => {
-    const entries = Object.entries(themeData.schema).filter(([name]) => name !== 'backgroundShape');
+    const hiddenParams = new Set(['backgroundShape']);
+    if (alwaysTransparentBackground) hiddenParams.add('backgroundColor');
+    const entries = Object.entries(themeData.schema).filter(([name]) => !hiddenParams.has(name));
     const colorEntries = entries.filter(([, def]) => def.type === 'color');
     const otherEntries = entries.filter(([, def]) => def.type !== 'color');
     return [...colorEntries, ...otherEntries];
-  }, [themeData.schema]);
+  }, [themeData.schema, alwaysTransparentBackground]);
 
   // Gallery items
   const galleryItems = useMemo(() => {
@@ -149,14 +161,17 @@ export function AvatarPicker({
       const themeIndex = Math.abs(hash) % themeNames.length;
       const t = themeNames[themeIndex] as ThemeName;
       const itemParams = { ...generateParams(t, seed), backgroundShape: 'circle' } as DynamicParams;
+      const effectiveItemParams = alwaysTransparentBackground
+        ? { ...itemParams, backgroundColor: 'none' }
+        : itemParams;
       return {
         theme: t,
         params: itemParams,
-        svg: generateAvatar(t, itemParams as Parameters<typeof generateAvatar<typeof t>>[1]),
+        svg: generateAvatar(t, effectiveItemParams as Parameters<typeof generateAvatar<typeof t>>[1]),
       };
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [themeNames, galleryCount, galleryVersion]);
+  }, [themeNames, galleryCount, galleryVersion, alwaysTransparentBackground]);
 
   const handleGallerySelect = useCallback(
     (item: GalleryItem) => {
