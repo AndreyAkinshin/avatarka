@@ -256,6 +256,163 @@ exports[`SVG snapshots > animals theme > generates expected SVG with seed "test-
   </svg>"
 `;
 
+exports[`SVG snapshots > dinosaurs theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#8b7355"/>
+    <g><g transform="translate(50, 50) scale(0.82) translate(-50, -50)">
+    <path d="M50,78 Q36,82 28,76 Q24,73 26,70" stroke="#6b8e23" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+    <rect x="38" y="76" width="8" height="12" rx="3" fill="#52750a"/>
+    <rect x="54" y="76" width="8" height="12" rx="3" fill="#52750a"/>
+  
+    <ellipse cx="50" cy="62" rx="16" ry="20" fill="#6b8e23"/>
+    <ellipse cx="50" cy="66" rx="10" ry="12" fill="#f5e6c8" opacity="0.3"/>
+  
+    <path d="M38,56 Q34,58 33,62" stroke="#6b8e23" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M62,56 Q66,58 67,62" stroke="#6b8e23" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+    <ellipse cx="50" cy="34" rx="20" ry="17" fill="#6b8e23"/>
+    <ellipse cx="50" cy="30" rx="16" ry="10" fill="#7a9d32" opacity="0.2"/>
+  
+    <ellipse cx="50" cy="42" rx="14" ry="6" fill="#52750a" opacity="0.15"/>
+  
+    <circle cx="45" cy="40" r="1" fill="#52750a"/>
+    <circle cx="55" cy="40" r="1" fill="#52750a"/>
+  
+        <circle cx="42" cy="30" r="5" fill="white"/>
+        <circle cx="58" cy="30" r="5" fill="white"/>
+        <circle cx="42" cy="31" r="2.5" fill="#2c3e50"/>
+        <circle cx="58" cy="31" r="2.5" fill="#2c3e50"/>
+        <circle cx="41" cy="29" r="1.5" fill="white"/>
+        <circle cx="57" cy="29" r="1.5" fill="white"/>
+      <path d="M44,46 Q50,52 56,46" stroke="#52750a" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
+    <g opacity="0.3">
+      <path d="M8,92 Q10,82 6,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="5" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(-30, 5, 76)"/>
+      <ellipse cx="8" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(20, 8, 80)"/>
+      <ellipse cx="6" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(-15, 6, 84)"/>
+      <path d="M92,92 Q90,82 94,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="95" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(30, 95, 76)"/>
+      <ellipse cx="92" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(-20, 92, 80)"/>
+      <ellipse cx="94" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(15, 94, 84)"/>
+      <ellipse cx="85" cy="12" rx="4" ry="2" fill="#4a7c28" opacity="0.7" transform="rotate(-40, 85, 12)"/>
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > dinosaurs theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#4a6741"/>
+    <g><g transform="translate(50, 50) scale(0.75) translate(-50, -50)">
+    <path d="M18,52 Q10,52 6,50" stroke="#c75b39" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="4" cy="50" rx="5" ry="4" fill="#ae4220"/>
+  
+    <rect x="30" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
+    <rect x="44" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
+    <rect x="58" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
+    <rect x="70" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
+  
+    <ellipse cx="50" cy="52" rx="32" ry="18" fill="#c75b39"/>
+    <ellipse cx="50" cy="60" rx="22" ry="8" fill="#ffe4c4" opacity="0.3"/>
+  
+    <circle cx="34" cy="40" r="3" fill="#ae4220" opacity="0.3"/>
+    <circle cx="44" cy="38" r="3.5" fill="#ae4220" opacity="0.3"/>
+    <circle cx="55" cy="38" r="3.5" fill="#ae4220" opacity="0.3"/>
+    <circle cx="65" cy="40" r="3" fill="#ae4220" opacity="0.3"/>
+    <circle cx="38" cy="48" r="2.5" fill="#ae4220" opacity="0.25"/>
+    <circle cx="50" cy="46" r="3" fill="#ae4220" opacity="0.25"/>
+    <circle cx="62" cy="48" r="2.5" fill="#ae4220" opacity="0.25"/>
+  
+        <circle cx="37.2" cy="48.4" r="2.56" fill="#a93d1b" opacity="0.4"/>
+        <circle cx="59.6" cy="46.6" r="1.92" fill="#a93d1b" opacity="0.4"/>
+        <circle cx="46.8" cy="57.4" r="2.24" fill="#a93d1b" opacity="0.4"/>
+        <circle cx="66" cy="53.8" r="1.92" fill="#a93d1b" opacity="0.4"/>
+        <circle cx="34" cy="54.7" r="1.6" fill="#a93d1b" opacity="0.4"/>
+        <circle cx="54.8" cy="43" r="1.6" fill="#a93d1b" opacity="0.4"/>
+      
+    <ellipse cx="84" cy="52" rx="10" ry="9" fill="#c75b39"/>
+    <circle cx="86" cy="50" r="2" fill="#ae4220" opacity="0.15"/>
+    <circle cx="90" cy="52" r="2" fill="#ae4220" opacity="0.15"/>
+  
+    <circle cx="80" cy="44" r="2" fill="#ae4220" opacity="0.4"/>
+    <circle cx="88" cy="44" r="2" fill="#ae4220" opacity="0.4"/>
+  
+        <circle cx="88" cy="50" r="3.5" fill="white"/>
+        <circle cx="88" cy="51" r="1.75" fill="#f1c40f"/>
+        <line x1="84.5" y1="46.5" x2="91.5" y2="48.6" stroke="#f1c40f" stroke-width="1.5"/>
+      
+        <path d="M85,56 Q92,60 99,56" fill="#ae4220"/>
+        <polygon points="88,56 89,59 90,56" fill="white"/>
+        <polygon points="91,56 92,59 93,56" fill="white"/>
+        <polygon points="94,56 95,59 96,56" fill="white"/>
+      </g>
+    <g opacity="0.3">
+      <path d="M8,92 Q10,82 6,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="5" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(-30, 5, 76)"/>
+      <ellipse cx="8" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(20, 8, 80)"/>
+      <ellipse cx="6" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(-15, 6, 84)"/>
+      <path d="M92,92 Q90,82 94,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="95" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(30, 95, 76)"/>
+      <ellipse cx="92" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(-20, 92, 80)"/>
+      <ellipse cx="94" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(15, 94, 84)"/>
+      <ellipse cx="85" cy="12" rx="4" ry="2" fill="#4a7c28" opacity="0.7" transform="rotate(-40, 85, 12)"/>
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > dinosaurs theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#a0785a"/>
+    <g><g transform="translate(50, 50) scale(0.72) translate(-50, -50)">
+    <path d="M30,68 Q20,64 14,68" stroke="#8fbc8f" stroke-width="7" fill="none" stroke-linecap="round"/>
+  
+    <rect x="34" y="84" width="9" height="14" rx="4" fill="#76a376"/>
+    <rect x="48" y="84" width="9" height="14" rx="4" fill="#76a376"/>
+    <rect x="62" y="84" width="9" height="14" rx="4" fill="#76a376"/>
+  
+    <ellipse cx="52" cy="72" rx="24" ry="18" fill="#8fbc8f"/>
+    <ellipse cx="52" cy="78" rx="16" ry="10" fill="#fdf2e9" opacity="0.3"/>
+  
+    <path d="M60,58 Q62,40 56,26 Q52,18 48,14" stroke="#8fbc8f" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M60,58 Q62,40 56,26 Q52,18 48,14" stroke="#99c699" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.3"/>
+  
+    <ellipse cx="46" cy="12" rx="10" ry="7" fill="#8fbc8f"/>
+    <ellipse cx="44" cy="14" rx="6" ry="4" fill="#fdf2e9" opacity="0.3"/>
+  
+        <circle cx="42.4" cy="68.4" r="1.92" fill="#719e71" opacity="0.4"/>
+        <circle cx="59.2" cy="66.6" r="1.44" fill="#719e71" opacity="0.4"/>
+        <circle cx="49.6" cy="77.4" r="1.6800000000000002" fill="#719e71" opacity="0.4"/>
+        <circle cx="64" cy="73.8" r="1.44" fill="#719e71" opacity="0.4"/>
+        <circle cx="40" cy="74.7" r="1.2000000000000002" fill="#719e71" opacity="0.4"/>
+        <circle cx="55.6" cy="63" r="1.2000000000000002" fill="#719e71" opacity="0.4"/>
+      
+    <circle cx="42" cy="8" r="1.2" fill="#76a376"/>
+    <circle cx="48" cy="8" r="1.2" fill="#76a376"/>
+  
+        <circle cx="42" cy="11" r="3" fill="white"/>
+        <circle cx="52" cy="11" r="3" fill="white"/>
+        <circle cx="42" cy="12" r="1.5" fill="#f1c40f"/>
+        <circle cx="52" cy="12" r="1.5" fill="#f1c40f"/>
+        <path d="M39,10.1 Q42,8.6 45,10.1" fill="white" stroke="none"/>
+        <path d="M49,10.1 Q52,8.6 55,10.1" fill="white" stroke="none"/>
+      <line x1="42" y1="17" x2="50" y2="17" stroke="#76a376" stroke-width="1.5" stroke-linecap="round"/></g>
+    <g opacity="0.3">
+      <path d="M8,92 Q10,82 6,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="5" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(-30, 5, 76)"/>
+      <ellipse cx="8" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(20, 8, 80)"/>
+      <ellipse cx="6" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(-15, 6, 84)"/>
+      <path d="M92,92 Q90,82 94,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="95" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(30, 95, 76)"/>
+      <ellipse cx="92" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(-20, 92, 80)"/>
+      <ellipse cx="94" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(15, 94, 84)"/>
+      <ellipse cx="85" cy="12" rx="4" ry="2" fill="#4a7c28" opacity="0.7" transform="rotate(-40, 85, 12)"/>
+    </g>
+  </g>
+  </svg>"
+`;
+
 exports[`SVG snapshots > monsters theme > generates expected SVG with default params 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
     <circle cx="50" cy="50" r="50" fill="#e8f4f8"/>
@@ -714,6 +871,20 @@ exports[`generateParams determinism > animals params are deterministic with seed
   "eyeColor": "#30cfbc",
   "primaryColor": "#21b04e",
   "secondaryColor": "#ffffff",
+}
+`;
+
+exports[`generateParams determinism > dinosaurs params are deterministic with seed 1`] = `
+{
+  "backgroundColor": "#a0785a",
+  "backgroundShape": "circle",
+  "dinosaurType": "parasaurolophus",
+  "expression": "fierce",
+  "eyeColor": "#2c3e50",
+  "hasPlants": "yes",
+  "pattern": "spots",
+  "primaryColor": "#a0522d",
+  "secondaryColor": "#e8f5e9",
 }
 `;
 

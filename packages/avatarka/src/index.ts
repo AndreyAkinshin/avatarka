@@ -24,6 +24,7 @@ export type {
   RobotParams,
   AliensParams,
   OceanParams,
+  DinosaurParams,
 } from './themes';
 
 // Export themes
