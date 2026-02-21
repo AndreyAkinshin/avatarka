@@ -1,3 +1,4 @@
+import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
 import {
   darkenColor,
@@ -283,7 +284,7 @@ export function generate(params: MonsterParams): string {
   return wrapSvgWithShape(scaledContent, backgroundShape as BackgroundShape, backgroundColor);
 }
 
-export function randomize(rng: () => number): MonsterParams {
+export function randomize(rng: Rng): MonsterParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const bodyShapes = ['round', 'square', 'blob', 'tall'] as const;
   const expressions = ['happy', 'angry', 'surprised', 'silly'] as const;

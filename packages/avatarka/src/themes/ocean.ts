@@ -1,3 +1,4 @@
+import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
 import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
 
@@ -682,7 +683,7 @@ export function generate(params: OceanParams): string {
   return wrapSvgWithShape(scaledCreature + bubbles, backgroundShape as BackgroundShape, backgroundColor);
 }
 
-export function randomize(rng: () => number): OceanParams {
+export function randomize(rng: Rng): OceanParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const creatureTypes = ['octopus', 'fish', 'jellyfish', 'crab', 'whale', 'seahorse', 'pufferfish', 'turtle', 'shark', 'starfish'] as const;
   const expressions = ['happy', 'neutral', 'surprised', 'grumpy'] as const;

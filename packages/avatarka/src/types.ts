@@ -39,6 +39,8 @@ export type ParamsFromSchema<T extends ParamSchema> = {
         : never;
 };
 
+import type { Rng } from 'pragmastat';
+
 /**
  * Theme definition interface
  */
@@ -48,7 +50,7 @@ export interface Theme<T extends ParamSchema = ParamSchema> {
   /** Schema key that defines the primary visual shape/silhouette of this theme */
   shapeParam: string & keyof T;
   generate: (params: ParamsFromSchema<T>) => string;
-  randomize: (rng: () => number) => ParamsFromSchema<T>;
+  randomize: (rng: Rng) => ParamsFromSchema<T>;
 }
 
 /**

@@ -2,6 +2,8 @@
  * Utility functions for SVG generation
  */
 
+import type { Rng } from 'pragmastat';
+
 /**
  * Converts HSL values to hex color string
  */
@@ -53,20 +55,20 @@ export function hslToHex(h: number, s: number, l: number): string {
 /**
  * Generates a random color using the provided RNG
  */
-export function randomColor(rng: () => number): string {
-  const h = Math.floor(rng() * 360);
-  const s = 50 + Math.floor(rng() * 40); // 50-90%
-  const l = 40 + Math.floor(rng() * 30); // 40-70%
+export function randomColor(rng: Rng): string {
+  const h = rng.uniformInt(0, 360);
+  const s = rng.uniformInt(50, 90); // 50-89%
+  const l = rng.uniformInt(40, 70); // 40-69%
   return hslToHex(h, s, l);
 }
 
 /**
  * Generates a random pastel color
  */
-export function randomPastelColor(rng: () => number): string {
-  const h = Math.floor(rng() * 360);
-  const s = 40 + Math.floor(rng() * 30); // 40-70%
-  const l = 70 + Math.floor(rng() * 20); // 70-90%
+export function randomPastelColor(rng: Rng): string {
+  const h = rng.uniformInt(0, 360);
+  const s = rng.uniformInt(40, 70); // 40-69%
+  const l = rng.uniformInt(70, 90); // 70-89%
   return hslToHex(h, s, l);
 }
 
@@ -95,22 +97,22 @@ export function lightenColor(hex: string, amount: number = 20): string {
 /**
  * Pick a random item from an array
  */
-export function randomPick<T>(arr: readonly T[], rng: () => number): T {
-  return arr[Math.floor(rng() * arr.length)] as T;
+export function randomPick<T>(arr: readonly T[], rng: Rng): T {
+  return arr[rng.uniformInt(0, arr.length)] as T;
 }
 
 /**
  * Generate a random integer in range [min, max]
  */
-export function randomInt(min: number, max: number, rng: () => number): number {
-  return Math.floor(rng() * (max - min + 1)) + min;
+export function randomInt(min: number, max: number, rng: Rng): number {
+  return rng.uniformInt(min, max + 1);
 }
 
 /**
- * Generate a random float in range [min, max]
+ * Generate a random float in range [min, max)
  */
-export function randomFloat(min: number, max: number, rng: () => number): number {
-  return rng() * (max - min) + min;
+export function randomFloat(min: number, max: number, rng: Rng): number {
+  return rng.uniformFloatRange(min, max);
 }
 
 /**

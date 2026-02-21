@@ -1,3 +1,4 @@
+import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
 import { darkenColor, lightenColor, randomColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
 
@@ -836,7 +837,7 @@ export function generate(params: AnimalParams): string {
   return wrapSvgWithShape(scaledAnimal, backgroundShape as BackgroundShape, backgroundColor);
 }
 
-export function randomize(rng: () => number): AnimalParams {
+export function randomize(rng: Rng): AnimalParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const animalTypes = ['cat', 'dog', 'bear', 'bunny', 'fox', 'panda', 'owl', 'koala', 'penguin', 'lion'] as const;
   const expressions = ['happy', 'sleepy', 'surprised', 'grumpy'] as const;

@@ -1,3 +1,4 @@
+import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
 import { darkenColor, lightenColor, randomColor, randomPick, randomInt, wrapSvgWithShape, type BackgroundShape } from '../utils';
 
@@ -359,7 +360,7 @@ export function generate(params: RobotParams): string {
   return wrapSvgWithShape(content, backgroundShape as BackgroundShape, backgroundColor);
 }
 
-export function randomize(rng: () => number): RobotParams {
+export function randomize(rng: Rng): RobotParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const headShapes = ['square', 'round', 'tall', 'wide', 'hexagon', 'dome'] as const;
   const antennaStyles = ['single', 'double', 'none', 'dish', 'bunny', 'lightning'] as const;

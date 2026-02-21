@@ -26,13 +26,14 @@ export type {
   OceanParams,
   DinosaurParams,
   MythicalParams,
+  InsectsParams,
 } from './themes';
 
 // Export themes
 export { themes };
 
 // Export PRNG utilities for advanced users
-export { createRng, mulberry32, stringToSeed } from './prng';
+export { createRng, Rng } from './prng';
 
 // Export utility functions
 export {
@@ -211,17 +212,6 @@ export function generateGallery(
   type Slot = { theme: ThemeName; shapeValue: string };
   type SchemaDef = { type: string; options?: readonly string[]; min?: number; max?: number; step?: number };
 
-  function shuffle<U>(arr: U[]): U[] {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      const tmp = a[i]!;
-      a[i] = a[j]!;
-      a[j] = tmp;
-    }
-    return a;
-  }
-
   function isExempt(value: string | number): boolean {
     return value === 'none' || value === 'no';
   }
@@ -243,24 +233,24 @@ export function generateGallery(
 
   function pickUnusedOption(field: string, opts: readonly string[]): string {
     const available = opts.filter(v => !isUsed(field, v));
-    if (available.length > 0) return available[Math.floor(rng() * available.length)]!;
-    return opts[Math.floor(rng() * opts.length)]!;
+    if (available.length > 0) return available[rng.uniformInt(0, available.length)]!;
+    return opts[rng.uniformInt(0, opts.length)]!;
   }
 
   function pickUnusedNumber(field: string, min: number, max: number, step: number): number {
     const values: number[] = [];
     for (let v = min; v <= max; v += step) values.push(v);
     const available = values.filter(v => !isUsed(field, v));
-    if (available.length > 0) return available[Math.floor(rng() * available.length)]!;
-    return values[Math.floor(rng() * values.length)]!;
+    if (available.length > 0) return available[rng.uniformInt(0, available.length)]!;
+    return values[rng.uniformInt(0, values.length)]!;
   }
 
   function adjustColor(field: string, base: string): string {
     if (!isUsed(field, base)) return base;
     const num = parseInt(base.slice(1), 16);
     for (let attempt = 0; attempt < 10; attempt++) {
-      const shift = Math.floor(rng() * 36) + 5;
-      const sign = rng() < 0.5 ? 1 : -1;
+      const shift = rng.uniformInt(5, 41);
+      const sign = rng.uniformBool() ? 1 : -1;
       const r = Math.max(0, Math.min(255, (num >> 16) + sign * shift));
       const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + sign * shift));
       const b = Math.max(0, Math.min(255, (num & 0xff) + sign * shift));
@@ -268,9 +258,9 @@ export function generateGallery(
       if (!isUsed(field, adjusted)) return adjusted;
     }
     // Last resort: random hex color
-    const r = Math.floor(rng() * 256);
-    const g = Math.floor(rng() * 256);
-    const b = Math.floor(rng() * 256);
+    const r = rng.uniformInt(0, 256);
+    const g = rng.uniformInt(0, 256);
+    const b = rng.uniformInt(0, 256);
     return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
   }
 
@@ -304,7 +294,7 @@ export function generateGallery(
   // --- Step 1: Plan theme + shape distribution ---
 
   const allThemeNames = getThemeNames();
-  const nonPeopleThemes = shuffle(allThemeNames.filter(t => t !== 'people'));
+  const nonPeopleThemes = rng.shuffle(allThemeNames.filter(t => t !== 'people'));
 
   // Build per-theme shuffled shape queues
   const themeShapeQueues = new Map<ThemeName, string[]>();
@@ -313,7 +303,7 @@ export function generateGallery(
     const shapeField = themeObj.shapeParam as string;
     const shapeDef = (themeObj.schema as Record<string, SchemaDef>)[shapeField];
     if (shapeDef?.type === 'select' && shapeDef.options) {
-      themeShapeQueues.set(name, shuffle([...shapeDef.options]));
+      themeShapeQueues.set(name, rng.shuffle([...shapeDef.options]));
     }
   }
 
@@ -334,11 +324,11 @@ export function generateGallery(
 
   // If count exceeds all unique shape slots, fill with random theme+shape pairs
   while (slots.length < needed) {
-    const t = nonPeopleThemes[Math.floor(rng() * nonPeopleThemes.length)]!;
+    const t = nonPeopleThemes[rng.uniformInt(0, nonPeopleThemes.length)]!;
     const themeObj = themes[t];
     const shapeDef = (themeObj.schema as Record<string, SchemaDef>)[themeObj.shapeParam as string];
     if (shapeDef?.options) {
-      slots.push({ theme: t, shapeValue: shapeDef.options[Math.floor(rng() * shapeDef.options.length)]! });
+      slots.push({ theme: t, shapeValue: shapeDef.options[rng.uniformInt(0, shapeDef.options.length)]! });
     }
   }
 
@@ -350,7 +340,7 @@ export function generateGallery(
     const peopleTheme = themes['people' as ThemeName];
     const shapeDef = (peopleTheme.schema as Record<string, SchemaDef>)[peopleTheme.shapeParam as string];
     const shapeValue = shapeDef?.options
-      ? shapeDef.options[Math.floor(rng() * shapeDef.options.length)]!
+      ? shapeDef.options[rng.uniformInt(0, shapeDef.options.length)]!
       : 'bob';
 
     const params = generateConstrained('people' as ThemeName, shapeValue);
@@ -376,7 +366,7 @@ export function generateGallery(
 
   // --- Step 4: Shuffle final order ---
 
-  return shuffle(items);
+  return rng.shuffle(items);
 }
 
 function applyGalleryOptions(

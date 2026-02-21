@@ -1,3 +1,4 @@
+import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
 import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
 
@@ -833,7 +834,7 @@ export function generate(params: DinosaurParams): string {
   return wrapSvgWithShape(scaledCreature + plants, backgroundShape as BackgroundShape, backgroundColor);
 }
 
-export function randomize(rng: () => number): DinosaurParams {
+export function randomize(rng: Rng): DinosaurParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const dinosaurTypes = [
     'trex', 'triceratops', 'stegosaurus', 'brachiosaurus', 'pterodactyl',
