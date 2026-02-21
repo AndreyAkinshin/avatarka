@@ -1,0 +1,74 @@
+[tools]
+node = "20"
+pnpm = "9"
+
+[tasks.restore]
+description = "Install dependencies"
+run = "pnpm install --frozen-lockfile"
+
+[tasks.build]
+description = "Build all packages"
+run = "pnpm build"
+
+[tasks."build:static"]
+description = "Build all packages and demo static site"
+run = "pnpm build:static"
+
+[tasks.test]
+description = "Run tests"
+run = "pnpm test"
+
+[tasks.check]
+description = "Run TypeScript type checking"
+run = "pnpm check"
+
+[tasks."check:fix"]
+description = "Auto-fix static analysis issues (no-op: no linter/formatter configured)"
+run = "echo 'No linter or formatter configured. Add biome/prettier to enable check:fix.'"
+
+[tasks.clean]
+description = "Clean build artifacts"
+run = "pnpm clean"
+
+[tasks.dev]
+description = "Start development mode"
+run = "pnpm dev"
+
+[tasks.version]
+description = "Bump version, stage, and commit"
+usage = 'arg "<version>"'
+run = '''
+if ! echo "$usage_version" | grep -qE '^[0-9]+(\.[0-9]+)*$'; then
+  echo "Error: version must contain only digits and dots (got: $usage_version)" >&2
+  exit 1
+fi
+echo "$usage_version" > VERSION
+node -e "
+  const fs = require('fs');
+  for (const p of ['packages/avatarka/package.json', 'packages/avatarka-react/package.json']) {
+    const raw = fs.readFileSync(p, 'utf8');
+    fs.writeFileSync(p, raw.replace(/\"version\": \"[^\"]+\"/, '\"version\": \"'+'$usage_version'+'\"'));
+  }
+"
+git add VERSION packages/avatarka/package.json packages/avatarka-react/package.json
+git diff --cached --quiet && echo "Already at $usage_version" || git commit -m "chore: bump version to $usage_version"
+'''
+
+[tasks.publish]
+description = "Bump version, push, and trigger release"
+usage = 'arg "<version>"'
+run = [
+    "mise run version $usage_version",
+    "git push",
+    "gh workflow run publish.yml",
+]
+
+[tasks.ci]
+description = "Full CI pipeline"
+run = [
+    { task = "restore" },
+    { task = "clean" },
+    { task = "build" },
+    { task = "check" },
+    { task = "test" },
+]
