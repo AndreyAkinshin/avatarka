@@ -25,4 +25,8 @@ export {
   type MonsterParams,
   type RobotParams,
   type AliensParams,
+  type OceanParams,
+  type DinosaurParams,
+  type MythicalParams,
+  type InsectsParams,
 } from 'avatarka';

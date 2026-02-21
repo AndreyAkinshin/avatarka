@@ -22,6 +22,9 @@ export type { DinosaurParams } from './dinosaurs';
 export { mythical, schema as mythicalSchema } from './mythical';
 export type { MythicalParams } from './mythical';
 
+export { insects, schema as insectsSchema } from './insects';
+export type { InsectsParams } from './insects';
+
 import { people, type PeopleParams } from './people';
 import { animals, type AnimalParams } from './animals';
 import { monsters, type MonsterParams } from './monsters';
@@ -30,6 +33,7 @@ import { aliens, type AliensParams } from './aliens';
 import { ocean, type OceanParams } from './ocean';
 import { dinosaurs, type DinosaurParams } from './dinosaurs';
 import { mythical, type MythicalParams } from './mythical';
+import { insects, type InsectsParams } from './insects';
 
 export const themes = {
   people,
@@ -40,6 +44,7 @@ export const themes = {
   ocean,
   dinosaurs,
   mythical,
+  insects,
 } as const;
 
 export type ThemeMap = typeof themes;
@@ -58,6 +63,7 @@ export interface ThemeParamsMap {
   ocean: OceanParams;
   dinosaurs: DinosaurParams;
   mythical: MythicalParams;
+  insects: InsectsParams;
 }
 
 /**
