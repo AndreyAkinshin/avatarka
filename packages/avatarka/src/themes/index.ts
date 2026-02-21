@@ -13,11 +13,15 @@ export type { RobotParams } from './robots';
 export { aliens, schema as aliensSchema } from './aliens';
 export type { AliensParams } from './aliens';
 
+export { ocean, schema as oceanSchema } from './ocean';
+export type { OceanParams } from './ocean';
+
 import { people, type PeopleParams } from './people';
 import { animals, type AnimalParams } from './animals';
 import { monsters, type MonsterParams } from './monsters';
 import { robots, type RobotParams } from './robots';
 import { aliens, type AliensParams } from './aliens';
+import { ocean, type OceanParams } from './ocean';
 
 export const themes = {
   people,
@@ -25,6 +29,7 @@ export const themes = {
   monsters,
   robots,
   aliens,
+  ocean,
 } as const;
 
 export type ThemeMap = typeof themes;
@@ -40,6 +45,7 @@ export interface ThemeParamsMap {
   monsters: MonsterParams;
   robots: RobotParams;
   aliens: AliensParams;
+  ocean: OceanParams;
 }
 
 /**

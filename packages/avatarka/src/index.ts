@@ -23,6 +23,7 @@ export type {
   MonsterParams,
   RobotParams,
   AliensParams,
+  OceanParams,
 } from './themes';
 
 // Export themes
