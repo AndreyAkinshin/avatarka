@@ -34,8 +34,9 @@ function App() {
 
   const getCurrentSvg = useCallback(() => {
     if (!currentParams) return null;
-    return generateAvatar(currentTheme, currentParams as Parameters<typeof generateAvatar<typeof currentTheme>>[1]);
-  }, [currentTheme, currentParams]);
+    const params = transparentBg ? { ...currentParams, backgroundColor: 'none' } : currentParams;
+    return generateAvatar(currentTheme, params as Parameters<typeof generateAvatar<typeof currentTheme>>[1]);
+  }, [currentTheme, currentParams, transparentBg]);
 
   const handleSaveToSvg = useCallback(() => {
     const svg = getCurrentSvg();
@@ -101,6 +102,21 @@ function App() {
   useEffect(() => {
     localStorage.setItem('avatarka-transparent-bg', String(transparentBg));
   }, [transparentBg]);
+
+  // Update favicon to match current avatar
+  useEffect(() => {
+    const svg = getCurrentSvg();
+    if (!svg) return;
+    const url = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+    let link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.type = 'image/svg+xml';
+    link.href = url;
+  }, [getCurrentSvg]);
 
   return (
     <div className="app">
