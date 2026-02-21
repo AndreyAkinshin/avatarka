@@ -1,21 +1,17 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   generateAvatar,
+  generateGallery,
   generateParams,
   getTheme,
   getThemeNames,
+  type GalleryItem,
   type ThemeName,
   type ThemeParams,
   type ParamDefinition,
 } from 'avatarka';
 
 type DynamicParams = Record<string, string | number>;
-
-interface GalleryItem {
-  theme: ThemeName;
-  params: DynamicParams;
-  svg: string;
-}
 
 export type AvatarPickerLayout = 'default' | 'compact';
 
@@ -148,30 +144,15 @@ export function AvatarPicker({
     return [...colorEntries, ...otherEntries];
   }, [themeData.schema, alwaysTransparentBackground]);
 
-  // Gallery items
+  // Gallery items — diverse selection with unique shapes
   const galleryItems = useMemo(() => {
-    return Array.from({ length: galleryCount }, (_, i) => {
-      const seed = `gallery-v${galleryVersion}-${i}-${Date.now()}`;
-      // Pick random theme based on seed
-      let hash = 0;
-      for (let j = 0; j < seed.length; j++) {
-        hash = (hash << 5) - hash + seed.charCodeAt(j);
-        hash = hash & hash;
-      }
-      const themeIndex = Math.abs(hash) % themeNames.length;
-      const t = themeNames[themeIndex] as ThemeName;
-      const itemParams = { ...generateParams(t, seed), backgroundShape: 'circle' } as DynamicParams;
-      const effectiveItemParams = alwaysTransparentBackground
-        ? { ...itemParams, backgroundColor: 'none' }
-        : itemParams;
-      return {
-        theme: t,
-        params: itemParams,
-        svg: generateAvatar(t, effectiveItemParams as Parameters<typeof generateAvatar<typeof t>>[1]),
-      };
+    const seed = `gallery-v${galleryVersion}-${Date.now()}`;
+    return generateGallery(galleryCount, seed, {
+      backgroundShape: 'circle',
+      transparentBackground: alwaysTransparentBackground,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [themeNames, galleryCount, galleryVersion, alwaysTransparentBackground]);
+  }, [galleryCount, galleryVersion, alwaysTransparentBackground]);
 
   const handleGallerySelect = useCallback(
     (item: GalleryItem) => {

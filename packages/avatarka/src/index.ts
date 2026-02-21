@@ -164,6 +164,132 @@ export function getTheme<T extends ThemeName>(theme: T) {
   } as { name: string; schema: (typeof themes)[T]['schema'] };
 }
 
+/**
+ * A single gallery item: theme + params + pre-rendered SVG
+ */
+export interface GalleryItem {
+  theme: ThemeName;
+  params: Record<string, string | number>;
+  svg: string;
+}
+
+export interface GenerateGalleryOptions {
+  /** Force background shape for all items (e.g. 'circle') */
+  backgroundShape?: string;
+  /** Force transparent background for all items */
+  transparentBackground?: boolean;
+}
+
+/**
+ * Generate a diverse gallery of N avatars with guaranteed visual variety.
+ *
+ * Rules:
+ * - Exactly 1 avatar from the 'people' theme
+ * - No two avatars share the same (theme, shape) combination
+ * - If count exceeds available unique shapes, remaining slots are filled randomly
+ *
+ * @param count - Number of avatars to generate
+ * @param seed - Optional seed for deterministic generation
+ * @param options - Additional options
+ * @returns Array of gallery items
+ */
+export function generateGallery(
+  count: number,
+  seed?: string | number,
+  options?: GenerateGalleryOptions,
+): GalleryItem[] {
+  if (count <= 0) return [];
+
+  const rng = createRng(seed);
+  const themeNames = getThemeNames();
+
+  // Build pool of all (theme, shapeValue) pairs
+  type ShapeSlot = { theme: ThemeName; shapeParam: string; shapeValue: string };
+  const peopleSlots: ShapeSlot[] = [];
+  const otherSlots: ShapeSlot[] = [];
+
+  for (const name of themeNames) {
+    const themeObj = themes[name];
+    const paramName = themeObj.shapeParam as string;
+    const paramDef = (themeObj.schema as Record<string, { type: string; options?: string[] }>)[paramName];
+    if (!paramDef || paramDef.type !== 'select' || !paramDef.options) continue;
+
+    const slots = name === 'people' ? peopleSlots : otherSlots;
+    for (const opt of paramDef.options) {
+      slots.push({ theme: name, shapeParam: paramName, shapeValue: opt });
+    }
+  }
+
+  // Fisher-Yates shuffle using our RNG
+  function shuffle<U>(arr: U[]): U[] {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      const tmp = a[i]!;
+      a[i] = a[j]!;
+      a[j] = tmp;
+    }
+    return a;
+  }
+
+  // Pick exactly 1 people slot
+  const shuffledPeople = shuffle(peopleSlots);
+  const pickedPeople = shuffledPeople.length > 0 ? shuffledPeople[0]! : undefined;
+
+  // Pick up to (count - 1) unique non-people slots
+  const shuffledOther = shuffle(otherSlots);
+  const needed = count - 1;
+  const pickedOther = shuffledOther.slice(0, Math.min(needed, shuffledOther.length));
+
+  // Combine and shuffle order
+  const allSlots: ShapeSlot[] = shuffle(
+    pickedPeople ? [pickedPeople, ...pickedOther] : [...pickedOther],
+  );
+
+  // If we still need more items, fill with random avatars
+  const extra = count - allSlots.length;
+  const extraItems: GalleryItem[] = [];
+  if (extra > 0) {
+    for (let i = 0; i < extra; i++) {
+      const t = themeNames[Math.floor(rng() * themeNames.length)]!;
+      const params = generateParams(t);
+      applyOptions(params as Record<string, string | number>, options);
+      extraItems.push({
+        theme: t,
+        params: params as Record<string, string | number>,
+        svg: generateAvatar(t, params),
+      });
+    }
+  }
+
+  // Generate params for each picked slot, forcing the shape value
+  const items: GalleryItem[] = allSlots.map((slot) => {
+    const themeObj = themes[slot.theme];
+    const params = themeObj.randomize(rng) as Record<string, string | number>;
+    params[slot.shapeParam] = slot.shapeValue;
+    applyOptions(params, options);
+    return {
+      theme: slot.theme,
+      params,
+      svg: generateAvatar(slot.theme, params as ThemeParams<typeof slot.theme>),
+    };
+  });
+
+  return [...items, ...extraItems];
+}
+
+function applyOptions(
+  params: Record<string, string | number>,
+  options?: GenerateGalleryOptions,
+): void {
+  if (options?.backgroundShape) {
+    params.backgroundShape = options.backgroundShape;
+  }
+  if (options?.transparentBackground) {
+    params.backgroundColor = 'none';
+  }
+}
+
 // PNG Generation (Browser-only)
 
 /**

@@ -1,19 +1,14 @@
 import { useState, useMemo, useCallback } from 'react';
 import {
   generateAvatar,
-  generateParams,
+  generateGallery,
   getTheme,
   getThemeNames,
+  type GalleryItem,
   type ThemeName,
   type ThemeParams,
   type ParamDefinition,
 } from 'avatarka';
-
-interface GalleryItem {
-  theme: ThemeName;
-  params: ThemeParams<ThemeName>;
-  svg: string;
-}
 
 export interface AvatarEditorProps<T extends ThemeName = ThemeName> {
   /** The theme to use for the avatar */
@@ -112,19 +107,6 @@ function formatLabel(name: string): string {
     .trim();
 }
 
-function generateGalleryItem(seed: string): GalleryItem {
-  const themeNames = getThemeNames();
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash << 5) - hash + seed.charCodeAt(i);
-    hash = hash & hash;
-  }
-  const themeIndex = Math.abs(hash) % themeNames.length;
-  const theme = themeNames[themeIndex] as ThemeName;
-  const params = generateParams(theme, seed);
-  const svg = generateAvatar(theme, params);
-  return { theme, params, svg };
-}
 
 /**
  * Interactive avatar editor with auto-generated controls from schema.
@@ -181,10 +163,8 @@ export function AvatarEditor<T extends ThemeName>({
   }, [svg]);
 
   const galleryItems = useMemo(() => {
-    return Array.from({ length: galleryCount }, (_, i) => {
-      const seed = `gallery-v${galleryVersion}-${i}-${Date.now()}`;
-      return generateGalleryItem(seed);
-    });
+    const seed = `gallery-v${galleryVersion}-${Date.now()}`;
+    return generateGallery(galleryCount, seed);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [galleryCount, galleryVersion]);
 
@@ -199,7 +179,7 @@ export function AvatarEditor<T extends ThemeName>({
     (item: GalleryItem) => {
       setMode('editor');
       if (onGallerySelect) {
-        onGallerySelect(item.theme, item.params);
+        onGallerySelect(item.theme, item.params as ThemeParams<ThemeName>);
       }
     },
     [onGallerySelect]
