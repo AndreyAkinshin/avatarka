@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AvatarPicker, type AvatarPickerLayout } from 'avatarka-react';
-import { generateAvatar, svgToPng, getThemeNames, type ThemeName, type ThemeParams } from 'avatarka';
+import { generateAvatar, svgToPng, getThemeNames, hslToHex, type ThemeName, type ThemeParams } from 'avatarka';
 
 const allThemes = getThemeNames();
 const randomTheme = allThemes[Math.floor(Math.random() * allThemes.length)]!;
@@ -8,6 +8,31 @@ const randomTheme = allThemes[Math.floor(Math.random() * allThemes.length)]!;
 type ColorMode = 'system' | 'light' | 'dark';
 
 type DynamicParams = Record<string, string | number>;
+
+const PRIMARY_COLOR_KEYS = ['primaryColor', 'bodyColor', 'skinColor'] as const;
+
+function hexToHsl(hex: string): [number, number, number] {
+  const num = parseInt(hex.slice(1), 16);
+  const r = (num >> 16) / 255;
+  const g = ((num >> 8) & 0xff) / 255;
+  const b = (num & 0xff) / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return [0, 0, l * 100];
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h = 0;
+  if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+  else if (max === g) h = ((b - r) / d + 2) / 6;
+  else h = ((r - g) / d + 4) / 6;
+  return [h * 360, s * 100, l * 100];
+}
+
+function complementaryPastel(hex: string): string {
+  const [h] = hexToHsl(hex);
+  return hslToHex((h + 180) % 360, 55, 82);
+}
 
 function App() {
   const [colorMode, setColorMode] = useState<ColorMode>(() => {
@@ -103,9 +128,20 @@ function App() {
     localStorage.setItem('avatarka-transparent-bg', String(transparentBg));
   }, [transparentBg]);
 
+  // Generate favicon SVG: use complementary pastel background when transparent mode is on
+  const getFaviconSvg = useCallback(() => {
+    if (!currentParams) return null;
+    if (!transparentBg) {
+      return generateAvatar(currentTheme, currentParams as Parameters<typeof generateAvatar<typeof currentTheme>>[1]);
+    }
+    const primary = PRIMARY_COLOR_KEYS.find((k) => typeof currentParams[k] === 'string');
+    const bgColor = primary ? complementaryPastel(currentParams[primary] as string) : '#e0e0e0';
+    return generateAvatar(currentTheme, { ...currentParams, backgroundColor: bgColor } as Parameters<typeof generateAvatar<typeof currentTheme>>[1]);
+  }, [currentTheme, currentParams, transparentBg]);
+
   // Update favicon to match current avatar
   useEffect(() => {
-    const svg = getCurrentSvg();
+    const svg = getFaviconSvg();
     if (!svg) return;
     const url = `data:image/svg+xml,${encodeURIComponent(svg)}`;
     let link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
@@ -116,7 +152,7 @@ function App() {
     }
     link.type = 'image/svg+xml';
     link.href = url;
-  }, [getCurrentSvg]);
+  }, [getFaviconSvg]);
 
   return (
     <div className="app">

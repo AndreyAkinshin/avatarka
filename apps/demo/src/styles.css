@@ -49,15 +49,9 @@ body {
   transition: background 0.3s ease;
 }
 
-#root {
-  display: flex;
-  min-height: 100vh;
-}
-
 .app {
   max-width: 600px;
-  width: 100%;
-  margin: auto;
+  margin: 0 auto;
   padding: 40px 20px;
 }
 
