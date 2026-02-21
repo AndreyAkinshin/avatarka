@@ -38,7 +38,7 @@ export interface AvatarProps<T extends ThemeName = ThemeName> {
  * <Avatar theme="animals" seed="user@email.com" />
  *
  * // Random
- * <Avatar theme="geometric" />
+ * <Avatar theme="animals" />
  * ```
  */
 export function Avatar<T extends ThemeName>({

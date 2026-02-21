@@ -13,15 +13,11 @@ export type { RobotParams } from './robots';
 export { aliens, schema as aliensSchema } from './aliens';
 export type { AliensParams } from './aliens';
 
-export { geometric, schema as geometricSchema } from './geometric';
-export type { GeometricParams } from './geometric';
-
 import { people, type PeopleParams } from './people';
 import { animals, type AnimalParams } from './animals';
 import { monsters, type MonsterParams } from './monsters';
 import { robots, type RobotParams } from './robots';
 import { aliens, type AliensParams } from './aliens';
-import { geometric, type GeometricParams } from './geometric';
 
 export const themes = {
   people,
@@ -29,7 +25,6 @@ export const themes = {
   monsters,
   robots,
   aliens,
-  geometric,
 } as const;
 
 export type ThemeMap = typeof themes;
@@ -45,7 +40,6 @@ export interface ThemeParamsMap {
   monsters: MonsterParams;
   robots: RobotParams;
   aliens: AliensParams;
-  geometric: GeometricParams;
 }
 
 /**

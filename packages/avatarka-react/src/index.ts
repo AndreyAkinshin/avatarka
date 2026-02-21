@@ -25,5 +25,4 @@ export {
   type MonsterParams,
   type RobotParams,
   type AliensParams,
-  type GeometricParams,
 } from 'avatarka';

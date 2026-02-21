@@ -6,7 +6,7 @@ Generate unique, customizable SVG avatars with multiple themes. Zero runtime dep
 
 ## Features
 
-- **6 Built-in Themes**: Geometric patterns, monsters, animals, people, robots, and aliens
+- **5 Built-in Themes**: Monsters, animals, people, robots, and aliens
 - **Seed-based Generation**: Generate deterministic avatars from any string (email, user ID, etc.)
 - **Fully Customizable**: Every parameter can be tweaked via a typed API
 - **Zero Dependencies**: No runtime dependencies
@@ -44,8 +44,8 @@ import { randomAvatar, generateParams } from 'avatarka';
 const svg = randomAvatar('animals', 'user@email.com');
 
 // Same seed always produces the same avatar
-const params1 = generateParams('geometric', 'user-123');
-const params2 = generateParams('geometric', 'user-123');
+const params1 = generateParams('monsters', 'user-123');
+const params2 = generateParams('monsters', 'user-123');
 // params1 and params2 are identical
 ```
 
@@ -77,10 +77,10 @@ Generate random parameters for a theme. Optionally pass a seed for deterministic
 
 ```typescript
 // Random
-const params = generateParams('geometric');
+const params = generateParams('monsters');
 
 // Deterministic
-const params = generateParams('geometric', 'my-seed');
+const params = generateParams('monsters', 'my-seed');
 ```
 
 ### `randomAvatar(theme, seed?)`
@@ -104,7 +104,7 @@ const defaults = getDefaultParams('monsters');
 Get array of available theme names.
 
 ```typescript
-const themes = getThemeNames(); // ['people', 'animals', 'monsters', 'robots', 'aliens', 'geometric']
+const themes = getThemeNames(); // ['people', 'animals', 'monsters', 'robots', 'aliens']
 ```
 
 ### `getTheme(theme)`
@@ -119,7 +119,6 @@ const { name, schema } = getTheme('animals');
 
 | Theme       | Description                                                                             |
 |-------------|-----------------------------------------------------------------------------------------|
-| `geometric` | Abstract patterns with shapes like triangles, circles, squares, and hexagons            |
 | `monsters`  | Cute monster characters with customizable features                                      |
 | `animals`   | Animal faces (cats, dogs, bears, bunnies, foxes, pandas, owls, koalas, penguins, lions) |
 | `people`    | Human avatars with various hairstyles and accessories                                   |

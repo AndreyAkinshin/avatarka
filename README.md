@@ -8,7 +8,7 @@ Generate unique, customizable SVG and PNG avatars with multiple themes. Zero dep
 
 ## Features
 
-- **6 Built-in Themes**: Geometric patterns, monsters, animals, people, robots, and aliens
+- **5 Built-in Themes**: Monsters, animals, people, robots, and aliens
 - **Seed-based Generation**: Generate deterministic avatars from any string (email, user ID, etc.)
 - **Fully Customizable**: Every parameter can be tweaked via a typed API
 - **Zero Dependencies**: Core library has no runtime dependencies
@@ -52,8 +52,8 @@ import { randomAvatar, generateParams } from 'avatarka';
 const svg = randomAvatar('animals', 'user@email.com');
 
 // Same seed always produces the same avatar
-const params1 = generateParams('geometric', 'user-123');
-const params2 = generateParams('geometric', 'user-123');
+const params1 = generateParams('monsters', 'user-123');
+const params2 = generateParams('monsters', 'user-123');
 // params1 and params2 are identical
 ```
 
@@ -138,10 +138,10 @@ Generate random parameters for a theme. Optionally pass a seed for deterministic
 
 ```typescript
 // Random
-const params = generateParams('geometric');
+const params = generateParams('monsters');
 
 // Deterministic
-const params = generateParams('geometric', 'my-seed');
+const params = generateParams('monsters', 'my-seed');
 ```
 
 #### `randomAvatar(theme, seed?)`
@@ -165,7 +165,7 @@ const defaults = getDefaultParams('monsters');
 Get array of available theme names.
 
 ```typescript
-const themes = getThemeNames(); // ['people', 'animals', 'monsters', 'robots', 'aliens', 'geometric']
+const themes = getThemeNames(); // ['people', 'animals', 'monsters', 'robots', 'aliens']
 ```
 
 #### `getTheme(theme)`
@@ -236,12 +236,6 @@ const dataUrl = await svgToPngDataUrl(svg, { size: 128 });
 > **Note**: These functions require a browser environment with Canvas support. They will throw an error if called in Node.js.
 
 ## Themes
-
-### Geometric
-
-Abstract patterns with shapes like triangles, circles, squares, and hexagons.
-
-**Parameters**: `backgroundShape`, `backgroundColor`, `primaryColor`, `secondaryColor`, `pattern`, `complexity`, `rotation`
 
 ### Monsters
 

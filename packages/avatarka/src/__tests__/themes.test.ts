@@ -140,7 +140,6 @@ describe('theme registry', () => {
     expect(themes).toHaveProperty('monsters');
     expect(themes).toHaveProperty('robots');
     expect(themes).toHaveProperty('aliens');
-    expect(themes).toHaveProperty('geometric');
   });
 
   it('has at least 5 themes', () => {

@@ -256,45 +256,6 @@ exports[`SVG snapshots > animals theme > generates expected SVG with seed "test-
   </svg>"
 `;
 
-exports[`SVG snapshots > geometric theme > generates expected SVG with default params 1`] = `
-"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#3498db"/>
-    <g>
-    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
-      <g transform="rotate(0 50 50)">
-        <polygon points="15,25 37,53 7,53" fill="#e74c3c" opacity="0.8"/><polygon points="29,43 51,71 21,71" fill="#f39c12" opacity="0.8"/><polygon points="43,61 65,89 35,89" fill="#e74c3c" opacity="0.8"/><polygon points="57,25 79,53 49,53" fill="#f39c12" opacity="0.8"/><polygon points="71,43 93,71 63,71" fill="#e74c3c" opacity="0.8"/>
-      </g>
-    </g>
-  </g>
-  </svg>"
-`;
-
-exports[`SVG snapshots > geometric theme > generates expected SVG with seed "john@example.com" 1`] = `
-"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#63c6ee"/>
-    <g>
-    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
-      <g transform="rotate(330 50 50)">
-        <polygon points="35.4,29.0 35.4,41.0 25.0,47.0 14.6,41.0 14.6,29.0 25.0,23.0" fill="#57e826" opacity="0.75"/><polygon points="47.2,42.0 47.2,58.0 33.3,66.0 19.5,58.0 19.5,42.0 33.3,34.0" fill="#29d153" opacity="0.75"/><polygon points="59.0,55.0 59.0,75.0 41.7,85.0 24.3,75.0 24.3,55.0 41.7,45.0" fill="#57e826" opacity="0.75"/><polygon points="60.4,29.0 60.4,41.0 50.0,47.0 39.6,41.0 39.6,29.0 50.0,23.0" fill="#29d153" opacity="0.75"/><polygon points="72.2,42.0 72.2,58.0 58.3,66.0 44.5,58.0 44.5,42.0 58.3,34.0" fill="#57e826" opacity="0.75"/><polygon points="84.0,55.0 84.0,75.0 66.7,85.0 49.3,75.0 49.3,55.0 66.7,45.0" fill="#29d153" opacity="0.75"/>
-      </g>
-    </g>
-  </g>
-  </svg>"
-`;
-
-exports[`SVG snapshots > geometric theme > generates expected SVG with seed "test-user-123" 1`] = `
-"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#34b255"/>
-    <g>
-    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
-      <g transform="rotate(165 50 50)">
-        <polygon points="15,25 37,53 7,53" fill="#c6e679" opacity="0.8"/><polygon points="25,43 47,71 17,71" fill="#2abb70" opacity="0.8"/><polygon points="35,61 57,89 27,89" fill="#c6e679" opacity="0.8"/><polygon points="45,25 67,53 37,53" fill="#2abb70" opacity="0.8"/><polygon points="55,43 77,71 47,71" fill="#c6e679" opacity="0.8"/><polygon points="65,61 87,89 57,89" fill="#2abb70" opacity="0.8"/><polygon points="75,25 97,53 67,53" fill="#c6e679" opacity="0.8"/>
-      </g>
-    </g>
-  </g>
-  </svg>"
-`;
-
 exports[`SVG snapshots > monsters theme > generates expected SVG with default params 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
     <circle cx="50" cy="50" r="50" fill="#e8f4f8"/>
@@ -637,18 +598,6 @@ exports[`generateParams determinism > animals params are deterministic with seed
   "eyeColor": "#30cfbc",
   "primaryColor": "#21b04e",
   "secondaryColor": "#ffffff",
-}
-`;
-
-exports[`generateParams determinism > geometric params are deterministic with seed 1`] = `
-{
-  "backgroundColor": "#613dd6",
-  "backgroundShape": "circle",
-  "complexity": 3,
-  "pattern": "squares",
-  "primaryColor": "#d34f27",
-  "rotation": 255,
-  "secondaryColor": "#49c55e",
 }
 `;
 

@@ -15,7 +15,6 @@ avatarka/
 │   │   │   ├── utils.ts             # Color and SVG utilities
 │   │   │   └── themes/
 │   │   │       ├── index.ts         # Theme registry and exports
-│   │   │       ├── geometric.ts     # Geometric patterns theme
 │   │   │       ├── monsters.ts      # Monster characters theme
 │   │   │       ├── animals.ts       # Animal faces theme
 │   │   │       ├── people.ts        # Human avatars theme
@@ -371,8 +370,8 @@ For themes, snapshot testing with image comparison:
 // packages/avatarka/src/__tests__/themes.test.ts
 import { generateAvatar, getDefaultParams } from '../index';
 
-test('geometric theme renders consistently', () => {
-  const svg = generateAvatar('geometric', getDefaultParams('geometric'));
+test('monsters theme renders consistently', () => {
+  const svg = generateAvatar('monsters', getDefaultParams('monsters'));
   expect(svg).toMatchSnapshot();
 });
 ```

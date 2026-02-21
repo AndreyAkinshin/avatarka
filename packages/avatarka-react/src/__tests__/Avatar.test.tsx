@@ -9,7 +9,7 @@ const normalizeClipIds = (str: string) =>
 
 describe('Avatar', () => {
   it('renders an image element', () => {
-    render(<Avatar theme="geometric" seed="test" />);
+    render(<Avatar theme="monsters" seed="test" />);
 
     const img = screen.getByRole('img');
     expect(img).toBeDefined();
@@ -37,7 +37,7 @@ describe('Avatar', () => {
   });
 
   it('applies default size', () => {
-    render(<Avatar theme="geometric" seed="test" />);
+    render(<Avatar theme="monsters" seed="test" />);
 
     const img = screen.getByRole('img') as HTMLImageElement;
     expect(img.width).toBe(100);
@@ -45,7 +45,7 @@ describe('Avatar', () => {
   });
 
   it('applies custom size', () => {
-    render(<Avatar theme="geometric" seed="test" size={200} />);
+    render(<Avatar theme="monsters" seed="test" size={200} />);
 
     const img = screen.getByRole('img') as HTMLImageElement;
     expect(img.width).toBe(200);
@@ -67,12 +67,12 @@ describe('Avatar', () => {
   });
 
   it('generates consistent avatar with same seed', () => {
-    const { unmount } = render(<Avatar theme="geometric" seed="consistent-seed" />);
+    const { unmount } = render(<Avatar theme="monsters" seed="consistent-seed" />);
     const img1 = screen.getByRole('img') as HTMLImageElement;
     const src1 = img1.src;
     unmount();
 
-    render(<Avatar theme="geometric" seed="consistent-seed" />);
+    render(<Avatar theme="monsters" seed="consistent-seed" />);
     const img2 = screen.getByRole('img') as HTMLImageElement;
     const src2 = img2.src;
 
@@ -80,12 +80,12 @@ describe('Avatar', () => {
   });
 
   it('generates different avatar with different seed', () => {
-    const { unmount } = render(<Avatar theme="geometric" seed="seed-a" />);
+    const { unmount } = render(<Avatar theme="monsters" seed="seed-a" />);
     const img1 = screen.getByRole('img') as HTMLImageElement;
     const src1 = img1.src;
     unmount();
 
-    render(<Avatar theme="geometric" seed="seed-b" />);
+    render(<Avatar theme="monsters" seed="seed-b" />);
     const img2 = screen.getByRole('img') as HTMLImageElement;
     const src2 = img2.src;
 
@@ -93,14 +93,14 @@ describe('Avatar', () => {
   });
 
   it('uses provided params instead of generating', () => {
-    const params = getDefaultParams('geometric');
+    const params = getDefaultParams('monsters');
 
-    const { unmount } = render(<Avatar theme="geometric" params={params} />);
+    const { unmount } = render(<Avatar theme="monsters" params={params} />);
     const img1 = screen.getByRole('img') as HTMLImageElement;
     const src1 = img1.src;
     unmount();
 
-    render(<Avatar theme="geometric" params={params} />);
+    render(<Avatar theme="monsters" params={params} />);
     const img2 = screen.getByRole('img') as HTMLImageElement;
     const src2 = img2.src;
 
@@ -124,7 +124,7 @@ describe('Avatar', () => {
   });
 
   it('renders different themes', () => {
-    const themes = ['people', 'animals', 'monsters', 'robots', 'aliens', 'geometric'] as const;
+    const themes = ['people', 'animals', 'monsters', 'robots', 'aliens'] as const;
     const sources: string[] = [];
 
     for (const theme of themes) {
@@ -140,7 +140,7 @@ describe('Avatar', () => {
   });
 
   it('applies display: inline-block style', () => {
-    render(<Avatar theme="geometric" seed="test" />);
+    render(<Avatar theme="monsters" seed="test" />);
 
     const img = screen.getByRole('img') as HTMLImageElement;
     expect(img.style.display).toBe('inline-block');

@@ -23,7 +23,6 @@ export type {
   MonsterParams,
   RobotParams,
   AliensParams,
-  GeometricParams,
 } from './themes';
 
 // Export themes
@@ -83,11 +82,11 @@ export function generateAvatar<T extends ThemeName>(
  * @example
  * ```ts
  * // Random each time
- * const params1 = generateParams('geometric');
+ * const params1 = generateParams('monsters');
  *
  * // Deterministic based on seed
- * const params2 = generateParams('geometric', 'user@email.com');
- * const params3 = generateParams('geometric', 'user@email.com');
+ * const params2 = generateParams('monsters', 'user@email.com');
+ * const params3 = generateParams('monsters', 'user@email.com');
  * // params2 and params3 will be identical
  * ```
  */

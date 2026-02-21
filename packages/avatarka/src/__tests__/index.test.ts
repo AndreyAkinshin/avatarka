@@ -11,8 +11,8 @@ import {
 
 describe('generateAvatar', () => {
   it('generates SVG for valid theme and params', () => {
-    const params = getDefaultParams('geometric');
-    const svg = generateAvatar('geometric', params);
+    const params = getDefaultParams('monsters');
+    const svg = generateAvatar('monsters', params);
 
     expect(svg).toContain('<svg');
     expect(svg).toContain('</svg>');
@@ -63,8 +63,8 @@ describe('generateParams', () => {
   });
 
   it('generates different params with different seeds', () => {
-    const params1 = generateParams('geometric', 'seed1');
-    const params2 = generateParams('geometric', 'seed2');
+    const params1 = generateParams('animals', 'seed1');
+    const params2 = generateParams('animals', 'seed2');
 
     expect(params1).not.toEqual(params2);
   });
@@ -84,8 +84,8 @@ describe('generateParams', () => {
 
 describe('getDefaultParams', () => {
   it('returns params with default values from schema', () => {
-    const params = getDefaultParams('geometric');
-    const schema = themes.geometric.schema;
+    const params = getDefaultParams('monsters');
+    const schema = themes.monsters.schema;
 
     for (const [key, def] of Object.entries(schema)) {
       expect((params as Record<string, string | number>)[key]).toBe(def.default);
@@ -125,8 +125,8 @@ describe('randomAvatar', () => {
   });
 
   it('is deterministic with seed', () => {
-    const svg1 = randomAvatar('geometric', 'unique-id');
-    const svg2 = randomAvatar('geometric', 'unique-id');
+    const svg1 = randomAvatar('animals', 'unique-id');
+    const svg2 = randomAvatar('animals', 'unique-id');
 
     // Normalize clip IDs for comparison (now deterministic hashes based on content)
     const normalizeClipIds = (svg: string) =>
@@ -170,7 +170,6 @@ describe('getThemeNames', () => {
     expect(names).toContain('monsters');
     expect(names).toContain('robots');
     expect(names).toContain('aliens');
-    expect(names).toContain('geometric');
   });
 
   it('returns same keys as themes object', () => {
@@ -183,11 +182,11 @@ describe('getThemeNames', () => {
 
 describe('getTheme', () => {
   it('returns theme metadata', () => {
-    const theme = getTheme('geometric');
+    const theme = getTheme('monsters');
 
     expect(theme).toHaveProperty('name');
     expect(theme).toHaveProperty('schema');
-    expect(theme.name).toBe('Geometric');
+    expect(theme.name).toBe('Monsters');
   });
 
   it('returns schema with param definitions', () => {
