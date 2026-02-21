@@ -31,4 +31,5 @@ export {
   type InsectsParams,
   type BirdsParams,
   type PlantsParams,
+  type FoodParams,
 } from 'avatarka';

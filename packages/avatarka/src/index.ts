@@ -29,6 +29,7 @@ export type {
   InsectsParams,
   BirdsParams,
   PlantsParams,
+  FoodParams,
 } from './themes';
 
 // Export themes
