@@ -110,54 +110,55 @@ function generateHair(params: PeopleParams): string {
 }
 
 function generateEyes(params: PeopleParams): string {
-  const { eyeColor, expression } = params;
+  const { eyeColor, expression, hairColor } = params;
+  const eyebrowColor = darkenColor(hairColor, 35);
 
   let eyes = '';
   switch (expression) {
     case 'happy':
       eyes = `
-        <ellipse cx="38" cy="50" rx="7" ry="8" fill="white"/>
-        <ellipse cx="62" cy="50" rx="7" ry="8" fill="white"/>
-        <circle cx="38" cy="51" r="4" fill="${eyeColor}"/>
-        <circle cx="62" cy="51" r="4" fill="${eyeColor}"/>
-        <circle cx="38" cy="51" r="2" fill="#2c3e50"/>
-        <circle cx="62" cy="51" r="2" fill="#2c3e50"/>
-        <circle cx="36" cy="49" r="1.5" fill="white"/>
-        <circle cx="60" cy="49" r="1.5" fill="white"/>
+        <ellipse cx="38" cy="50" rx="6" ry="6" fill="white"/>
+        <ellipse cx="62" cy="50" rx="6" ry="6" fill="white"/>
+        <circle cx="38" cy="51" r="3.2" fill="${eyeColor}"/>
+        <circle cx="62" cy="51" r="3.2" fill="${eyeColor}"/>
+        <circle cx="38" cy="51" r="1.6" fill="#2c3e50"/>
+        <circle cx="62" cy="51" r="1.6" fill="#2c3e50"/>
+        <path d="M32,47 Q38,45 44,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
+        <path d="M56,47 Q62,45 68,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
       `;
       break;
     case 'neutral':
       eyes = `
-        <ellipse cx="38" cy="50" rx="6" ry="7" fill="white"/>
-        <ellipse cx="62" cy="50" rx="6" ry="7" fill="white"/>
-        <circle cx="38" cy="50" r="3" fill="${eyeColor}"/>
-        <circle cx="62" cy="50" r="3" fill="${eyeColor}"/>
-        <circle cx="38" cy="50" r="1.5" fill="#2c3e50"/>
-        <circle cx="62" cy="50" r="1.5" fill="#2c3e50"/>
+        <ellipse cx="38" cy="50" rx="5.5" ry="6" fill="white"/>
+        <ellipse cx="62" cy="50" rx="5.5" ry="6" fill="white"/>
+        <circle cx="38" cy="50" r="2.8" fill="${eyeColor}"/>
+        <circle cx="62" cy="50" r="2.8" fill="${eyeColor}"/>
+        <circle cx="38" cy="50" r="1.4" fill="#2c3e50"/>
+        <circle cx="62" cy="50" r="1.4" fill="#2c3e50"/>
       `;
       break;
     case 'sad':
       eyes = `
-        <ellipse cx="38" cy="52" rx="6" ry="7" fill="white"/>
-        <ellipse cx="62" cy="52" rx="6" ry="7" fill="white"/>
-        <circle cx="38" cy="53" r="3" fill="${eyeColor}"/>
-        <circle cx="62" cy="53" r="3" fill="${eyeColor}"/>
-        <circle cx="38" cy="53" r="1.5" fill="#2c3e50"/>
-        <circle cx="62" cy="53" r="1.5" fill="#2c3e50"/>
-        <path d="M32,46 Q38,49 44,46" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
-        <path d="M56,46 Q62,49 68,46" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
+        <ellipse cx="38" cy="52" rx="5.5" ry="6" fill="white"/>
+        <ellipse cx="62" cy="52" rx="5.5" ry="6" fill="white"/>
+        <circle cx="38" cy="53" r="2.8" fill="${eyeColor}"/>
+        <circle cx="62" cy="53" r="2.8" fill="${eyeColor}"/>
+        <circle cx="38" cy="53" r="1.4" fill="#2c3e50"/>
+        <circle cx="62" cy="53" r="1.4" fill="#2c3e50"/>
+        <path d="M32,47 Q38,48 44,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
+        <path d="M56,47 Q62,48 68,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
       `;
       break;
     case 'surprised':
       eyes = `
-        <ellipse cx="38" cy="48" rx="8" ry="10" fill="white"/>
-        <ellipse cx="62" cy="48" rx="8" ry="10" fill="white"/>
-        <circle cx="38" cy="48" r="5" fill="${eyeColor}"/>
-        <circle cx="62" cy="48" r="5" fill="${eyeColor}"/>
-        <circle cx="38" cy="48" r="2.5" fill="#2c3e50"/>
-        <circle cx="62" cy="48" r="2.5" fill="#2c3e50"/>
-        <circle cx="36" cy="46" r="2" fill="white"/>
-        <circle cx="60" cy="46" r="2" fill="white"/>
+        <ellipse cx="38" cy="48" rx="6.5" ry="7.5" fill="white"/>
+        <ellipse cx="62" cy="48" rx="6.5" ry="7.5" fill="white"/>
+        <circle cx="38" cy="48" r="3.5" fill="${eyeColor}"/>
+        <circle cx="62" cy="48" r="3.5" fill="${eyeColor}"/>
+        <circle cx="38" cy="48" r="1.8" fill="#2c3e50"/>
+        <circle cx="62" cy="48" r="1.8" fill="#2c3e50"/>
+        <circle cx="36.5" cy="46.5" r="1.4" fill="white"/>
+        <circle cx="60.5" cy="46.5" r="1.4" fill="white"/>
       `;
       break;
   }
@@ -165,17 +166,17 @@ function generateEyes(params: PeopleParams): string {
   // Eyebrows
   const eyebrows = expression === 'sad'
     ? `
-      <path d="M30,42 Q38,40 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
-      <path d="M70,42 Q62,40 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M30,44 Q38,41 46,44" stroke="${eyebrowColor}" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,41 54,44" stroke="${eyebrowColor}" stroke-width="2" stroke-linecap="round" fill="none"/>
     `
     : expression === 'surprised'
       ? `
-      <path d="M30,38 Q38,34 44,38" stroke="#5d4e37" stroke-width="2" fill="none"/>
-      <path d="M70,38 Q62,34 56,38" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M30,40 Q38,36 46,40" stroke="${eyebrowColor}" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,40 Q62,36 54,40" stroke="${eyebrowColor}" stroke-width="2" stroke-linecap="round" fill="none"/>
     `
       : `
-      <path d="M30,44 Q38,42 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
-      <path d="M70,44 Q62,42 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M30,44 Q38,42 46,44" stroke="${eyebrowColor}" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,42 54,44" stroke="${eyebrowColor}" stroke-width="2" stroke-linecap="round" fill="none"/>
     `;
 
   return eyes + eyebrows;
@@ -184,22 +185,23 @@ function generateEyes(params: PeopleParams): string {
 function generateNoseAndMouth(params: PeopleParams): string {
   const { skinColor, expression } = params;
   const darkSkin = darkenColor(skinColor, 30);
+  const mouthColor = darkenColor(skinColor, 25);
 
-  const nose = `<path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="${darkSkin}" stroke-width="1.5" fill="none"/>`;
+  const nose = `<path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="${darkSkin}" stroke-width="1.4" fill="none"/>`;
 
   let mouth = '';
   switch (expression) {
     case 'happy':
-      mouth = `<path d="M40,78 Q50,86 60,78" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+      mouth = `<path d="M42,78 Q50,82 58,78" stroke="${mouthColor}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
       break;
     case 'neutral':
-      mouth = `<line x1="42" y1="80" x2="58" y2="80" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"/>`;
+      mouth = `<path d="M42,80 Q50,80 58,80" stroke="${mouthColor}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
       break;
     case 'sad':
-      mouth = `<path d="M40,84 Q50,76 60,84" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+      mouth = `<path d="M42,82 Q50,79 58,82" stroke="${mouthColor}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
       break;
     case 'surprised':
-      mouth = `<ellipse cx="50" cy="82" rx="6" ry="8" fill="#c0392b"/>`;
+      mouth = `<ellipse cx="50" cy="80" rx="4" ry="5.5" fill="none" stroke="${mouthColor}" stroke-width="2"/>`;
       break;
   }
 
