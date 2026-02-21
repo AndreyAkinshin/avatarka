@@ -2,14 +2,14 @@
 
 [![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://avatarka.akinshin.dev/)
 
-Generate unique, customizable SVG avatars with multiple themes. Zero runtime dependencies.
+Generate unique, customizable SVG avatars with multiple themes.
 
 ## Features
 
-- **5 Built-in Themes**: Monsters, animals, people, robots, and aliens
+- **14 Built-in Themes**: People, animals, monsters, robots, aliens, ocean, dinosaurs, mythical, insects, birds, plants, food, weather, and gems
 - **Seed-based Generation**: Generate deterministic avatars from any string (email, user ID, etc.)
 - **Fully Customizable**: Every parameter can be tweaked via a typed API
-- **Zero Dependencies**: No runtime dependencies
+- **Minimal Dependencies**: Single runtime dependency ([pragmastat](https://www.npmjs.com/package/pragmastat) for PRNG)
 - **TypeScript First**: Full type safety with exported types
 
 ## Installation
@@ -104,7 +104,10 @@ const defaults = getDefaultParams('monsters');
 Get array of available theme names.
 
 ```typescript
-const themes = getThemeNames(); // ['people', 'animals', 'monsters', 'robots', 'aliens']
+const themes = getThemeNames();
+// ['people', 'animals', 'monsters', 'robots', 'aliens', 'ocean',
+//  'dinosaurs', 'mythical', 'insects', 'birds', 'plants', 'food',
+//  'weather', 'gems']
 ```
 
 ### `getTheme(theme)`
@@ -117,13 +120,35 @@ const { name, schema } = getTheme('animals');
 
 ## Themes
 
-| Theme       | Description                                                                             |
-|-------------|-----------------------------------------------------------------------------------------|
-| `monsters`  | Cute monster characters with customizable features                                      |
-| `animals`   | Animal faces (cats, dogs, bears, bunnies, foxes, pandas, owls, koalas, penguins, lions) |
-| `people`    | Human avatars with various hairstyles and accessories                                   |
-| `robots`    | Retro-futuristic robot heads with various features                                      |
-| `aliens`    | Extraterrestrial beings with various head shapes                                        |
+| Theme        | Description                                                                             |
+|--------------|-----------------------------------------------------------------------------------------|
+| `people`     | Human avatars with various hairstyles and accessories                                   |
+| `animals`    | Animal faces (cats, dogs, bears, bunnies, foxes, pandas, owls, koalas, penguins, lions) |
+| `monsters`   | Cute monster characters with customizable features                                      |
+| `robots`     | Retro-futuristic robot heads with various features                                      |
+| `aliens`     | Extraterrestrial beings with various head shapes                                        |
+| `ocean`      | Ocean creatures (octopus, fish, jellyfish, crab, whale, seahorse, and more)             |
+| `dinosaurs`  | Prehistoric dinosaurs (trex, triceratops, stegosaurus, brachiosaurus, and more)         |
+| `mythical`   | Mythical creatures (dragon, unicorn, phoenix, griffin, yeti, and more)                   |
+| `insects`    | Insects (butterfly, bee, ladybug, ant, beetle, dragonfly, and more)                     |
+| `birds`      | Bird species (parrot, owl, penguin, flamingo, eagle, toucan, and more)                  |
+| `plants`     | Plants (cactus, sunflower, rose, tulip, venus-flytrap, bonsai, and more)                |
+| `food`       | Food items (sushi, pizza, cupcake, ice-cream, donut, burger, and more)                  |
+| `weather`    | Weather phenomena (sun, cloud, raindrop, snowflake, lightning, and more)                 |
+| `gems`       | Gemstones (diamond, ruby, emerald, sapphire, amethyst, opal, and more)                  |
+
+### `generateGallery(count, seed?, options?)`
+
+Generate a diverse gallery of avatars with guaranteed visual variety across all themes.
+
+```typescript
+import { generateGallery } from 'avatarka';
+
+const items = generateGallery(25, 'my-seed', {
+  backgroundShape: 'circle',
+});
+// Returns: Array of { theme, params, svg }
+```
 
 ## PNG Generation (Browser-only)
 

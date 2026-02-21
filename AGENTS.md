@@ -7,26 +7,47 @@ This document provides comprehensive technical details about the avatarka projec
 ```
 avatarka/
 ├── packages/
-│   ├── avatarka/                    # Core library (zero dependencies)
+│   ├── avatarka/                    # Core library (single dep: pragmastat for PRNG)
 │   │   ├── src/
 │   │   │   ├── index.ts             # Main entry, public API exports
 │   │   │   ├── types.ts             # TypeScript type definitions
-│   │   │   ├── prng.ts              # Seeded PRNG implementation
+│   │   │   ├── prng.ts              # Seeded PRNG wrapper (delegates to pragmastat)
 │   │   │   ├── utils.ts             # Color and SVG utilities
+│   │   │   ├── __tests__/           # Unit tests (vitest)
+│   │   │   │   ├── index.test.ts
+│   │   │   │   ├── prng.test.ts
+│   │   │   │   ├── themes.test.ts
+│   │   │   │   ├── utils.test.ts
+│   │   │   │   ├── snapshots.test.ts
+│   │   │   │   └── __snapshots__/   # Snapshot files for snapshots.test.ts
 │   │   │   └── themes/
 │   │   │       ├── index.ts         # Theme registry and exports
-│   │   │       ├── monsters.ts      # Monster characters theme
-│   │   │       ├── animals.ts       # Animal faces theme
 │   │   │       ├── people.ts        # Human avatars theme
-│   │   │       └── robots.ts        # Robot heads theme
+│   │   │       ├── animals.ts       # Animal faces theme
+│   │   │       ├── monsters.ts      # Monster characters theme
+│   │   │       ├── robots.ts        # Robot heads theme
+│   │   │       ├── aliens.ts        # Extraterrestrial beings theme
+│   │   │       ├── ocean.ts         # Ocean creatures theme
+│   │   │       ├── dinosaurs.ts     # Prehistoric dinosaurs theme
+│   │   │       ├── mythical.ts      # Mythical creatures theme
+│   │   │       ├── insects.ts       # Insects theme
+│   │   │       ├── birds.ts         # Bird species theme
+│   │   │       ├── plants.ts        # Plants theme
+│   │   │       ├── food.ts          # Food items theme
+│   │   │       ├── weather.ts       # Weather phenomena theme
+│   │   │       └── gems.ts          # Gemstones theme
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── tsup.config.ts
 │   └── avatarka-react/              # React components
 │       ├── src/
-│       │   ├── index.ts             # Component exports
+│       │   ├── index.ts             # Component exports + core re-exports
 │       │   ├── Avatar.tsx           # Simple renderer component
-│       │   └── AvatarEditor.tsx     # Interactive editor component
+│       │   ├── AvatarEditor.tsx     # Interactive editor component
+│       │   ├── AvatarPicker.tsx     # Self-contained picker with gallery
+│       │   ├── styles.css          # AvatarPicker styles (consumers import 'avatarka-react/styles.css')
+│       │   └── __tests__/
+│       │       └── Avatar.test.tsx
 │       ├── package.json
 │       ├── tsconfig.json
 │       └── tsup.config.ts
@@ -40,10 +61,16 @@ avatarka/
 │       ├── package.json
 │       ├── tsconfig.json
 │       └── vite.config.ts
+├── .github/workflows/
+│   ├── ci.yml                       # CI pipeline (restore → build → test → check)
+│   └── publish.yml                  # Publish to npm + GitHub Pages
+├── VERSION                          # Single version source (currently 1.1.0)
 ├── package.json                     # Root workspace config
 ├── pnpm-workspace.yaml              # pnpm workspace definition
 ├── turbo.json                       # Turborepo pipeline config
 ├── tsconfig.base.json               # Shared TypeScript config
+├── vitest.config.mts                # Test configuration (vitest + jsdom)
+├── mise.toml                        # Task runner configuration
 ├── README.md                        # User documentation
 └── AGENTS.md                        # This file
 ```
@@ -60,44 +87,34 @@ demo (app)
 
 ### Data Flow
 
-1. **Parameter Generation**: `seed → stringToSeed() → mulberry32() → rng → theme.randomize() → params`
+1. **Parameter Generation**: `seed → new Rng(seed) → theme.randomize(rng) → params`
 2. **Avatar Generation**: `params → theme.generate() → SVG string`
 3. **React Rendering**: `params → generateAvatar() → SVG → img src (data URL) or dangerouslySetInnerHTML`
 4. **PNG Generation (Browser)**: `SVG string → Canvas API → PNG Blob/data URL`
 
 ## Core Implementation Details
 
-### PRNG Algorithm (Mulberry32)
+### PRNG (pragmastat)
 
 Location: `packages/avatarka/src/prng.ts`
 
-```typescript
-// Mulberry32 - Fast 32-bit PRNG with good statistical properties
-export function mulberry32(seed: number): () => number {
-  return function () {
-    let t = (seed += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+The PRNG is a thin wrapper around the `pragmastat` library's `Rng` class:
 
-// String to numeric seed conversion
-export function stringToSeed(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash);
+```typescript
+import { Rng } from 'pragmastat';
+export { Rng } from 'pragmastat';
+
+export function createRng(seed?: string | number): Rng {
+  return new Rng(seed);
 }
 ```
 
+The `Rng` instance provides methods like `uniformInt()`, `uniformFloat()`, `uniformBool()`, `shuffle()`, etc. All theme `randomize` functions accept `Rng` (not a raw `() => number` function).
+
 Key properties:
 - Deterministic: Same seed always produces same sequence
-- Fast: Single function with bitwise operations
-- Stateful: Closure maintains seed state between calls
+- Rich API: Integer ranges, floats, booleans, shuffling
+- Stateful: `Rng` instance maintains state between calls
 
 ### Parameter Schema System
 
@@ -125,6 +142,23 @@ type SelectParam = {
 
 type ParamDefinition = ColorParam | NumberParam | SelectParam;
 type ParamSchema = { [key: string]: ParamDefinition };
+
+// Extract parameter values type from a schema
+type ParamsFromSchema<T extends ParamSchema> = {
+  [K in keyof T]: /* inferred value type based on param kind */
+};
+
+// Theme definition interface
+interface Theme<T extends ParamSchema = ParamSchema> {
+  name: string;
+  schema: T;
+  shapeParam: string & keyof T;
+  generate: (params: ParamsFromSchema<T>) => string;
+  randomize: (rng: Rng) => ParamsFromSchema<T>;
+}
+
+// Generic params type for external use
+type AvatarParams = Record<string, string | number>;
 ```
 
 ### SVG Generation Approach
@@ -143,6 +177,37 @@ export function wrapSvg(content: string, size: number = 100): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">${content}</svg>`;
 }
 ```
+
+### Gallery Generation
+
+Location: `packages/avatarka/src/index.ts` — `generateGallery(count, seed?, options?)`
+
+Generates a diverse gallery of N avatars with guaranteed visual variety:
+- Exactly 1 avatar from the `'people'` theme
+- Round-robin theme distribution across remaining non-people themes
+- Per-field uniqueness tracking: no two avatars share the same value for any field (except exempt values `'none'`/`'no'`)
+- Colors adjusted (lighten/darken) to avoid exact duplicates
+- Graceful degradation when all options for a field are exhausted
+- Final result is shuffled for random ordering
+
+Returns `GalleryItem[]` where each item has `{ theme, params, svg }`.
+
+Options:
+- `backgroundShape?: string` — Force a specific background shape for all items
+- `transparentBackground?: boolean` — Force transparent background for all items
+
+### React: AvatarPicker Component
+
+Location: `packages/avatarka-react/src/AvatarPicker.tsx`
+
+Self-contained avatar picker with internal state management. Requires `import 'avatarka-react/styles.css'` for styling. Features:
+- Tab-based UI: Editor mode (parameter controls) and Gallery mode (grid of random avatars)
+- Theme selector dropdown
+- Parameter locking: users can lock specific fields, then randomize only unlocked ones
+- Dice button for randomization
+- Optional SVG/PNG save buttons (via `onSaveSvg`/`onSavePng` callbacks)
+- CSS custom properties for theming (see avatarka-react README)
+- Two layout modes: `'default'` (stacked) and `'compact'` (side-by-side)
 
 ## Theme Implementation Pattern
 
@@ -168,7 +233,7 @@ export function generate(params: ThemeParams): string {
 }
 
 // Generate random parameters using RNG
-export function randomize(rng: () => number): ThemeParams {
+export function randomize(rng: Rng): ThemeParams {
   return {
     paramName: randomPick(options, rng),
     // ... generate each param using rng
@@ -179,10 +244,13 @@ export function randomize(rng: () => number): ThemeParams {
 export const themeName: Theme<typeof schema> = {
   name: 'Display Name',
   schema,
+  shapeParam: 'paramName', // Primary visual shape/silhouette field
   generate,
   randomize,
 };
 ```
+
+The `shapeParam` property identifies which schema key defines the primary visual shape (e.g., `'animalType'` for animals, `'bodyShape'` for monsters). This is used by `generateGallery` to ensure shape diversity.
 
 ### Full Theme Example
 
@@ -190,6 +258,7 @@ Here's a minimal theme implementation:
 
 ```typescript
 // packages/avatarka/src/themes/example.ts
+import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
 import { randomColor, randomPick, wrapSvg } from '../utils';
 
@@ -236,19 +305,20 @@ export function generate(params: ExampleParams): string {
   `);
 }
 
-export function randomize(rng: () => number): ExampleParams {
+export function randomize(rng: Rng): ExampleParams {
   const shapes = ['circle', 'square', 'triangle'] as const;
 
   return {
     backgroundColor: randomColor(rng),
     shape: randomPick(shapes, rng),
-    size: Math.floor(rng() * 26) + 20, // 20-45
+    size: rng.uniformInt(20, 46), // 20-45
   };
 }
 
 export const example: Theme<typeof schema> = {
   name: 'Example',
   schema,
+  shapeParam: 'shape',
   generate,
   randomize,
 };
@@ -269,7 +339,8 @@ touch packages/avatarka/src/themes/newtheme.ts
 Follow the pattern above with:
 - `schema` constant with `as const satisfies ParamSchema`
 - `generate(params)` function returning SVG string
-- `randomize(rng)` function returning params object
+- `randomize(rng: Rng)` function returning params object
+- `shapeParam` set to the schema key that defines the primary visual shape
 - `themeName` exported Theme object
 
 ### 3. Register in Theme Index
@@ -322,11 +393,17 @@ mise run version X.Y.Z # Bump version in VERSION + package.json files, commit
 mise run publish X.Y.Z # Bump version, push, trigger publish workflow
 ```
 
+### CI/CD Pipelines
+
+- **`.github/workflows/ci.yml`**: Runs on push/PR — restore, build, test, check
+- **`.github/workflows/publish.yml`**: Manual trigger — full CI, npm publish, git tag, GitHub Release, deploy demo to GitHub Pages
+
 ### Turborepo Pipeline
 
 The `turbo.json` configures:
 
 - `build`: Runs tsup for each package, respects dependency order
+- `test`: Runs tests after build, no caching
 - `dev`: Parallel watch mode
 - `clean`: Removes dist directories
 
@@ -338,42 +415,25 @@ Both packages use tsup with:
 - Source maps
 - External React (for avatarka-react)
 
-## Testing Strategy
+## Testing
 
-Currently no tests are implemented. Recommended approach:
+Tests use **vitest** with jsdom environment (configured in `vitest.config.mts`).
 
-### Unit Tests
+### Test Files
 
-```typescript
-// packages/avatarka/src/__tests__/prng.test.ts
-import { createRng, stringToSeed } from '../prng';
+| File | Coverage |
+|------|----------|
+| `packages/avatarka/src/__tests__/prng.test.ts` | PRNG seeding and determinism |
+| `packages/avatarka/src/__tests__/index.test.ts` | Core API (generateAvatar, generateParams, gallery, etc.) |
+| `packages/avatarka/src/__tests__/themes.test.ts` | Theme-specific generation |
+| `packages/avatarka/src/__tests__/utils.test.ts` | Color and SVG utility functions |
+| `packages/avatarka/src/__tests__/snapshots.test.ts` | SVG snapshot regression tests |
+| `packages/avatarka-react/src/__tests__/Avatar.test.tsx` | React component rendering |
 
-test('same seed produces same sequence', () => {
-  const rng1 = createRng('test');
-  const rng2 = createRng('test');
-  expect(rng1()).toBe(rng2());
-  expect(rng1()).toBe(rng2());
-});
+### Running Tests
 
-test('different seeds produce different sequences', () => {
-  const rng1 = createRng('test1');
-  const rng2 = createRng('test2');
-  expect(rng1()).not.toBe(rng2());
-});
-```
-
-### Visual Regression Tests
-
-For themes, snapshot testing with image comparison:
-
-```typescript
-// packages/avatarka/src/__tests__/themes.test.ts
-import { generateAvatar, getDefaultParams } from '../index';
-
-test('monsters theme renders consistently', () => {
-  const svg = generateAvatar('monsters', getDefaultParams('monsters'));
-  expect(svg).toMatchSnapshot();
-});
+```bash
+mise run test      # Run all tests
 ```
 
 ## Package Publishing
@@ -400,12 +460,12 @@ This bumps the version, commits, pushes, and triggers the `publish.yml` GitHub A
 
 ## Design Decisions
 
-### Why Mulberry32?
+### Why pragmastat for PRNG?
 
-- Simple to implement (no external dependency)
+- Provides a rich `Rng` API (integers, floats, booleans, shuffling) without reimplementing
+- Deterministic seeding from strings or numbers
 - Good statistical properties for visual randomization
-- Fast enough for real-time generation
-- 32-bit state is sufficient for avatar variety
+- Single dependency keeps the library lightweight
 
 ### Why `as const satisfies ParamSchema`?
 
@@ -429,24 +489,29 @@ This bumps the version, commits, pushes, and triggers the `publish.yml` GitHub A
 
 ### Color Utilities (`packages/avatarka/src/utils.ts`)
 
-| Function                     | Description                     |
-|------------------------------|---------------------------------|
-| `hslToHex(h, s, l)`          | Convert HSL to hex color        |
-| `randomColor(rng)`           | Generate random saturated color |
-| `randomPastelColor(rng)`     | Generate random pastel color    |
-| `darkenColor(hex, amount)`   | Darken hex color                |
-| `lightenColor(hex, amount)`  | Lighten hex color               |
+The five color functions below are re-exported from the package's public API (`index.ts`).
+All RNG-accepting functions take a `Rng` instance from `pragmastat`.
 
-### Random Utilities
+| Function                       | Description                                        |
+|--------------------------------|----------------------------------------------------|
+| `hslToHex(h, s, l)`           | Convert HSL to hex color                           |
+| `randomColor(rng: Rng)`       | Generate random saturated color (S 50-89, L 40-69) |
+| `randomPastelColor(rng: Rng)` | Generate random pastel color (S 40-69, L 70-89)    |
+| `darkenColor(hex, amount?)`   | Darken hex color (default amount: 20)              |
+| `lightenColor(hex, amount?)`  | Lighten hex color (default amount: 20)             |
 
-| Function                     | Description                 |
-|------------------------------|-----------------------------|
-| `randomPick(array, rng)`     | Pick random item from array |
-| `randomInt(min, max, rng)`   | Random integer in range     |
-| `randomFloat(min, max, rng)` | Random float in range       |
+### Random Utilities (internal, not re-exported from package entry)
 
-### SVG Utilities
+| Function                         | Description                        |
+|----------------------------------|------------------------------------|
+| `randomPick(arr, rng: Rng)`     | Pick random item from array        |
+| `randomInt(min, max, rng: Rng)` | Random integer in range [min, max] |
+| `randomFloat(min, max, rng: Rng)` | Random float in range [min, max) |
 
-| Function                 | Description                 |
-|--------------------------|-----------------------------|
-| `wrapSvg(content, size)` | Wrap content in SVG element |
+### SVG Utilities (internal, not re-exported from package entry)
+
+| Function                                                  | Description                                   |
+|-----------------------------------------------------------|-----------------------------------------------|
+| `wrapSvg(content, size?)`                                | Wrap content in SVG element (default: 100)    |
+| `generateBackgroundShape(shape, color, size?, contentHash?)` | Generate background + clip path for shape  |
+| `wrapSvgWithShape(content, shape, bgColor, size?)`       | Wrap content in SVG with background shape     |

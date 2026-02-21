@@ -91,15 +91,20 @@ function AvatarCustomizer() {
 
 #### Props
 
-| Prop          | Type               | Default  | Description            |
-|---------------|--------------------|----------|------------------------|
-| `theme`       | `ThemeName`        | required | Theme to use           |
-| `params`      | `AvatarParams`     | required | Current parameters     |
-| `onChange`    | `(params) => void` | required | Change handler         |
-| `previewSize` | `number`           | `100`    | Preview size in pixels |
-| `showPreview` | `boolean`          | `true`   | Show avatar preview    |
-| `className`   | `string`           | -        | CSS class              |
-| `style`       | `CSSProperties`    | -        | Inline styles          |
+| Prop                | Type                                    | Default  | Description                                        |
+|---------------------|-----------------------------------------|----------|----------------------------------------------------|
+| `theme`             | `ThemeName`                             | required | Theme to use                                       |
+| `params`            | `AvatarParams`                          | required | Current parameters                                 |
+| `onChange`           | `(params) => void`                      | required | Change handler                                     |
+| `onThemeChange`     | `(theme: ThemeName) => void`            | -        | Callback when theme changes                        |
+| `previewSize`       | `number`                                | `100`    | Preview size in pixels                             |
+| `showPreview`       | `boolean`                               | `true`   | Show avatar preview                                |
+| `showGalleryButton` | `boolean`                               | -        | Show the gallery toggle button                     |
+| `onGallerySelect`   | `(theme, params) => void`               | -        | Callback when avatar selected from gallery         |
+| `galleryCount`      | `number`                                | -        | Number of avatars to show in gallery mode          |
+| `galleryAvatarSize` | `number`                                | -        | Size of each avatar in the gallery grid            |
+| `className`         | `string`                                | -        | CSS class                                          |
+| `style`             | `CSSProperties`                         | -        | Inline styles                                      |
 
 ### `<AvatarPicker />`
 
@@ -125,15 +130,21 @@ import 'avatarka-react/styles.css';
 
 #### Props
 
-| Prop              | Type                                | Default     | Description                              |
-|-------------------|-------------------------------------|-------------|------------------------------------------|
-| `defaultTheme`    | `ThemeName`                         | `'people'`  | Initial theme to use                     |
-| `onParamsChange`  | `(theme, params) => void`           | -           | Callback when avatar changes             |
-| `gridSize`        | `number`                            | `5`         | Gallery grid size (creates n×n grid)     |
-| `backgroundColor` | `string`                            | -           | Background color (CSS value)             |
-| `accentColor`     | `string`                            | -           | Accent color for buttons (CSS value)     |
-| `className`       | `string`                            | -           | CSS class                                |
-| `style`           | `CSSProperties`                     | -           | Inline styles                            |
+| Prop                          | Type                        | Default     | Description                                                      |
+|-------------------------------|-----------------------------|-------------|------------------------------------------------------------------|
+| `defaultTheme`                | `ThemeName`                 | `'people'`  | Initial theme to use                                             |
+| `onParamsChange`              | `(theme, params) => void`   | -           | Callback when avatar changes                                     |
+| `gridSize`                    | `number`                    | `5`         | Gallery grid size (fallback for gridWidth/gridHeight)            |
+| `gridWidth`                   | `number`                    | `gridSize`  | Number of columns in the gallery grid                            |
+| `gridHeight`                  | `number`                    | `gridSize`  | Number of rows in the gallery grid                               |
+| `backgroundColor`             | `string`                    | -           | Background color (CSS value)                                     |
+| `accentColor`                 | `string`                    | -           | Accent color for buttons (CSS value)                             |
+| `layout`                      | `AvatarPickerLayout`        | `'default'` | Layout mode: `'default'` (stacked) or `'compact'` (side-by-side) |
+| `alwaysTransparentBackground` | `boolean`                   | -           | Force transparent avatar background, hide background control     |
+| `onSaveSvg`                   | `() => void`                | -           | Callback for SVG save (shows "SVG" button when provided)         |
+| `onSavePng`                   | `() => void`                | -           | Callback for PNG save (shows "PNG" button when provided)         |
+| `className`                   | `string`                    | -           | CSS class                                                        |
+| `style`                       | `CSSProperties`             | -           | Inline styles                                                    |
 
 See the [Styles](#styles) section above for theming options via CSS custom properties.
 
@@ -156,7 +167,7 @@ import {
 
 ## Related Packages
 
-- [avatarka](https://www.npmjs.com/package/avatarka) - Core library (zero dependencies)
+- [avatarka](https://www.npmjs.com/package/avatarka) - Core library
 
 ## License
 
