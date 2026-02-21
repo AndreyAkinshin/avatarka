@@ -129,10 +129,12 @@ export function AvatarPicker({
   );
 
   const handleRandomize = useCallback(() => {
-    const newParams = { ...generateParams(theme), backgroundShape: 'circle' };
+    const newTheme = themeNames[Math.floor(Math.random() * themeNames.length)]!;
+    const newParams = { ...generateParams(newTheme), backgroundShape: 'circle' };
+    setTheme(newTheme);
     setParams(newParams);
-    onParamsChange?.(theme, newParams as ThemeParams<ThemeName>);
-  }, [theme, onParamsChange]);
+    onParamsChange?.(newTheme, newParams as ThemeParams<ThemeName>);
+  }, [themeNames, onParamsChange]);
 
   // Filter out backgroundShape (and backgroundColor when always transparent) and sort: colors first, then others
   const sortedSchemaEntries = useMemo(() => {
