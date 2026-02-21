@@ -185,10 +185,13 @@ export interface GenerateGalleryOptions {
 /**
  * Generate a diverse gallery of N avatars with guaranteed visual variety.
  *
- * Rules:
+ * Algorithm:
  * - Exactly 1 avatar from the 'people' theme
- * - No two avatars share the same (theme, shape) combination
- * - If count exceeds available unique shapes, remaining slots are filled randomly
+ * - Round-robin theme distribution for maximum theme spread
+ * - No two avatars share the same value for any field, except exempt
+ *   values ('none', 'no') which represent absence of a feature
+ * - Colors are adjusted (lighten/darken) to avoid exact duplicates
+ * - Graceful degradation when all options for a field are exhausted
  *
  * @param count - Number of avatars to generate
  * @param seed - Optional seed for deterministic generation
@@ -203,26 +206,11 @@ export function generateGallery(
   if (count <= 0) return [];
 
   const rng = createRng(seed);
-  const themeNames = getThemeNames();
+  const usedValues = new Map<string, Set<string | number>>();
 
-  // Build pool of all (theme, shapeValue) pairs
-  type ShapeSlot = { theme: ThemeName; shapeParam: string; shapeValue: string };
-  const peopleSlots: ShapeSlot[] = [];
-  const otherSlots: ShapeSlot[] = [];
+  type Slot = { theme: ThemeName; shapeValue: string };
+  type SchemaDef = { type: string; options?: readonly string[]; min?: number; max?: number; step?: number };
 
-  for (const name of themeNames) {
-    const themeObj = themes[name];
-    const paramName = themeObj.shapeParam as string;
-    const paramDef = (themeObj.schema as Record<string, { type: string; options?: string[] }>)[paramName];
-    if (!paramDef || paramDef.type !== 'select' || !paramDef.options) continue;
-
-    const slots = name === 'people' ? peopleSlots : otherSlots;
-    for (const opt of paramDef.options) {
-      slots.push({ theme: name, shapeParam: paramName, shapeValue: opt });
-    }
-  }
-
-  // Fisher-Yates shuffle using our RNG
   function shuffle<U>(arr: U[]): U[] {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -234,53 +222,164 @@ export function generateGallery(
     return a;
   }
 
-  // Pick exactly 1 people slot
-  const shuffledPeople = shuffle(peopleSlots);
-  const pickedPeople = shuffledPeople.length > 0 ? shuffledPeople[0]! : undefined;
+  function isExempt(value: string | number): boolean {
+    return value === 'none' || value === 'no';
+  }
 
-  // Pick up to (count - 1) unique non-people slots
-  const shuffledOther = shuffle(otherSlots);
-  const needed = count - 1;
-  const pickedOther = shuffledOther.slice(0, Math.min(needed, shuffledOther.length));
+  function markUsed(field: string, value: string | number): void {
+    if (isExempt(value)) return;
+    let set = usedValues.get(field);
+    if (!set) {
+      set = new Set();
+      usedValues.set(field, set);
+    }
+    set.add(value);
+  }
 
-  // Combine and shuffle order
-  const allSlots: ShapeSlot[] = shuffle(
-    pickedPeople ? [pickedPeople, ...pickedOther] : [...pickedOther],
-  );
+  function isUsed(field: string, value: string | number): boolean {
+    if (isExempt(value)) return false;
+    return usedValues.get(field)?.has(value) ?? false;
+  }
 
-  // If we still need more items, fill with random avatars
-  const extra = count - allSlots.length;
-  const extraItems: GalleryItem[] = [];
-  if (extra > 0) {
-    for (let i = 0; i < extra; i++) {
-      const t = themeNames[Math.floor(rng() * themeNames.length)]!;
-      const params = generateParams(t);
-      applyOptions(params as Record<string, string | number>, options);
-      extraItems.push({
-        theme: t,
-        params: params as Record<string, string | number>,
-        svg: generateAvatar(t, params),
-      });
+  function pickUnusedOption(field: string, opts: readonly string[]): string {
+    const available = opts.filter(v => !isUsed(field, v));
+    if (available.length > 0) return available[Math.floor(rng() * available.length)]!;
+    return opts[Math.floor(rng() * opts.length)]!;
+  }
+
+  function pickUnusedNumber(field: string, min: number, max: number, step: number): number {
+    const values: number[] = [];
+    for (let v = min; v <= max; v += step) values.push(v);
+    const available = values.filter(v => !isUsed(field, v));
+    if (available.length > 0) return available[Math.floor(rng() * available.length)]!;
+    return values[Math.floor(rng() * values.length)]!;
+  }
+
+  function adjustColor(field: string, base: string): string {
+    if (!isUsed(field, base)) return base;
+    const num = parseInt(base.slice(1), 16);
+    for (let attempt = 0; attempt < 10; attempt++) {
+      const shift = Math.floor(rng() * 36) + 5;
+      const sign = rng() < 0.5 ? 1 : -1;
+      const r = Math.max(0, Math.min(255, (num >> 16) + sign * shift));
+      const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + sign * shift));
+      const b = Math.max(0, Math.min(255, (num & 0xff) + sign * shift));
+      const adjusted = `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+      if (!isUsed(field, adjusted)) return adjusted;
+    }
+    // Last resort: random hex color
+    const r = Math.floor(rng() * 256);
+    const g = Math.floor(rng() * 256);
+    const b = Math.floor(rng() * 256);
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+  }
+
+  function generateConstrained(themeName: ThemeName, shapeValue: string): Record<string, string | number> {
+    const themeObj = themes[themeName];
+    const schema = themeObj.schema as Record<string, SchemaDef>;
+    const shapeField = themeObj.shapeParam as string;
+
+    // Start from theme's curated randomize output to preserve aesthetic
+    const params = themeObj.randomize(rng) as Record<string, string | number>;
+    params[shapeField] = shapeValue;
+    markUsed(shapeField, shapeValue);
+
+    for (const [field, def] of Object.entries(schema)) {
+      if (field === shapeField) continue;
+
+      if (def.type === 'select' && def.options) {
+        params[field] = pickUnusedOption(field, def.options);
+      } else if (def.type === 'color') {
+        params[field] = adjustColor(field, params[field] as string);
+      } else if (def.type === 'number') {
+        params[field] = pickUnusedNumber(field, def.min ?? 0, def.max ?? 10, def.step ?? 1);
+      }
+
+      markUsed(field, params[field]!);
+    }
+
+    return params;
+  }
+
+  // --- Step 1: Plan theme + shape distribution ---
+
+  const allThemeNames = getThemeNames();
+  const nonPeopleThemes = shuffle(allThemeNames.filter(t => t !== 'people'));
+
+  // Build per-theme shuffled shape queues
+  const themeShapeQueues = new Map<ThemeName, string[]>();
+  for (const name of nonPeopleThemes) {
+    const themeObj = themes[name];
+    const shapeField = themeObj.shapeParam as string;
+    const shapeDef = (themeObj.schema as Record<string, SchemaDef>)[shapeField];
+    if (shapeDef?.type === 'select' && shapeDef.options) {
+      themeShapeQueues.set(name, shuffle([...shapeDef.options]));
     }
   }
 
-  // Generate params for each picked slot, forcing the shape value
-  const items: GalleryItem[] = allSlots.map((slot) => {
-    const themeObj = themes[slot.theme];
-    const params = themeObj.randomize(rng) as Record<string, string | number>;
-    params[slot.shapeParam] = slot.shapeValue;
-    applyOptions(params, options);
-    return {
+  // Round-robin pick slots to maximize theme spread
+  const slots: Slot[] = [];
+  const needed = count - 1;
+  let anyPicked = true;
+  while (slots.length < needed && anyPicked) {
+    anyPicked = false;
+    for (const name of nonPeopleThemes) {
+      if (slots.length >= needed) break;
+      const queue = themeShapeQueues.get(name);
+      if (!queue || queue.length === 0) continue;
+      slots.push({ theme: name, shapeValue: queue.pop()! });
+      anyPicked = true;
+    }
+  }
+
+  // If count exceeds all unique shape slots, fill with random theme+shape pairs
+  while (slots.length < needed) {
+    const t = nonPeopleThemes[Math.floor(rng() * nonPeopleThemes.length)]!;
+    const themeObj = themes[t];
+    const shapeDef = (themeObj.schema as Record<string, SchemaDef>)[themeObj.shapeParam as string];
+    if (shapeDef?.options) {
+      slots.push({ theme: t, shapeValue: shapeDef.options[Math.floor(rng() * shapeDef.options.length)]! });
+    }
+  }
+
+  // --- Step 2: Generate people avatar ---
+
+  const items: GalleryItem[] = [];
+
+  if (allThemeNames.includes('people' as ThemeName)) {
+    const peopleTheme = themes['people' as ThemeName];
+    const shapeDef = (peopleTheme.schema as Record<string, SchemaDef>)[peopleTheme.shapeParam as string];
+    const shapeValue = shapeDef?.options
+      ? shapeDef.options[Math.floor(rng() * shapeDef.options.length)]!
+      : 'bob';
+
+    const params = generateConstrained('people' as ThemeName, shapeValue);
+    applyGalleryOptions(params, options);
+    items.push({
+      theme: 'people' as ThemeName,
+      params,
+      svg: generateAvatar('people' as ThemeName, params as ThemeParams<'people'>),
+    });
+  }
+
+  // --- Step 3: Generate non-people avatars ---
+
+  for (const slot of slots) {
+    const params = generateConstrained(slot.theme, slot.shapeValue);
+    applyGalleryOptions(params, options);
+    items.push({
       theme: slot.theme,
       params,
       svg: generateAvatar(slot.theme, params as ThemeParams<typeof slot.theme>),
-    };
-  });
+    });
+  }
 
-  return [...items, ...extraItems];
+  // --- Step 4: Shuffle final order ---
+
+  return shuffle(items);
 }
 
-function applyOptions(
+function applyGalleryOptions(
   params: Record<string, string | number>,
   options?: GenerateGalleryOptions,
 ): void {
