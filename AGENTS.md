@@ -302,26 +302,25 @@ export type ThemeName = keyof ThemeMap; // Will include 'newtheme'
 ### 5. Rebuild
 
 ```bash
-pnpm build
+mise run build
 ```
 
 ## Build & Development Commands
 
+All tasks are run via [mise](https://mise.jdx.dev/):
+
 ```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Development mode (watch)
-pnpm dev
-
-# Clean build artifacts
-pnpm clean
-
-# Run demo app
-cd apps/demo && pnpm dev
+mise run restore       # Install dependencies
+mise run build         # Build all packages
+mise run build:static  # Build all packages and demo static site
+mise run test          # Run tests
+mise run check         # Run TypeScript type checking
+mise run check:fix     # Auto-fix static analysis issues
+mise run clean         # Clean build artifacts
+mise run dev           # Start development mode (watch)
+mise run ci            # Full CI pipeline: restore → clean → build → check → test
+mise run version X.Y.Z # Bump version in VERSION + package.json files, commit
+mise run publish X.Y.Z # Bump version, push, trigger publish workflow
 ```
 
 ### Turborepo Pipeline
@@ -380,34 +379,17 @@ test('geometric theme renders consistently', () => {
 
 ## Package Publishing
 
-### Prerequisites
-
-1. Ensure logged into npm: `npm login`
-2. Update version in package.json files
-3. Build all packages: `pnpm build`
-
-### Publishing Steps
-
-```bash
-# From package directory
-cd packages/avatarka
-npm publish
-
-cd ../avatarka-react
-npm publish
-```
-
 ### Version Management
 
-Consider using changesets for coordinated versioning:
+The single source of truth is the `VERSION` file at the repository root. The `mise run version` task propagates it to both `packages/avatarka/package.json` and `packages/avatarka-react/package.json`.
+
+### Publishing
 
 ```bash
-pnpm add -Dw @changesets/cli
-pnpm changeset init
-pnpm changeset
-pnpm changeset version
-pnpm changeset publish
+mise run publish 1.2.0
 ```
+
+This bumps the version, commits, pushes, and triggers the `publish.yml` GitHub Actions workflow which builds, tests, publishes to npm, creates a git tag, a GitHub Release, and deploys the demo site.
 
 ## Known Limitations
 
