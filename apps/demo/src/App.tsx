@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AvatarPicker, type AvatarPickerLayout } from 'avatarka-react';
-import { generateAvatar, svgToPng, type ThemeName, type ThemeParams } from 'avatarka';
+import { generateAvatar, svgToPng, getThemeNames, type ThemeName, type ThemeParams } from 'avatarka';
+
+const allThemes = getThemeNames();
+const randomTheme = allThemes[Math.floor(Math.random() * allThemes.length)]!;
 
 type ColorMode = 'system' | 'light' | 'dark';
 
@@ -21,7 +24,7 @@ function App() {
     return localStorage.getItem('avatarka-transparent-bg') === 'true';
   });
 
-  const [currentTheme, setCurrentTheme] = useState<ThemeName>('people');
+  const [currentTheme, setCurrentTheme] = useState<ThemeName>(randomTheme);
   const [currentParams, setCurrentParams] = useState<DynamicParams | null>(null);
 
   const handleParamsChange = useCallback((theme: ThemeName, params: ThemeParams<ThemeName>) => {
@@ -171,7 +174,7 @@ function App() {
       </header>
 
       <main className="main-card">
-        <AvatarPicker layout={layout} alwaysTransparentBackground={transparentBg} onParamsChange={handleParamsChange} />
+        <AvatarPicker defaultTheme={randomTheme} layout={layout} alwaysTransparentBackground={transparentBg} onParamsChange={handleParamsChange} />
         <div className="save-buttons">
           <button className="save-btn" onClick={handleSaveToSvg}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
