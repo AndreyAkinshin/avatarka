@@ -366,9 +366,8 @@ exports[`SVG snapshots > people theme > generates expected SVG with default para
     <ellipse cx="50" cy="58" rx="28" ry="32" fill="#e1bcb1" opacity="0.1"/>
   
     
-        <ellipse cx="50" cy="28" rx="30" ry="20" fill="#5d4e37"/>
-        <path d="M20,35 Q25,20 50,15 Q75,20 80,35" fill="#5d4e37"/>
-        <path d="M25,32 Q30,22 50,18 Q70,22 75,32" fill="#3f3019" opacity="0.3"/>
+        <path d="M14,38 C12,14 28,-2 50,-2 C72,-2 88,14 86,38 L86,72 C86,78 80,80 70,76 L70,40 C64,28 56,22 50,20 C44,22 36,28 30,40 L30,76 C20,80 14,78 14,72 Z" fill="#5d4e37"/>
+        <path d="M20,40 C20,26 32,14 50,14 C68,14 80,26 80,40 C72,36 62,40 50,37 C38,40 28,36 20,40 Z" fill="#5d4e37"/>
       
     
         <ellipse cx="38" cy="50" rx="7" ry="8" fill="white"/>
@@ -398,10 +397,7 @@ exports[`SVG snapshots > people theme > generates expected SVG with seed "john@e
     <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
       
     
-        <ellipse cx="50" cy="28" rx="32" ry="22" fill="#4a0080"/>
-        <path d="M18,30 Q18,95 30,95 L30,45 Q25,30 18,30" fill="#4a0080"/>
-        <path d="M82,30 Q82,95 70,95 L70,45 Q75,30 82,30" fill="#4a0080"/>
-        <path d="M20,35 Q25,15 50,12 Q75,15 80,35" fill="#4a0080"/>
+        <path d="M14,36 C12,12 28,-2 50,-2 C72,-2 88,12 86,36 L86,80 C86,94 78,98 72,90 C68,84 66,56 64,40 C60,28 56,22 50,20 C44,22 40,28 36,40 C34,56 32,84 28,90 C22,98 14,94 14,80 Z" fill="#4a0080"/>
       
     
     <ellipse cx="18" cy="55" rx="5" ry="8" fill="#8d5524"/>
@@ -446,10 +442,7 @@ exports[`SVG snapshots > people theme > generates expected SVG with seed "test-u
     <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
       
     
-        <ellipse cx="50" cy="28" rx="32" ry="22" fill="#5d4e37"/>
-        <path d="M18,30 Q18,95 30,95 L30,45 Q25,30 18,30" fill="#5d4e37"/>
-        <path d="M82,30 Q82,95 70,95 L70,45 Q75,30 82,30" fill="#5d4e37"/>
-        <path d="M20,35 Q25,15 50,12 Q75,15 80,35" fill="#5d4e37"/>
+        <path d="M14,36 C12,12 28,-2 50,-2 C72,-2 88,12 86,36 L86,80 C86,94 78,98 72,90 C68,84 66,56 64,40 C60,28 56,22 50,20 C44,22 40,28 36,40 C34,56 32,84 28,90 C22,98 14,94 14,80 Z" fill="#5d4e37"/>
       
     
     <ellipse cx="18" cy="55" rx="5" ry="8" fill="#c68642"/>

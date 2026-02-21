@@ -1,5 +1,5 @@
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, randomColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -25,8 +25,8 @@ export const schema = {
   },
   hairStyle: {
     type: 'select',
-    default: 'short',
-    options: ['short', 'long', 'curly', 'bald', 'mohawk', 'ponytail'],
+    default: 'bob',
+    options: ['bob', 'long', 'curly', 'bald', 'mohawk', 'ponytail'],
   },
   accessory: {
     type: 'select',
@@ -57,45 +57,52 @@ function generateHair(params: PeopleParams): string {
   const darkHair = darkenColor(hairColor, 30);
 
   switch (hairStyle) {
-    case 'short':
+    case 'bob':
+      // Wide panels (16 units each side) to avoid sidelock appearance.
+      // Rendered on top of face so bangs are visible over the forehead.
       return `
-        <ellipse cx="50" cy="28" rx="30" ry="20" fill="${hairColor}"/>
-        <path d="M20,35 Q25,20 50,15 Q75,20 80,35" fill="${hairColor}"/>
-        <path d="M25,32 Q30,22 50,18 Q70,22 75,32" fill="${darkHair}" opacity="0.3"/>
+        <path d="M14,38 C12,14 28,-2 50,-2 C72,-2 88,14 86,38 L86,72 C86,78 80,80 70,76 L70,40 C64,28 56,22 50,20 C44,22 36,28 30,40 L30,76 C20,80 14,78 14,72 Z" fill="${hairColor}"/>
+        <path d="M20,40 C20,26 32,14 50,14 C68,14 80,26 80,40 C72,36 62,40 50,37 C38,40 28,36 20,40 Z" fill="${hairColor}"/>
       `;
     case 'long':
       return `
-        <ellipse cx="50" cy="28" rx="32" ry="22" fill="${hairColor}"/>
-        <path d="M18,30 Q18,95 30,95 L30,45 Q25,30 18,30" fill="${hairColor}"/>
-        <path d="M82,30 Q82,95 70,95 L70,45 Q75,30 82,30" fill="${hairColor}"/>
-        <path d="M20,35 Q25,15 50,12 Q75,15 80,35" fill="${hairColor}"/>
+        <path d="M14,36 C12,12 28,-2 50,-2 C72,-2 88,12 86,36 L86,80 C86,94 78,98 72,90 C68,84 66,56 64,40 C60,28 56,22 50,20 C44,22 40,28 36,40 C34,56 32,84 28,90 C22,98 14,94 14,80 Z" fill="${hairColor}"/>
       `;
     case 'curly':
       return `
-        <circle cx="30" cy="25" r="12" fill="${hairColor}"/>
-        <circle cx="45" cy="18" r="12" fill="${hairColor}"/>
-        <circle cx="55" cy="18" r="12" fill="${hairColor}"/>
-        <circle cx="70" cy="25" r="12" fill="${hairColor}"/>
-        <circle cx="25" cy="35" r="10" fill="${hairColor}"/>
-        <circle cx="75" cy="35" r="10" fill="${hairColor}"/>
-        <circle cx="38" cy="22" r="10" fill="${darkHair}" opacity="0.3"/>
-        <circle cx="62" cy="22" r="10" fill="${darkHair}" opacity="0.3"/>
+        <path d="M14,44 C10,32 14,20 26,14 C34,6 42,2 50,2 C58,2 66,6 74,14 C86,20 90,32 86,44 C82,36 68,34 50,34 C32,34 18,36 14,44 Z" fill="${hairColor}"/>
+        <circle cx="14" cy="36" r="10" fill="${hairColor}"/>
+        <circle cx="86" cy="36" r="10" fill="${hairColor}"/>
+        <circle cx="22" cy="18" r="10" fill="${hairColor}"/>
+        <circle cx="78" cy="18" r="10" fill="${hairColor}"/>
+        <circle cx="36" cy="8" r="10" fill="${hairColor}"/>
+        <circle cx="64" cy="8" r="10" fill="${hairColor}"/>
+        <circle cx="50" cy="4" r="10" fill="${hairColor}"/>
       `;
     case 'bald':
       return `
-        <ellipse cx="50" cy="28" rx="28" ry="15" fill="${lightenColor(params.skinColor, 10)}"/>
+        <circle cx="44" cy="21" r="1.5" fill="${hairColor}" opacity="0.3"/>
+        <circle cx="50" cy="19" r="1.5" fill="${hairColor}" opacity="0.35"/>
+        <circle cx="56" cy="21" r="1.5" fill="${hairColor}" opacity="0.3"/>
+        <circle cx="35" cy="27" r="1.5" fill="${hairColor}" opacity="0.25"/>
+        <circle cx="43" cy="25" r="1.5" fill="${hairColor}" opacity="0.3"/>
+        <circle cx="57" cy="25" r="1.5" fill="${hairColor}" opacity="0.3"/>
+        <circle cx="65" cy="27" r="1.5" fill="${hairColor}" opacity="0.25"/>
+        <circle cx="32" cy="33" r="1.5" fill="${hairColor}" opacity="0.2"/>
+        <circle cx="41" cy="31" r="1.5" fill="${hairColor}" opacity="0.25"/>
+        <circle cx="59" cy="31" r="1.5" fill="${hairColor}" opacity="0.25"/>
+        <circle cx="68" cy="33" r="1.5" fill="${hairColor}" opacity="0.2"/>
       `;
     case 'mohawk':
       return `
-        <path d="M45,5 L50,0 L55,5 L55,35 L45,35 Z" fill="${hairColor}"/>
-        <rect x="46" y="10" width="8" height="25" fill="${darkHair}" opacity="0.3"/>
+        <path d="M40,36 L40,18 L38,4 L44,14 L50,-2 L56,14 L62,4 L60,18 L60,36 Z" fill="${hairColor}"/>
+        <path d="M44,36 L44,20 L50,4 L56,20 L56,36 Z" fill="${darkHair}"/>
       `;
     case 'ponytail':
       return `
-        <ellipse cx="50" cy="28" rx="30" ry="20" fill="${hairColor}"/>
-        <path d="M20,35 Q25,20 50,15 Q75,20 80,35" fill="${hairColor}"/>
-        <ellipse cx="50" cy="8" rx="8" ry="10" fill="${hairColor}"/>
-        <ellipse cx="50" cy="8" rx="5" ry="7" fill="${darkHair}" opacity="0.3"/>
+        <path d="M24,36 C24,20 36,10 50,10 C64,10 76,20 76,36 C68,28 60,26 50,26 C40,26 32,28 24,36 Z" fill="${hairColor}"/>
+        <ellipse cx="50" cy="6" rx="9" ry="10" fill="${hairColor}"/>
+        <circle cx="50" cy="14" r="3.5" fill="${darkHair}"/>
       `;
     default:
       return '';
@@ -247,12 +254,13 @@ const PEOPLE_SCALE = 0.85;
 export function generate(params: PeopleParams): string {
   const { backgroundShape, backgroundColor, hairStyle } = params;
 
-  // Order matters for layering
+  // Long hair renders behind the face; other styles (including bob with bangs) render on top
+  const hairBehindFace = hairStyle === 'long';
   const innerContent = `
-    ${hairStyle === 'long' ? generateHair(params) : ''}
+    ${hairBehindFace ? generateHair(params) : ''}
     ${generateEars(params)}
     ${generateFace(params)}
-    ${hairStyle !== 'long' ? generateHair(params) : ''}
+    ${!hairBehindFace ? generateHair(params) : ''}
     ${generateEyes(params)}
     ${generateNoseAndMouth(params)}
     ${generateAccessory(params)}
@@ -270,7 +278,7 @@ export function generate(params: PeopleParams): string {
 
 export function randomize(rng: () => number): PeopleParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
-  const hairStyles = ['short', 'long', 'curly', 'bald', 'mohawk', 'ponytail'] as const;
+  const hairStyles = ['bob', 'long', 'curly', 'bald', 'mohawk', 'ponytail'] as const;
   const accessories = ['none', 'glasses', 'sunglasses', 'earrings'] as const;
   const expressions = ['happy', 'neutral', 'sad', 'surprised'] as const;
 
