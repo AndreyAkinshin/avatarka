@@ -31,6 +31,7 @@ export type {
   PlantsParams,
   FoodParams,
   WeatherParams,
+  GemsParams,
 } from './themes';
 
 // Export themes

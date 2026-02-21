@@ -37,6 +37,9 @@ export type { FoodParams } from './food';
 export { weather, schema as weatherSchema } from './weather';
 export type { WeatherParams } from './weather';
 
+export { gems, schema as gemsSchema } from './gems';
+export type { GemsParams } from './gems';
+
 import { people, type PeopleParams } from './people';
 import { animals, type AnimalParams } from './animals';
 import { monsters, type MonsterParams } from './monsters';
@@ -50,6 +53,7 @@ import { birds, type BirdsParams } from './birds';
 import { plants, type PlantsParams } from './plants';
 import { food, type FoodParams } from './food';
 import { weather, type WeatherParams } from './weather';
+import { gems, type GemsParams } from './gems';
 
 export const themes = {
   people,
@@ -65,6 +69,7 @@ export const themes = {
   plants,
   food,
   weather,
+  gems,
 } as const;
 
 export type ThemeMap = typeof themes;
@@ -88,6 +93,7 @@ export interface ThemeParamsMap {
   plants: PlantsParams;
   food: FoodParams;
   weather: WeatherParams;
+  gems: GemsParams;
 }
 
 /**

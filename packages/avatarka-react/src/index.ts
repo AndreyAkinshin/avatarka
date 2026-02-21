@@ -33,4 +33,5 @@ export {
   type PlantsParams,
   type FoodParams,
   type WeatherParams,
+  type GemsParams,
 } from 'avatarka';
