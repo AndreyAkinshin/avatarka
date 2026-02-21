@@ -11,6 +11,24 @@ import {
   type ParamDefinition,
 } from 'avatarka';
 
+function LockIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+
+function UnlockIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+    </svg>
+  );
+}
+
 type DynamicParams = Record<string, string | number>;
 
 export type AvatarPickerLayout = 'default' | 'compact';
@@ -87,6 +105,16 @@ export function AvatarPicker({
   }));
   const [mode, setMode] = useState<'editor' | 'gallery'>('editor');
   const [galleryVersion, setGalleryVersion] = useState(0);
+  const [lockedParams, setLockedParams] = useState<Set<string>>(new Set());
+
+  const handleToggleLock = useCallback((name: string) => {
+    setLockedParams((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  }, []);
 
   const themeData = useMemo(() => getTheme(theme), [theme]);
 
@@ -110,6 +138,7 @@ export function AvatarPicker({
   const handleThemeChange = useCallback(
     (newTheme: ThemeName) => {
       setTheme(newTheme);
+      setLockedParams(new Set());
       const newParams = { ...generateParams(newTheme), backgroundShape: 'circle' };
       setParams(newParams);
       onParamsChange?.(newTheme, newParams as ThemeParams<ThemeName>);
@@ -129,12 +158,19 @@ export function AvatarPicker({
   );
 
   const handleRandomize = useCallback(() => {
-    const newTheme = themeNames[Math.floor(Math.random() * themeNames.length)]!;
-    const newParams = { ...generateParams(newTheme), backgroundShape: 'circle' };
+    const isThemeLocked = lockedParams.has('theme');
+    const newTheme = isThemeLocked ? theme : themeNames[Math.floor(Math.random() * themeNames.length)]!;
+    const newParams: DynamicParams = { ...generateParams(newTheme), backgroundShape: 'circle' };
+    const newThemeData = getTheme(newTheme);
+    for (const name of lockedParams) {
+      if (name in newThemeData.schema && name in params) {
+        newParams[name] = params[name]!;
+      }
+    }
     setTheme(newTheme);
     setParams(newParams);
     onParamsChange?.(newTheme, newParams as ThemeParams<ThemeName>);
-  }, [themeNames, onParamsChange]);
+  }, [themeNames, onParamsChange, lockedParams, params, theme]);
 
   // Filter out backgroundShape (and backgroundColor when always transparent) and sort: colors first, then others
   const sortedSchemaEntries = useMemo(() => {
@@ -172,17 +208,32 @@ export function AvatarPicker({
 
   const renderControl = (name: string, definition: ParamDefinition) => {
     const value = params[name] ?? definition.default;
+    const isLocked = lockedParams.has(name);
+
+    const lockButton = (
+      <button
+        className={`avatarka-lock-btn ${isLocked ? 'locked' : ''}`}
+        onClick={() => handleToggleLock(name)}
+        title={isLocked ? 'Unlock' : 'Lock'}
+        aria-label={isLocked ? `Unlock ${formatLabel(name)}` : `Lock ${formatLabel(name)}`}
+      >
+        {isLocked ? <LockIcon /> : <UnlockIcon />}
+      </button>
+    );
 
     switch (definition.type) {
       case 'color':
         return (
           <div key={name} className="avatarka-control-group">
             <label>{formatLabel(name)}</label>
-            <input
-              type="color"
-              value={String(value)}
-              onChange={(e) => handleParamChange(name, e.target.value)}
-            />
+            <div className="avatarka-control-row">
+              <input
+                type="color"
+                value={String(value)}
+                onChange={(e) => handleParamChange(name, e.target.value)}
+              />
+              {lockButton}
+            </div>
           </div>
         );
       case 'number':
@@ -191,30 +242,36 @@ export function AvatarPicker({
             <label>
               {formatLabel(name)}: {value}
             </label>
-            <input
-              type="range"
-              min={definition.min}
-              max={definition.max}
-              step={definition.step ?? 1}
-              value={Number(value)}
-              onChange={(e) => handleParamChange(name, Number(e.target.value))}
-            />
+            <div className="avatarka-control-row">
+              <input
+                type="range"
+                min={definition.min}
+                max={definition.max}
+                step={definition.step ?? 1}
+                value={Number(value)}
+                onChange={(e) => handleParamChange(name, Number(e.target.value))}
+              />
+              {lockButton}
+            </div>
           </div>
         );
       case 'select':
         return (
           <div key={name} className="avatarka-control-group">
             <label>{formatLabel(name)}</label>
-            <select
-              value={String(value)}
-              onChange={(e) => handleParamChange(name, e.target.value)}
-            >
-              {definition.options.map((option) => (
-                <option key={option} value={option}>
-                  {formatLabel(option)}
-                </option>
-              ))}
-            </select>
+            <div className="avatarka-control-row">
+              <select
+                value={String(value)}
+                onChange={(e) => handleParamChange(name, e.target.value)}
+              >
+                {definition.options.map((option) => (
+                  <option key={option} value={option}>
+                    {formatLabel(option)}
+                  </option>
+                ))}
+              </select>
+              {lockButton}
+            </div>
           </div>
         );
       default:
@@ -261,6 +318,35 @@ export function AvatarPicker({
                 </button>
               </div>
               <div className="avatarka-editor-right">
+                <div className="avatarka-control-row">
+                  <select
+                    className="avatarka-theme-dropdown"
+                    value={theme}
+                    onChange={(e) => handleThemeChange(e.target.value as ThemeName)}
+                  >
+                    {themeNames.map((t) => (
+                      <option key={t} value={t}>
+                        {getTheme(t).name}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    className={`avatarka-lock-btn ${lockedParams.has('theme') ? 'locked' : ''}`}
+                    onClick={() => handleToggleLock('theme')}
+                    title={lockedParams.has('theme') ? 'Unlock' : 'Lock'}
+                    aria-label={lockedParams.has('theme') ? 'Unlock Theme' : 'Lock Theme'}
+                  >
+                    {lockedParams.has('theme') ? <LockIcon /> : <UnlockIcon />}
+                  </button>
+                </div>
+                <div className="avatarka-controls-grid">
+                  {sortedSchemaEntries.map(([name, def]) => renderControl(name, def))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="avatarka-control-row">
                 <select
                   className="avatarka-theme-dropdown"
                   value={theme}
@@ -272,24 +358,15 @@ export function AvatarPicker({
                     </option>
                   ))}
                 </select>
-                <div className="avatarka-controls-grid">
-                  {sortedSchemaEntries.map(([name, def]) => renderControl(name, def))}
-                </div>
+                <button
+                  className={`avatarka-lock-btn ${lockedParams.has('theme') ? 'locked' : ''}`}
+                  onClick={() => handleToggleLock('theme')}
+                  title={lockedParams.has('theme') ? 'Unlock' : 'Lock'}
+                  aria-label={lockedParams.has('theme') ? 'Unlock Theme' : 'Lock Theme'}
+                >
+                  {lockedParams.has('theme') ? <LockIcon /> : <UnlockIcon />}
+                </button>
               </div>
-            </>
-          ) : (
-            <>
-              <select
-                className="avatarka-theme-dropdown"
-                value={theme}
-                onChange={(e) => handleThemeChange(e.target.value as ThemeName)}
-              >
-                {themeNames.map((t) => (
-                  <option key={t} value={t}>
-                    {getTheme(t).name}
-                  </option>
-                ))}
-              </select>
 
               <div className="avatarka-preview" dangerouslySetInnerHTML={{ __html: svg }} />
 

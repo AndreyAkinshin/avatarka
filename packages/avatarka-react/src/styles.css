@@ -76,7 +76,7 @@
 .avatarka-theme-dropdown {
   width: 100%;
   height: 40px;
-  padding: 0 12px;
+  padding: 0 24px 0 12px;
   border: 1px solid var(--_avatarka-border);
   border-radius: 8px;
   font-size: 14px;
@@ -166,6 +166,49 @@
   outline: none;
   border-color: var(--_avatarka-accent);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Control Row (input + lock button) */
+.avatarka-control-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.avatarka-control-row > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Lock Button */
+.avatarka-lock-btn {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--_avatarka-text-secondary);
+  opacity: 0.4;
+  transition: opacity 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.avatarka-lock-btn:hover {
+  opacity: 0.7;
+}
+
+.avatarka-lock-btn.locked {
+  color: var(--_avatarka-accent);
+  opacity: 0.8;
+}
+
+.avatarka-lock-btn.locked:hover {
+  opacity: 1;
 }
 
 /* Buttons */
@@ -303,6 +346,11 @@
 .avatarka-picker--compact .avatarka-control-group select {
   height: 26px;
   font-size: 12px;
+}
+
+.avatarka-picker--compact .avatarka-lock-btn {
+  width: 20px;
+  height: 20px;
 }
 
 .avatarka-picker--compact .avatarka-btn {
