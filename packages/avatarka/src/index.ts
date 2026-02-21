@@ -30,6 +30,7 @@ export type {
   BirdsParams,
   PlantsParams,
   FoodParams,
+  WeatherParams,
 } from './themes';
 
 // Export themes
