@@ -214,11 +214,10 @@ describe('exports', () => {
   });
 
   it('exports PRNG utilities', async () => {
-    const { createRng, mulberry32, stringToSeed } = await import('../index');
+    const { createRng, Rng } = await import('../index');
 
     expect(typeof createRng).toBe('function');
-    expect(typeof mulberry32).toBe('function');
-    expect(typeof stringToSeed).toBe('function');
+    expect(typeof Rng).toBe('function');
   });
 
   it('exports color utilities', async () => {

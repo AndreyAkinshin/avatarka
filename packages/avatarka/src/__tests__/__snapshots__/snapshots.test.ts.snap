@@ -1,79 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PRNG determinism snapshots > createRng with string seed produces consistent params 1`] = `
+exports[`PRNG determinism snapshots > createRng with string seed produces consistent values 1`] = `
 [
-  0.6416134552564472,
-  0.5333009087480605,
-  0.7096757439430803,
-  0.40082285506650805,
-  0.28849114617332816,
-  0.29321534163318574,
-  0.32960218051448464,
-  0.005651818122714758,
-  0.07716484926640987,
-  0.7204158948734403,
-]
-`;
-
-exports[`PRNG determinism snapshots > mulberry32 produces consistent sequence 1`] = `
-[
-  0.6011037519201636,
-  0.44829055899754167,
-  0.8524657934904099,
-  0.6697340414393693,
-  0.17481389874592423,
-  0.5265925421845168,
-  0.2732279943302274,
-  0.6247446539346129,
-  0.8654746483080089,
-  0.4723170551005751,
-  0.24992373422719538,
-  0.8820588334929198,
-  0.7457375649828464,
-  0.3070015134289861,
-  0.19725383794866502,
-  0.5007294877432287,
-  0.6866120179183781,
-  0.6106208984274417,
-  0.003842951962724328,
-  0.47078192373737693,
-]
-`;
-
-exports[`PRNG determinism snapshots > stringToSeed produces consistent hashes 1`] = `
-[
-  {
-    "hash": 99162322,
-    "input": "hello",
-  },
-  {
-    "hash": 113318802,
-    "input": "world",
-  },
-  {
-    "hash": 62400029,
-    "input": "test-user@example.com",
-  },
-  {
-    "hash": 46792755,
-    "input": "12345",
-  },
-  {
-    "hash": 1787288687,
-    "input": "avatarka",
-  },
-  {
-    "hash": 0,
-    "input": "",
-  },
-  {
-    "hash": 97,
-    "input": "a",
-  },
-  {
-    "hash": 129196997,
-    "input": "emoji😀test",
-  },
+  0.9621718444650199,
+  0.9882833954902074,
+  0.508145359009914,
+  0.1309058800870826,
+  0.5397453017146312,
+  0.6228422794835776,
+  0.6742496751714249,
+  0.24430207897061607,
+  0.32641673006893457,
+  0.8930601282107292,
 ]
 `;
 
@@ -101,75 +39,67 @@ exports[`SVG snapshots > aliens theme > generates expected SVG with default para
 
 exports[`SVG snapshots > aliens theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#1e272e"/>
+    <rect width="100" height="100" fill="#0f3460"/>
     <g>
     
-        <path d="M38,22 Q28,12 22,14" stroke="#a0a0a0" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <path d="M62,22 Q72,12 78,14" stroke="#a0a0a0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+        <ellipse cx="50" cy="40" rx="28" ry="24" fill="#4a9c2d"/>
+        <ellipse cx="50" cy="36" rx="22" ry="18" fill="#5eb041" opacity="0.2"/>
+        <path d="M28,52 Q24,70 28,80" stroke="#4a9c2d" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M40,56 Q37,74 40,84" stroke="#4a9c2d" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M50,58 Q50,76 50,86" stroke="#4a9c2d" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M60,56 Q63,74 60,84" stroke="#4a9c2d" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M72,52 Q76,70 72,80" stroke="#4a9c2d" stroke-width="6" fill="none" stroke-linecap="round"/>
       
     
-        <ellipse cx="50" cy="50" rx="32" ry="34" fill="#a0a0a0"/>
-        <ellipse cx="38" cy="38" rx="12" ry="14" fill="#b4b4b4" opacity="0.3"/>
-        <ellipse cx="62" cy="38" rx="12" ry="14" fill="#b4b4b4" opacity="0.3"/>
-        <ellipse cx="50" cy="35" rx="16" ry="12" fill="#b4b4b4" opacity="0.2"/>
+        <pattern id="scales" width="8" height="8" patternUnits="userSpaceOnUse">
+          <path d="M0,4 Q4,0 8,4 Q4,8 0,4" fill="#318314" opacity="0.2"/>
+        </pattern>
+        <ellipse cx="50" cy="50" rx="24" ry="28" fill="url(#scales)"/>
       
     
-        <path d="M30,36 Q50,32 70,36" stroke="#878787" stroke-width="2.5" fill="none" opacity="0.4"/>
-        <path d="M26,48 Q50,44 74,48" stroke="#878787" stroke-width="2.5" fill="none" opacity="0.4"/>
-        <path d="M30,60 Q50,56 70,60" stroke="#878787" stroke-width="2.5" fill="none" opacity="0.4"/>
+        <ellipse cx="34" cy="50" rx="7" ry="10" fill="#1a1a2e"/>
+        <ellipse cx="50" cy="44" rx="8" ry="11" fill="#1a1a2e"/>
+        <ellipse cx="66" cy="50" rx="7" ry="10" fill="#1a1a2e"/>
+        <ellipse cx="32" cy="47" rx="2" ry="3" fill="#424256" opacity="0.6"/>
+        <ellipse cx="48" cy="41" rx="2" ry="3" fill="#424256" opacity="0.6"/>
+        <ellipse cx="64" cy="47" rx="2" ry="3" fill="#424256" opacity="0.6"/>
       
     
-        <ellipse cx="34" cy="50" rx="7" ry="10" fill="#9b59b6"/>
-        <ellipse cx="50" cy="44" rx="8" ry="11" fill="#9b59b6"/>
-        <ellipse cx="66" cy="50" rx="7" ry="10" fill="#9b59b6"/>
-        <ellipse cx="32" cy="47" rx="2" ry="3" fill="#c381de" opacity="0.6"/>
-        <ellipse cx="48" cy="41" rx="2" ry="3" fill="#c381de" opacity="0.6"/>
-        <ellipse cx="64" cy="47" rx="2" ry="3" fill="#c381de" opacity="0.6"/>
+        <path d="M42,66 Q40,74 38,78" stroke="#4a9c2d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M47,68 Q46,76 44,82" stroke="#4a9c2d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M53,68 Q54,76 56,82" stroke="#4a9c2d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M58,66 Q60,74 62,78" stroke="#4a9c2d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
       
-    
   </g>
   </svg>"
 `;
 
 exports[`SVG snapshots > aliens theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#1a1a2e"/>
+    <rect width="100" height="100" rx="15" fill="#0a0a23"/>
     <g>
     
-        <path d="M40,20 Q32,10 24,12" stroke="#9b59b6" stroke-width="2" fill="none"/>
-        <path d="M38,22 Q26,14 18,18" stroke="#9b59b6" stroke-width="2" fill="none"/>
-        <path d="M60,20 Q68,10 76,12" stroke="#9b59b6" stroke-width="2" fill="none"/>
-        <path d="M62,22 Q74,14 82,18" stroke="#9b59b6" stroke-width="2" fill="none"/>
+    
+        <ellipse cx="50" cy="45" rx="28" ry="32" fill="#7f8c8d"/>
+        <ellipse cx="50" cy="70" rx="12" ry="16" fill="#7f8c8d"/>
+        <ellipse cx="50" cy="42" rx="24" ry="26" fill="#93a0a1" opacity="0.3"/>
       
     
-        <ellipse cx="50" cy="50" rx="32" ry="34" fill="#9b59b6"/>
-        <ellipse cx="38" cy="38" rx="12" ry="14" fill="#af6dca" opacity="0.3"/>
-        <ellipse cx="62" cy="38" rx="12" ry="14" fill="#af6dca" opacity="0.3"/>
-        <ellipse cx="50" cy="35" rx="16" ry="12" fill="#af6dca" opacity="0.2"/>
+        <pattern id="scales" width="8" height="8" patternUnits="userSpaceOnUse">
+          <path d="M0,4 Q4,0 8,4 Q4,8 0,4" fill="#667374" opacity="0.2"/>
+        </pattern>
+        <ellipse cx="50" cy="50" rx="24" ry="28" fill="url(#scales)"/>
       
     
-        <circle cx="28" cy="40" r="3" fill="#82409d" opacity="0.5"/>
-        <circle cx="72" cy="40" r="3" fill="#82409d" opacity="0.5"/>
-        <circle cx="32" cy="56" r="2.5" fill="#82409d" opacity="0.5"/>
-        <circle cx="68" cy="56" r="2.5" fill="#82409d" opacity="0.5"/>
-        <circle cx="25" cy="52" r="2" fill="#82409d" opacity="0.5"/>
-        <circle cx="75" cy="52" r="2" fill="#82409d" opacity="0.5"/>
+        <ellipse cx="34" cy="50" rx="7" ry="10" fill="#f1c40f"/>
+        <ellipse cx="50" cy="44" rx="8" ry="11" fill="#f1c40f"/>
+        <ellipse cx="66" cy="50" rx="7" ry="10" fill="#f1c40f"/>
+        <ellipse cx="32" cy="47" rx="2" ry="3" fill="#ffec37" opacity="0.6"/>
+        <ellipse cx="48" cy="41" rx="2" ry="3" fill="#ffec37" opacity="0.6"/>
+        <ellipse cx="64" cy="47" rx="2" ry="3" fill="#ffec37" opacity="0.6"/>
       
     
-        <ellipse cx="38" cy="48" rx="12" ry="14" fill="#0f0f1a"/>
-        <ellipse cx="62" cy="48" rx="12" ry="14" fill="#0f0f1a"/>
-        <circle cx="34" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="38" cy="42" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="42" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="35" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="41" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="58" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="62" cy="42" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="66" cy="44" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="59" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
-        <circle cx="65" cy="48" r="2.5" fill="#373742" opacity="0.4"/>
-      
-    <ellipse cx="50" cy="68" rx="3" ry="2.5" fill="#73318e"/>
   </g>
   </svg>"
 `;
@@ -209,49 +139,51 @@ exports[`SVG snapshots > animals theme > generates expected SVG with default par
 
 exports[`SVG snapshots > animals theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#51d6a8"/>
-    <g><g transform="translate(50, 50) scale(0.82) translate(-50, -50)">
-    <circle cx="20" cy="25" r="15" fill="#1a1a2e"/>
-    <circle cx="80" cy="25" r="15" fill="#1a1a2e"/>
+    <rect width="100" height="100" fill="#6dd7df"/>
+    <g><g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+    <ellipse cx="20" cy="45" rx="15" ry="25" fill="#c7009d"/>
+    <ellipse cx="80" cy="45" rx="15" ry="25" fill="#c7009d"/>
   
-    <circle cx="50" cy="55" r="40" fill="#ffffff"/>
+    <circle cx="50" cy="50" r="35" fill="#e515bb"/>
+    <ellipse cx="50" cy="65" rx="20" ry="18" fill="#ffffff"/>
   
-        <ellipse cx="32" cy="48" rx="14" ry="16" fill="#1a1a2e"/>
-        <ellipse cx="68" cy="48" rx="14" ry="16" fill="#1a1a2e"/>
-        <ellipse cx="32" cy="50" rx="5" ry="3" fill="#a92ed6"/>
-        <ellipse cx="68" cy="50" rx="5" ry="3" fill="#a92ed6"/>
-        <path d="M24,50 Q32,45 40,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <path d="M60,50 Q68,45 76,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="35" cy="43" r="10" fill="white"/>
+        <circle cx="65" cy="43" r="10" fill="white"/>
+        <circle cx="35" cy="43" r="6" fill="#68f3b4"/>
+        <circle cx="65" cy="43" r="6" fill="#68f3b4"/>
+        <circle cx="35" cy="43" r="3" fill="#2c3e50"/>
+        <circle cx="65" cy="43" r="3" fill="#2c3e50"/>
       
-    <ellipse cx="50" cy="70" rx="8" ry="5" fill="#1a1a2e"/>
-    <path d="M50,75 L50,80" stroke="#1a1a2e" stroke-width="2"/>
-    <path d="M42,83 Q50,88 58,83" stroke="#1a1a2e" stroke-width="2" fill="none"/>
+    <ellipse cx="50" cy="62" rx="8" ry="6" fill="#2c3e50"/>
+    <ellipse cx="48" cy="60" rx="2" ry="1.5" fill="#555"/>
+    <path d="M50,68 L50,72" stroke="#2c3e50" stroke-width="2"/>
+    <path d="M40,75 Q50,82 60,75" stroke="#2c3e50" stroke-width="2" fill="none"/>
   </g></g>
   </svg>"
 `;
 
 exports[`SVG snapshots > animals theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#2fac2f"/>
-    <g><g transform="translate(50, 50) scale(0.8) translate(-50, -50)">
-    <ellipse cx="30" cy="20" rx="10" ry="25" fill="#b89932"/>
-    <ellipse cx="30" cy="20" rx="5" ry="18" fill="#e0c15a"/>
-    <ellipse cx="70" cy="20" rx="10" ry="25" fill="#b89932"/>
-    <ellipse cx="70" cy="20" rx="5" ry="18" fill="#e0c15a"/>
+    <rect width="100" height="100" rx="15" fill="#b99f2d"/>
+    <g><g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+    <polygon points="18,52 32,10 46,50" fill="#c6a953"/>
+    <polygon points="24,50 32,22 42,48" fill="#ffffff"/>
+    <polygon points="82,52 68,10 54,50" fill="#c6a953"/>
+    <polygon points="76,50 68,22 58,48" fill="#ffffff"/>
   
-    <circle cx="50" cy="60" r="35" fill="#b89932"/>
-    <ellipse cx="50" cy="70" rx="15" ry="12" fill="#ffffff"/>
+    <path d="M20 62 C22 36 38 22 50 22 C62 22 78 36 80 62 L50 92 Z" fill="#c6a953"/>
+    <path d="M50 88 Q30 74 28 60 Q50 48 72 60 Q70 74 50 88 Z" fill="#ffffff"/>
   
-        <circle cx="35" cy="50" r="10" fill="#18f2d4"/>
-        <circle cx="65" cy="50" r="10" fill="#18f2d4"/>
-        <circle cx="35" cy="50" r="5" fill="#2c3e50"/>
-        <circle cx="65" cy="50" r="5" fill="#2c3e50"/>
+        <ellipse cx="36" cy="50" rx="7" ry="8" fill="#e65156"/>
+        <ellipse cx="64" cy="50" rx="7" ry="8" fill="#e65156"/>
+        <ellipse cx="36" cy="51" rx="3" ry="5" fill="#2c3e50"/>
+        <ellipse cx="64" cy="51" rx="3" ry="5" fill="#2c3e50"/>
+        <circle cx="34" cy="48" r="1.5" fill="white"/>
+        <circle cx="62" cy="48" r="1.5" fill="white"/>
       
-    <ellipse cx="50" cy="68" rx="5" ry="4" fill="#ffb6c1"/>
-    <path d="M50,72 L45,78 M50,72 L55,78" stroke="#2c3e50" stroke-width="2" stroke-linecap="round"/>
-  
-    <circle cx="25" cy="65" r="6" fill="#ffb6c1" opacity="0.5"/>
-    <circle cx="75" cy="65" r="6" fill="#ffb6c1" opacity="0.5"/>
+    <polygon points="50,66 46,72 54,72" fill="#2c3e50"/>
+    <path d="M50,72 L50,76" stroke="#2c3e50" stroke-width="2"/>
+    <path d="M44,78 Q50,82 56,78" stroke="#2c3e50" stroke-width="2" fill="none"/>
   </g></g>
   </svg>"
 `;
@@ -303,50 +235,35 @@ exports[`SVG snapshots > dinosaurs theme > generates expected SVG with default p
 
 exports[`SVG snapshots > dinosaurs theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#4a6741"/>
+    <rect width="100" height="100" fill="#4a6741"/>
     <g><g transform="translate(50, 50) scale(0.75) translate(-50, -50)">
-    <path d="M18,52 Q10,52 6,50" stroke="#c75b39" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <ellipse cx="4" cy="50" rx="5" ry="4" fill="#ae4220"/>
+    <rect x="34" y="80" width="8" height="10" rx="3" fill="#576777"/>
+    <rect x="58" y="80" width="8" height="10" rx="3" fill="#576777"/>
   
-    <rect x="30" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
-    <rect x="44" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
-    <rect x="58" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
-    <rect x="70" y="66" width="9" height="10" rx="3" fill="#ae4220"/>
+    <ellipse cx="50" cy="72" rx="18" ry="14" fill="#708090"/>
+    <ellipse cx="50" cy="76" rx="12" ry="8" fill="#fdf2e9" opacity="0.3"/>
   
-    <ellipse cx="50" cy="52" rx="32" ry="18" fill="#c75b39"/>
-    <ellipse cx="50" cy="60" rx="22" ry="8" fill="#ffe4c4" opacity="0.3"/>
+    <path d="M14,38 Q12,22 24,14 Q34,8 50,6 Q66,8 76,14 Q88,22 86,38 Z" fill="#8494a4" stroke="#576777" stroke-width="1.5"/>
+    <circle cx="26" cy="20" r="3" fill="#576777" opacity="0.2"/>
+    <circle cx="50" cy="14" r="3" fill="#576777" opacity="0.2"/>
+    <circle cx="74" cy="20" r="3" fill="#576777" opacity="0.2"/>
   
-    <circle cx="34" cy="40" r="3" fill="#ae4220" opacity="0.3"/>
-    <circle cx="44" cy="38" r="3.5" fill="#ae4220" opacity="0.3"/>
-    <circle cx="55" cy="38" r="3.5" fill="#ae4220" opacity="0.3"/>
-    <circle cx="65" cy="40" r="3" fill="#ae4220" opacity="0.3"/>
-    <circle cx="38" cy="48" r="2.5" fill="#ae4220" opacity="0.25"/>
-    <circle cx="50" cy="46" r="3" fill="#ae4220" opacity="0.25"/>
-    <circle cx="62" cy="48" r="2.5" fill="#ae4220" opacity="0.25"/>
+    <ellipse cx="50" cy="46" rx="22" ry="20" fill="#708090"/>
+    <ellipse cx="50" cy="52" rx="14" ry="10" fill="#fdf2e9" opacity="0.3"/>
   
-        <circle cx="37.2" cy="48.4" r="2.56" fill="#a93d1b" opacity="0.4"/>
-        <circle cx="59.6" cy="46.6" r="1.92" fill="#a93d1b" opacity="0.4"/>
-        <circle cx="46.8" cy="57.4" r="2.24" fill="#a93d1b" opacity="0.4"/>
-        <circle cx="66" cy="53.8" r="1.92" fill="#a93d1b" opacity="0.4"/>
-        <circle cx="34" cy="54.7" r="1.6" fill="#a93d1b" opacity="0.4"/>
-        <circle cx="54.8" cy="43" r="1.6" fill="#a93d1b" opacity="0.4"/>
-      
-    <ellipse cx="84" cy="52" rx="10" ry="9" fill="#c75b39"/>
-    <circle cx="86" cy="50" r="2" fill="#ae4220" opacity="0.15"/>
-    <circle cx="90" cy="52" r="2" fill="#ae4220" opacity="0.15"/>
+    <path d="M42,58 Q50,64 58,58" fill="#576777" opacity="0.15"/>
   
-    <circle cx="80" cy="44" r="2" fill="#ae4220" opacity="0.4"/>
-    <circle cx="88" cy="44" r="2" fill="#ae4220" opacity="0.4"/>
+    <polygon points="38,34 36,18 40,32" fill="#8494a4" stroke="#576777" stroke-width="0.5"/>
+    <polygon points="62,34 64,18 60,32" fill="#8494a4" stroke="#576777" stroke-width="0.5"/>
+    <polygon points="50,54 50,48 52,53" fill="#8494a4" stroke="#576777" stroke-width="0.5"/>
   
-        <circle cx="88" cy="50" r="3.5" fill="white"/>
-        <circle cx="88" cy="51" r="1.75" fill="#f1c40f"/>
-        <line x1="84.5" y1="46.5" x2="91.5" y2="48.6" stroke="#f1c40f" stroke-width="1.5"/>
-      
-        <path d="M85,56 Q92,60 99,56" fill="#ae4220"/>
-        <polygon points="88,56 89,59 90,56" fill="white"/>
-        <polygon points="91,56 92,59 93,56" fill="white"/>
-        <polygon points="94,56 95,59 96,56" fill="white"/>
-      </g>
+        <circle cx="40" cy="40" r="5" fill="white"/>
+        <circle cx="60" cy="40" r="5" fill="white"/>
+        <circle cx="40" cy="41" r="2.5" fill="#c0392b"/>
+        <circle cx="60" cy="41" r="2.5" fill="#c0392b"/>
+        <path d="M35,38.5 Q40,36 45,38.5" fill="white" stroke="none"/>
+        <path d="M55,38.5 Q60,36 65,38.5" fill="white" stroke="none"/>
+      <line x1="46" y1="60" x2="54" y2="60" stroke="#576777" stroke-width="1.5" stroke-linecap="round"/></g>
     <g opacity="0.3">
       <path d="M8,92 Q10,82 6,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
       <ellipse cx="5" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(-30, 5, 76)"/>
@@ -364,52 +281,197 @@ exports[`SVG snapshots > dinosaurs theme > generates expected SVG with seed "joh
 
 exports[`SVG snapshots > dinosaurs theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#a0785a"/>
-    <g><g transform="translate(50, 50) scale(0.72) translate(-50, -50)">
-    <path d="M30,68 Q20,64 14,68" stroke="#8fbc8f" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <rect width="100" height="100" rx="15" fill="#9e8c6c"/>
+    <g><g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
+    <path d="M50,44 L8,30 L12,48 L26,46 L38,48 Z" fill="#d4a574" stroke="#bb8c5b" stroke-width="0.5"/>
+    <path d="M50,44 L92,30 L88,48 L74,46 L62,48 Z" fill="#d4a574" stroke="#bb8c5b" stroke-width="0.5"/>
+    <path d="M50,44 L8,30 L12,48" fill="#e8b988" opacity="0.2"/>
+    <path d="M50,44 L92,30 L88,48" fill="#e8b988" opacity="0.2"/>
   
-    <rect x="34" y="84" width="9" height="14" rx="4" fill="#76a376"/>
-    <rect x="48" y="84" width="9" height="14" rx="4" fill="#76a376"/>
-    <rect x="62" y="84" width="9" height="14" rx="4" fill="#76a376"/>
+    <line x1="50" y1="44" x2="16" y2="36" stroke="#bb8c5b" stroke-width="0.5" opacity="0.3"/>
+    <line x1="50" y1="44" x2="24" y2="40" stroke="#bb8c5b" stroke-width="0.5" opacity="0.3"/>
+    <line x1="50" y1="44" x2="84" y2="36" stroke="#bb8c5b" stroke-width="0.5" opacity="0.3"/>
+    <line x1="50" y1="44" x2="76" y2="40" stroke="#bb8c5b" stroke-width="0.5" opacity="0.3"/>
   
-    <ellipse cx="52" cy="72" rx="24" ry="18" fill="#8fbc8f"/>
-    <ellipse cx="52" cy="78" rx="16" ry="10" fill="#fdf2e9" opacity="0.3"/>
+    <path d="M46,64 L44,72 L42,71 L44,72 L46,71" stroke="#bb8c5b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M54,64 L56,72 L58,71 L56,72 L54,71" stroke="#bb8c5b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
   
-    <path d="M60,58 Q62,40 56,26 Q52,18 48,14" stroke="#8fbc8f" stroke-width="14" fill="none" stroke-linecap="round"/>
-    <path d="M60,58 Q62,40 56,26 Q52,18 48,14" stroke="#99c699" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.3"/>
+    <ellipse cx="50" cy="52" rx="10" ry="12" fill="#d4a574"/>
+    <ellipse cx="50" cy="56" rx="6" ry="6" fill="#f5e6c8" opacity="0.3"/>
   
-    <ellipse cx="46" cy="12" rx="10" ry="7" fill="#8fbc8f"/>
-    <ellipse cx="44" cy="14" rx="6" ry="4" fill="#fdf2e9" opacity="0.3"/>
+    <ellipse cx="50" cy="32" rx="8" ry="7" fill="#d4a574"/>
   
-        <circle cx="42.4" cy="68.4" r="1.92" fill="#719e71" opacity="0.4"/>
-        <circle cx="59.2" cy="66.6" r="1.44" fill="#719e71" opacity="0.4"/>
-        <circle cx="49.6" cy="77.4" r="1.6800000000000002" fill="#719e71" opacity="0.4"/>
-        <circle cx="64" cy="73.8" r="1.44" fill="#719e71" opacity="0.4"/>
-        <circle cx="40" cy="74.7" r="1.2000000000000002" fill="#719e71" opacity="0.4"/>
-        <circle cx="55.6" cy="63" r="1.2000000000000002" fill="#719e71" opacity="0.4"/>
+    <path d="M52,26 Q58,20 66,18 Q60,24 54,28" fill="#e8b988" stroke="#bb8c5b" stroke-width="0.5"/>
+  
+    <polygon points="50,36 46,39 50,38 54,39" fill="#bb8c5b"/>
+  
+        <defs>
+          <pattern id="dino-plates-50-52" width="8" height="8" patternUnits="userSpaceOnUse">
+            <path d="M0,8 L4,2 L8,8" fill="#b68756" opacity="0.2"/>
+          </pattern>
+        </defs>
+        <ellipse cx="50" cy="52" rx="8.5" ry="10.2" fill="url(#dino-plates-50-52)"/>
       
-    <circle cx="42" cy="8" r="1.2" fill="#76a376"/>
-    <circle cx="48" cy="8" r="1.2" fill="#76a376"/>
+        <circle cx="46" cy="30" r="3.5" fill="white"/>
+        <circle cx="54" cy="30" r="3.5" fill="white"/>
+        <circle cx="46" cy="31" r="1.75" fill="#2c3e50"/>
+        <circle cx="54" cy="31" r="1.75" fill="#2c3e50"/>
+        <line x1="42.5" y1="26.5" x2="49.5" y2="28.6" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="57.5" y1="26.5" x2="50.5" y2="28.6" stroke="#2c3e50" stroke-width="2"/>
+      
+        <path d="M43,38 Q50,42 57,38" fill="#bb8c5b"/>
+        <polygon points="46,38 47,41 48,38" fill="white"/>
+        <polygon points="49,38 50,41 51,38" fill="white"/>
+        <polygon points="52,38 53,41 54,38" fill="white"/>
+      </g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > insects theme > generates expected SVG with default params 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#E8F5E9"/>
+    <g><g transform="translate(50, 50) scale(0.8) translate(-50, -50)">
+    <path d="M50,42 Q22,20 14,34 Q8,46 24,52 Q34,56 50,48" fill="#81D4FA" stroke="#6dc0e6" stroke-width="0.8"/>
+    <path d="M50,42 Q78,20 86,34 Q92,46 76,52 Q66,56 50,48" fill="#81D4FA" stroke="#6dc0e6" stroke-width="0.8"/>
+    <path d="M50,52 Q28,58 20,68 Q16,76 30,74 Q40,72 50,60" fill="#90e3ff" stroke="#6dc0e6" stroke-width="0.8"/>
+    <path d="M50,52 Q72,58 80,68 Q84,76 70,74 Q60,72 50,60" fill="#90e3ff" stroke="#6dc0e6" stroke-width="0.8"/>
   
-        <circle cx="42" cy="11" r="3" fill="white"/>
-        <circle cx="52" cy="11" r="3" fill="white"/>
-        <circle cx="42" cy="12" r="1.5" fill="#f1c40f"/>
-        <circle cx="52" cy="12" r="1.5" fill="#f1c40f"/>
-        <path d="M39,10.1 Q42,8.6 45,10.1" fill="white" stroke="none"/>
-        <path d="M49,10.1 Q52,8.6 55,10.1" fill="white" stroke="none"/>
-      <line x1="42" y1="17" x2="50" y2="17" stroke="#76a376" stroke-width="1.5" stroke-linecap="round"/></g>
-    <g opacity="0.3">
-      <path d="M8,92 Q10,82 6,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="5" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(-30, 5, 76)"/>
-      <ellipse cx="8" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(20, 8, 80)"/>
-      <ellipse cx="6" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(-15, 6, 84)"/>
-      <path d="M92,92 Q90,82 94,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="95" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(30, 95, 76)"/>
-      <ellipse cx="92" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(-20, 92, 80)"/>
-      <ellipse cx="94" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(15, 94, 84)"/>
-      <ellipse cx="85" cy="12" rx="4" ry="2" fill="#4a7c28" opacity="0.7" transform="rotate(-40, 85, 12)"/>
-    </g>
-  </g>
+    <circle cx="30" cy="36" r="5" fill="#FFC107" opacity="0.6"/>
+    <circle cx="70" cy="36" r="5" fill="#FFC107" opacity="0.6"/>
+    <circle cx="28" cy="66" r="3.5" fill="#FFC107" opacity="0.5"/>
+    <circle cx="72" cy="66" r="3.5" fill="#FFC107" opacity="0.5"/>
+  
+    <ellipse cx="50" cy="50" rx="4" ry="16" fill="#4CAF50"/>
+    <ellipse cx="50" cy="50" rx="2.5" ry="14" fill="#FFC107" opacity="0.3"/>
+  
+    <path d="M48,36 Q42,22 36,16" stroke="#339637" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <circle cx="36" cy="16" r="2" fill="#339637"/>
+    <path d="M52,36 Q58,22 64,16" stroke="#339637" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <circle cx="64" cy="16" r="2" fill="#339637"/>
+  
+        <circle cx="46" cy="40" r="3.5" fill="white"/>
+        <circle cx="54" cy="40" r="3.5" fill="white"/>
+        <circle cx="46" cy="41" r="1.575" fill="#1a1a1a"/>
+        <circle cx="54" cy="41" r="1.575" fill="#1a1a1a"/>
+        <circle cx="45" cy="39" r="0.875" fill="white"/>
+        <circle cx="53" cy="39" r="0.875" fill="white"/>
+      <path d="M46,48 Q50,52 54,48" stroke="#339637" stroke-width="1.2" fill="none" stroke-linecap="round"/></g></g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > insects theme > generates expected SVG with seed "john@example.com" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect width="100" height="100" fill="#F1F8E9"/>
+    <g><g transform="translate(50, 50) scale(0.82) translate(-50, -50)">
+    <ellipse cx="34" cy="38" rx="10" ry="6" fill="#FFF59D" opacity="0.6" transform="rotate(-20, 34, 38)"/>
+    <ellipse cx="66" cy="38" rx="10" ry="6" fill="#FFF59D" opacity="0.6" transform="rotate(20, 66, 38)"/>
+  
+    <line x1="40" y1="66" x2="34" y2="74" stroke="#ba1616" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="50" y1="68" x2="50" y2="76" stroke="#ba1616" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="60" y1="66" x2="66" y2="74" stroke="#ba1616" stroke-width="1.5" stroke-linecap="round"/>
+  
+    <polygon points="50,74 48,78 52,78" fill="#ba1616"/>
+  
+    <ellipse cx="50" cy="54" rx="18" ry="20" fill="#D32F2F"/>
+  
+    <path d="M34,46 Q50,42 66,46" stroke="#FFEB3B" stroke-width="4" fill="none"/>
+    <path d="M32,54 Q50,50 68,54" stroke="#FFEB3B" stroke-width="4" fill="none"/>
+    <path d="M34,62 Q50,58 66,62" stroke="#FFEB3B" stroke-width="4" fill="none"/>
+  
+    <circle cx="50" cy="32" r="12" fill="#D32F2F"/>
+    <circle cx="50" cy="30" r="8" fill="#e23e3e" opacity="0.2"/>
+  
+    <path d="M44,22 Q38,12 34,8" stroke="#ba1616" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="34" cy="8" r="2" fill="#ba1616"/>
+    <path d="M56,22 Q62,12 66,8" stroke="#ba1616" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="66" cy="8" r="2" fill="#ba1616"/>
+  
+        <circle cx="44" cy="30" r="4.5" fill="white"/>
+        <circle cx="56" cy="30" r="4.5" fill="white"/>
+        <circle cx="44" cy="31" r="2.025" fill="#2E7D32"/>
+        <circle cx="56" cy="31" r="2.025" fill="#2E7D32"/>
+        <circle cx="43" cy="29" r="1.125" fill="white"/>
+        <circle cx="55" cy="29" r="1.125" fill="white"/>
+      <path d="M46,38 Q50,42 54,38" stroke="#ba1616" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>
+        <g opacity="0.4">
+          <circle cx="12" cy="84" r="3" fill="#e91e63"/>
+          <circle cx="9" cy="84" r="2" fill="#f48fb1"/>
+          <circle cx="15" cy="84" r="2" fill="#f48fb1"/>
+          <circle cx="12" cy="81" r="2" fill="#f48fb1"/>
+          <circle cx="12" cy="87" r="2" fill="#f48fb1"/>
+          <circle cx="12" cy="84" r="1.5" fill="#ffeb3b"/>
+          <path d="M12,88 Q12,92 10,96" stroke="#2d6b16" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="86" cy="14" r="2.5" fill="#9c27b0"/>
+          <circle cx="84" cy="14" r="1.5" fill="#ce93d8"/>
+          <circle cx="88" cy="14" r="1.5" fill="#ce93d8"/>
+          <circle cx="86" cy="12" r="1.5" fill="#ce93d8"/>
+          <circle cx="86" cy="16" r="1.5" fill="#ce93d8"/>
+          <circle cx="86" cy="14" r="1" fill="#ffeb3b"/>
+          <circle cx="88" cy="86" r="2" fill="#ff7043"/>
+          <circle cx="86" cy="86" r="1.2" fill="#ffab91"/>
+          <circle cx="90" cy="86" r="1.2" fill="#ffab91"/>
+          <circle cx="88" cy="84" r="1.2" fill="#ffab91"/>
+          <circle cx="88" cy="88" r="1.2" fill="#ffab91"/>
+          <circle cx="88" cy="86" r="0.8" fill="#ffeb3b"/>
+        </g>
+      </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > insects theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect width="100" height="100" rx="15" fill="#FFF3E0"/>
+    <g><g transform="translate(50, 50) scale(0.78) translate(-50, -50)">
+    <path d="M32,50 L22,44 L18,50" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M68,50 L78,44 L82,50" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M30,60 L18,60 L14,66" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M70,60 L82,60 L86,66" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M32,72 L22,76 L20,82" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M68,72 L78,76 L80,82" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+    <ellipse cx="50" cy="58" rx="22" ry="24" fill="#E65100"/>
+    <ellipse cx="50" cy="54" rx="18" ry="18" fill="#f5600f" opacity="0.12"/>
+  
+    <line x1="50" y1="36" x2="50" y2="82" stroke="#cd3800" stroke-width="1.2"/>
+  
+    <ellipse cx="42" cy="50" rx="4" ry="8" fill="white" opacity="0.1" transform="rotate(-15, 42, 50)"/>
+  
+        <circle cx="43.4" cy="53.2" r="1.76" fill="#c83300" opacity="0.35"/>
+        <circle cx="57.7" cy="54.4" r="1.3199999999999998" fill="#c83300" opacity="0.35"/>
+        <circle cx="47.8" cy="64" r="1.54" fill="#c83300" opacity="0.35"/>
+        <circle cx="58.8" cy="62.8" r="1.1" fill="#c83300" opacity="0.35"/>
+      
+    <circle cx="50" cy="34" r="12" fill="#cd3800"/>
+    <circle cx="50" cy="32" r="7" fill="#d9440c" opacity="0.15"/>
+  
+    <path d="M50,22 Q52,14 50,8" stroke="#cd3800" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+    <path d="M42,40 Q38,44 34,42" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M58,40 Q62,44 66,42" stroke="#cd3800" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+        <circle cx="44" cy="32" r="3.5" fill="white"/>
+        <circle cx="56" cy="32" r="3.5" fill="white"/>
+        <circle cx="44" cy="33" r="1.575" fill="#2E7D32"/>
+        <circle cx="56" cy="33" r="1.575" fill="#2E7D32"/>
+        <path d="M40.5,30.95 Q44,29.2 47.5,30.95" fill="white" stroke="none"/>
+        <path d="M52.5,30.95 Q56,29.2 59.5,30.95" fill="white" stroke="none"/>
+      <line x1="47" y1="40" x2="53" y2="40" stroke="#FFC107" stroke-width="1.2" stroke-linecap="round"/></g>
+        <g>
+          <ellipse cx="12" cy="82" rx="2.5" ry="3" fill="white" opacity="0.25"/>
+          <ellipse cx="12" cy="81" rx="1.5" ry="1.8" fill="white" opacity="0.35"/>
+          <circle cx="11" cy="80" r="0.6" fill="white" opacity="0.5"/>
+          <ellipse cx="86" cy="16" rx="2" ry="2.5" fill="white" opacity="0.2"/>
+          <ellipse cx="86" cy="15" rx="1.2" ry="1.5" fill="white" opacity="0.3"/>
+          <circle cx="85.5" cy="14.5" r="0.5" fill="white" opacity="0.5"/>
+          <ellipse cx="14" cy="18" rx="1.5" ry="2" fill="white" opacity="0.2"/>
+          <ellipse cx="14" cy="17.5" rx="0.8" ry="1" fill="white" opacity="0.35"/>
+          <ellipse cx="88" cy="80" rx="2" ry="2.5" fill="white" opacity="0.22"/>
+          <ellipse cx="88" cy="79" rx="1.2" ry="1.5" fill="white" opacity="0.32"/>
+          <circle cx="87.5" cy="78.5" r="0.5" fill="white" opacity="0.5"/>
+          <ellipse cx="50" cy="92" rx="1.8" ry="2.2" fill="white" opacity="0.18"/>
+          <ellipse cx="50" cy="91.5" rx="1" ry="1.2" fill="white" opacity="0.28"/>
+        </g>
+      </g>
   </svg>"
 `;
 
@@ -439,40 +501,40 @@ exports[`SVG snapshots > monsters theme > generates expected SVG with default pa
 
 exports[`SVG snapshots > monsters theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#63c6ee"/>
+    <rect width="100" height="100" fill="#ee539e"/>
     <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
     
-        <path d="M 34,20 L 30,10 L 24,4 M 30,12 L 24,12 M 28,8 L 22,8" fill="none" stroke="#2abb00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M 66,20 L 70,10 L 76,4 M 70,12 L 76,12 M 72,8 L 78,8" fill="none" stroke="#2abb00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M 34,20 L 30,10 L 24,4 M 30,12 L 24,12 M 28,8 L 22,8" fill="none" stroke="#63f432" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
-        <path d="M 66,20 L 70,10 L 76,4 M 70,12 L 76,12 M 72,8 L 78,8" fill="none" stroke="#63f432" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+        <polygon points="28,32 34,11 40,32" fill="#00be7c"/>
+        <polygon points="31,31 34,14 37,31" fill="#39f7b5" opacity="0.7"/>
+        <polygon points="60,32 66,11 72,32" fill="#00be7c"/>
+        <polygon points="63,31 66,14 69,31" fill="#39f7b5" opacity="0.7"/>
       
     
-        <path d="M20,50 Q10,30 30,20 Q50,10 70,20 Q90,30 80,50 Q90,70 70,80 Q50,95 30,80 Q10,70 20,50" fill="#57e826"/>
-        <path d="M25,50 Q15,32 32,23 Q50,15 68,23 Q85,32 77,50 Q85,68 68,77 Q50,88 32,77 Q15,68 25,50" fill="#39ca08" opacity="0.3"/>
+        <rect x="15" y="20" width="70" height="70" rx="10" fill="#2deba9"/>
+        <rect x="20" y="25" width="60" height="60" rx="8" fill="#0fcd8b" opacity="0.3"/>
       
-    <ellipse cx="35" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="35" cy="39" r="4.5" fill="#2c3e50"/><circle cx="34" cy="38" r="1.8" fill="#ffffff"/><ellipse cx="50" cy="45" rx="9" ry="11" fill="#ffffff"/><circle cx="50" cy="44" r="4.5" fill="#2c3e50"/><circle cx="49" cy="43" r="1.8" fill="#ffffff"/><ellipse cx="65" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="65" cy="39" r="4.5" fill="#2c3e50"/><circle cx="64" cy="38" r="1.8" fill="#ffffff"/>
-    <ellipse cx="50" cy="75" rx="10" ry="12" fill="#29d153"/>
+    <ellipse cx="30" cy="40" rx="7" ry="9" fill="#ffffff"/><circle cx="30" cy="39" r="3.5" fill="#2c3e50"/><circle cx="29" cy="38" r="1.4" fill="#ffffff"/><ellipse cx="40" cy="45" rx="7" ry="9" fill="#ffffff"/><circle cx="40" cy="44" r="3.5" fill="#2c3e50"/><circle cx="39" cy="43" r="1.4" fill="#ffffff"/><ellipse cx="50" cy="40" rx="7" ry="9" fill="#ffffff"/><circle cx="50" cy="39" r="3.5" fill="#2c3e50"/><circle cx="49" cy="38" r="1.4" fill="#ffffff"/><ellipse cx="60" cy="45" rx="7" ry="9" fill="#ffffff"/><circle cx="60" cy="44" r="3.5" fill="#2c3e50"/><circle cx="59" cy="43" r="1.4" fill="#ffffff"/><ellipse cx="70" cy="40" rx="7" ry="9" fill="#ffffff"/><circle cx="70" cy="39" r="3.5" fill="#2c3e50"/><circle cx="69" cy="38" r="1.4" fill="#ffffff"/>
+    <ellipse cx="50" cy="75" rx="10" ry="12" fill="#338fe1"/>
   </g></g>
   </svg>"
 `;
 
 exports[`SVG snapshots > monsters theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#34b255"/>
+    <rect width="100" height="100" rx="15" fill="#2e719e"/>
     <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
     
-        <polygon points="28,29 34,8 40,29" fill="#99b94c"/>
-        <polygon points="31,28 34,11 37,28" fill="#d2f285" opacity="0.7"/>
-        <polygon points="60,29 66,8 72,29" fill="#99b94c"/>
-        <polygon points="63,28 66,11 69,28" fill="#d2f285" opacity="0.7"/>
+        <polygon points="28,32 34,11 40,32" fill="#ab0013"/>
+        <polygon points="31,31 34,14 37,31" fill="#e41a4c" opacity="0.7"/>
+        <polygon points="60,32 66,11 72,32" fill="#ab0013"/>
+        <polygon points="63,31 66,14 69,31" fill="#e41a4c" opacity="0.7"/>
       
     
-        <ellipse cx="50" cy="55" rx="35" ry="38" fill="#c6e679"/>
-        <ellipse cx="50" cy="58" rx="30" ry="32" fill="#a8c85b" opacity="0.3"/>
+        <rect x="15" y="20" width="70" height="70" rx="10" fill="#d80e40"/>
+        <rect x="20" y="25" width="60" height="60" rx="8" fill="#ba0022" opacity="0.3"/>
       
-    <ellipse cx="35" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="35" cy="39" r="4.5" fill="#2c3e50"/><circle cx="34" cy="38" r="1.8" fill="#ffffff"/><ellipse cx="50" cy="45" rx="9" ry="11" fill="#ffffff"/><circle cx="50" cy="44" r="4.5" fill="#2c3e50"/><circle cx="49" cy="43" r="1.8" fill="#ffffff"/><ellipse cx="65" cy="40" rx="9" ry="11" fill="#ffffff"/><circle cx="65" cy="39" r="4.5" fill="#2c3e50"/><circle cx="64" cy="38" r="1.8" fill="#ffffff"/>
-    <ellipse cx="50" cy="75" rx="10" ry="12" fill="#2abb70"/>
+    <ellipse cx="30" cy="40" rx="7" ry="9" fill="#ffffff"/><circle cx="30" cy="39" r="3.5" fill="#2c3e50"/><circle cx="29" cy="38" r="1.4" fill="#ffffff"/><ellipse cx="40" cy="45" rx="7" ry="9" fill="#ffffff"/><circle cx="40" cy="44" r="3.5" fill="#2c3e50"/><circle cx="39" cy="43" r="1.4" fill="#ffffff"/><ellipse cx="50" cy="40" rx="7" ry="9" fill="#ffffff"/><circle cx="50" cy="39" r="3.5" fill="#2c3e50"/><circle cx="49" cy="38" r="1.4" fill="#ffffff"/><ellipse cx="60" cy="45" rx="7" ry="9" fill="#ffffff"/><circle cx="60" cy="44" r="3.5" fill="#2c3e50"/><circle cx="59" cy="43" r="1.4" fill="#ffffff"/><ellipse cx="70" cy="40" rx="7" ry="9" fill="#ffffff"/><circle cx="70" cy="39" r="3.5" fill="#2c3e50"/><circle cx="69" cy="38" r="1.4" fill="#ffffff"/>
+    <ellipse cx="50" cy="75" rx="10" ry="12" fill="#cc384e"/>
   </g></g>
   </svg>"
 `;
@@ -514,119 +576,84 @@ exports[`SVG snapshots > mythical theme > generates expected SVG with default pa
 
 exports[`SVG snapshots > mythical theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#1a1a2e"/>
-    <g><g transform="translate(50, 50) scale(0.72) translate(-50, -50)">
-    <path d="M50,82 Q42,90 36,88 Q32,86 34,82" stroke="#708090" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <rect width="100" height="100" fill="#1a1a2e"/>
+    <g><g transform="translate(50, 50) scale(0.78) translate(-50, -50)">
+    <path d="M42,82 Q32,88 26,84" stroke="#ff69b4" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M42,82 Q34,90 28,88" stroke="#9b59b6" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
   
-    <rect x="34" y="80" width="8" height="10" rx="3" fill="#576777"/>
-    <rect x="58" y="80" width="8" height="10" rx="3" fill="#576777"/>
+    <rect x="38" y="80" width="7" height="12" rx="3" fill="#132567"/>
+    <rect x="55" y="80" width="7" height="12" rx="3" fill="#132567"/>
   
-    <ellipse cx="50" cy="68" rx="20" ry="18" fill="#708090"/>
-    <ellipse cx="50" cy="72" rx="14" ry="10" fill="#f3e5f5" opacity="0.3"/>
+    <ellipse cx="50" cy="66" rx="16" ry="20" fill="#2c3e80"/>
+    <ellipse cx="50" cy="70" rx="10" ry="12" fill="#ffe6f0" opacity="0.3"/>
   
-    <path d="M50,46 L50,52" stroke="#708090" stroke-width="10" fill="none" stroke-linecap="round"/>
-    <path d="M30,46 Q36,52 40,56" stroke="#708090" stroke-width="8" fill="none" stroke-linecap="round"/>
-    <path d="M70,46 Q64,52 60,56" stroke="#708090" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M36,28 Q30,34 28,44 Q26,52 30,58" stroke="#ff69b4" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M38,26 Q34,32 32,40 Q30,48 34,56" stroke="#9b59b6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <path d="M64,28 Q70,34 72,44 Q74,52 70,58" stroke="#3498db" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M62,26 Q66,32 68,40 Q70,48 66,56" stroke="#2ecc71" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
   
-    <ellipse cx="26" cy="38" rx="11" ry="10" fill="#708090" transform="rotate(-10, 26, 38)"/>
+    <ellipse cx="50" cy="38" rx="16" ry="14" fill="#2c3e80"/>
+    <ellipse cx="50" cy="36" rx="12" ry="8" fill="#405294" opacity="0.2"/>
   
-    <ellipse cx="74" cy="38" rx="11" ry="10" fill="#708090" transform="rotate(10, 74, 38)"/>
+    <path d="M38,26 Q36,18 40,22" fill="#2c3e80" stroke="#132567" stroke-width="0.5"/>
+    <path d="M62,26 Q64,18 60,22" fill="#2c3e80" stroke="#132567" stroke-width="0.5"/>
   
-    <ellipse cx="50" cy="34" rx="14" ry="12" fill="#708090"/>
+    <path d="M50,24 L48,8 L52,8 Z" fill="#ffd700"/>
+    <path d="M49,22 Q50,18 51,14 Q50,16 49,18" stroke="#e6c200" stroke-width="0.5" fill="none"/>
+    <path d="M49,16 Q50,12 51,10" stroke="#e6c200" stroke-width="0.5" fill="none"/>
   
-    <path d="M42,24 Q40,16 44,20" fill="#708090" stroke="#576777" stroke-width="0.5"/>
-    <path d="M58,24 Q60,16 56,20" fill="#708090" stroke="#576777" stroke-width="0.5"/>
-    <path d="M18,30 Q16,22 20,26" fill="#708090" stroke="#576777" stroke-width="0.5"/>
-    <path d="M34,30 Q36,22 32,26" fill="#708090" stroke="#576777" stroke-width="0.5"/>
-    <path d="M66,30 Q64,22 68,26" fill="#708090" stroke="#576777" stroke-width="0.5"/>
-    <path d="M82,30 Q84,22 80,26" fill="#708090" stroke="#576777" stroke-width="0.5"/>
-  
-    <ellipse cx="50" cy="38" rx="3" ry="2" fill="#576777"/>
-    <ellipse cx="26" cy="42" rx="2.5" ry="1.8" fill="#576777"/>
-    <ellipse cx="74" cy="42" rx="2.5" ry="1.8" fill="#576777"/>
-  
-        <circle cx="42" cy="64.4" r="1.6" fill="#526272" opacity="0.4"/>
-        <circle cx="56" cy="62.6" r="1.2" fill="#526272" opacity="0.4"/>
-        <circle cx="48" cy="73.4" r="1.4000000000000001" fill="#526272" opacity="0.4"/>
-        <circle cx="60" cy="69.8" r="1.2" fill="#526272" opacity="0.4"/>
-        <circle cx="40" cy="70.7" r="1" fill="#526272" opacity="0.4"/>
-        <circle cx="53" cy="59" r="1" fill="#526272" opacity="0.4"/>
-      
-        <ellipse cx="44" cy="32" rx="4" ry="3" fill="white"/>
-        <ellipse cx="56" cy="32" rx="4" ry="3" fill="white"/>
-        <circle cx="44" cy="32" r="2" fill="#ff6b6b"/>
-        <circle cx="56" cy="32" r="2" fill="#ff6b6b"/>
-        <line x1="40" y1="28.4" x2="48" y2="29.2" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
-        <line x1="60" y1="28.4" x2="52" y2="29.2" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
-      
-        <ellipse cx="21" cy="36" rx="3" ry="2.25" fill="white"/>
-        <ellipse cx="31" cy="36" rx="3" ry="2.25" fill="white"/>
-        <circle cx="21" cy="36" r="1.5" fill="#ff6b6b"/>
-        <circle cx="31" cy="36" r="1.5" fill="#ff6b6b"/>
-        <line x1="18" y1="33.3" x2="24" y2="33.9" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
-        <line x1="34" y1="33.3" x2="28" y2="33.9" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
-      
-        <ellipse cx="69" cy="36" rx="3" ry="2.25" fill="white"/>
-        <ellipse cx="79" cy="36" rx="3" ry="2.25" fill="white"/>
-        <circle cx="69" cy="36" r="1.5" fill="#ff6b6b"/>
-        <circle cx="79" cy="36" r="1.5" fill="#ff6b6b"/>
-        <line x1="66" y1="33.3" x2="72" y2="33.9" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
-        <line x1="82" y1="33.3" x2="76" y2="33.9" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
-      <path d="M46,42 Q50,44 54,41" stroke="#576777" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M22,46 Q26,48 30,45" stroke="#576777" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M70,46 Q74,48 78,45" stroke="#576777" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
-        <g opacity="0.7">
-          <polygon points="82,14 83,17 86,17 84,19 85,22 82,20 79,22 80,19 78,17 81,17" fill="white"/>
-          <polygon points="16,22 17,24 19,24 17.5,25.5 18,28 16,26.5 14,28 14.5,25.5 13,24 15,24" fill="#ff6b6b" opacity="0.8"/>
-          <polygon points="76,78 77,80 79,80 77.5,81.5 78,84 76,82.5 74,84 74.5,81.5 73,80 75,80" fill="white" opacity="0.6"/>
-          <polygon points="20,72 21,74 23,74 21.5,75 22,77 20,76 18,77 18.5,75 17,74 19,74" fill="#ff6b6b" opacity="0.5"/>
-          <polygon points="88,50 89,52 91,52 89.5,53 90,55 88,54 86,55 86.5,53 85,52 87,52" fill="white" opacity="0.6"/>
-        </g>
-      </g>
+        <ellipse cx="43" cy="36" rx="4.5" ry="2.25" fill="white" opacity="0.9"/>
+        <ellipse cx="57" cy="36" rx="4.5" ry="2.25" fill="white" opacity="0.9"/>
+        <ellipse cx="43" cy="36" rx="2.25" ry="1.3499999999999999" fill="#ff69b4"/>
+        <ellipse cx="57" cy="36" rx="2.25" ry="1.3499999999999999" fill="#ff69b4"/>
+      <line x1="45" y1="46" x2="55" y2="46" stroke="#132567" stroke-width="1.5" stroke-linecap="round"/></g></g>
   </svg>"
 `;
 
 exports[`SVG snapshots > mythical theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#1e0a2e"/>
-    <g><g transform="translate(50, 50) scale(0.76) translate(-50, -50)">
-    <path d="M20,56 Q10,52 6,48" stroke="#4a0e6e" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <ellipse cx="5" cy="46" rx="4" ry="3" fill="#310055" transform="rotate(-20, 5, 46)"/>
+    <rect width="100" height="100" rx="15" fill="#0f0f23"/>
+    <g><g transform="translate(50, 50) scale(0.8) translate(-50, -50)">
+    <rect x="34" y="80" width="10" height="10" rx="4" fill="#363636"/>
+    <rect x="56" y="80" width="10" height="10" rx="4" fill="#363636"/>
   
-    <path d="M60,68 L62,78 L58,78 L60,78 L64,78" stroke="#310055" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <path d="M54,68 L54,78 L50,78 L54,78 L56,78" stroke="#310055" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <rect x="28" y="68" width="8" height="10" rx="3" fill="#310055"/>
-    <rect x="38" y="68" width="8" height="10" rx="3" fill="#310055"/>
+    <ellipse cx="50" cy="58" rx="26" ry="28" fill="#4a4a4a"/>
+    <ellipse cx="42" cy="50" rx="14" ry="12" fill="#636363" opacity="0.3"/>
+    <ellipse cx="58" cy="50" rx="14" ry="12" fill="#636363" opacity="0.3"/>
+    <ellipse cx="50" cy="42" rx="16" ry="10" fill="#636363" opacity="0.25"/>
+    <ellipse cx="44" cy="62" rx="12" ry="10" fill="#636363" opacity="0.2"/>
+    <ellipse cx="56" cy="62" rx="12" ry="10" fill="#636363" opacity="0.2"/>
   
-    <ellipse cx="44" cy="56" rx="24" ry="16" fill="#4a0e6e"/>
-    <ellipse cx="44" cy="62" rx="16" ry="8" fill="#ffe6f0" opacity="0.3"/>
+    <ellipse cx="50" cy="64" rx="14" ry="12" fill="#f0e6ff" opacity="0.3"/>
   
-    <path d="M32,42 Q28,32 34,24 Q42,20 50,28 Q54,34 50,44" fill="#5e2282" stroke="#310055" stroke-width="0.5" opacity="0.7"/>
-    <line x1="36" y1="28" x2="42" y2="40" stroke="#310055" stroke-width="0.5" opacity="0.3"/>
-    <line x1="42" y1="26" x2="46" y2="38" stroke="#310055" stroke-width="0.5" opacity="0.3"/>
+    <ellipse cx="30" cy="44" rx="5" ry="4" fill="#636363" opacity="0.4" transform="rotate(-20, 30, 44)"/>
+    <ellipse cx="70" cy="44" rx="5" ry="4" fill="#636363" opacity="0.4" transform="rotate(20, 70, 44)"/>
+    <ellipse cx="50" cy="28" rx="6" ry="3" fill="#636363" opacity="0.4"/>
   
-    <path d="M62,48 Q70,42 74,40" stroke="#4a0e6e" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M28,52 Q22,56 20,62" stroke="#4a4a4a" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M72,52 Q78,56 80,62" stroke="#4a4a4a" stroke-width="8" fill="none" stroke-linecap="round"/>
   
-    <ellipse cx="76" cy="38" rx="12" ry="10" fill="#5e2282"/>
+    <ellipse cx="50" cy="38" rx="12" ry="10" fill="#404040"/>
   
-    <path d="M72,30 Q70,22 74,18" stroke="#5e2282" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <path d="M76,28 Q76,20 78,16" stroke="#5e2282" stroke-width="2" fill="none" stroke-linecap="round"/>
-  
-    <polygon points="86,38 92,40 86,42" fill="#e6a800"/>
-  
-        <circle cx="34.4" cy="52.8" r="1.92" fill="#2c0050" opacity="0.4"/>
-        <circle cx="51.2" cy="51.2" r="1.44" fill="#2c0050" opacity="0.4"/>
-        <circle cx="41.6" cy="60.8" r="1.6800000000000002" fill="#2c0050" opacity="0.4"/>
-        <circle cx="56" cy="57.6" r="1.44" fill="#2c0050" opacity="0.4"/>
-        <circle cx="32" cy="58.4" r="1.2000000000000002" fill="#2c0050" opacity="0.4"/>
-        <circle cx="47.6" cy="48" r="1.2000000000000002" fill="#2c0050" opacity="0.4"/>
+        <defs>
+          <pattern id="myth-scales-50-58" width="8" height="8" patternUnits="userSpaceOnUse">
+            <path d="M0,4 Q4,0 8,4 Q4,8 0,4" fill="#2c2c2c" opacity="0.2"/>
+          </pattern>
+        </defs>
+        <ellipse cx="50" cy="58" rx="22.099999999999998" ry="23.8" fill="url(#myth-scales-50-58)"/>
       
-        <ellipse cx="80" cy="36" rx="4" ry="2" fill="white" opacity="0.9"/>
-        <ellipse cx="80" cy="36" rx="2" ry="1.2" fill="#ff6b6b"/>
-      <line x1="83" y1="42" x2="93" y2="42" stroke="#310055" stroke-width="1.5" stroke-linecap="round"/></g>
+        <ellipse cx="44" cy="36" rx="4" ry="3" fill="white"/>
+        <ellipse cx="56" cy="36" rx="4" ry="3" fill="white"/>
+        <circle cx="44" cy="36" r="2" fill="#ffd700"/>
+        <circle cx="56" cy="36" r="2" fill="#ffd700"/>
+        <line x1="40" y1="32.4" x2="48" y2="33.2" stroke="#ffd700" stroke-width="1.5" opacity="0.6"/>
+        <line x1="60" y1="32.4" x2="52" y2="33.2" stroke="#ffd700" stroke-width="1.5" opacity="0.6"/>
+      <path d="M46,44 Q50,46 54,43" stroke="#363636" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
         <g opacity="0.7">
           <polygon points="82,14 83,17 86,17 84,19 85,22 82,20 79,22 80,19 78,17 81,17" fill="white"/>
-          <polygon points="16,22 17,24 19,24 17.5,25.5 18,28 16,26.5 14,28 14.5,25.5 13,24 15,24" fill="#ff6b6b" opacity="0.8"/>
+          <polygon points="16,22 17,24 19,24 17.5,25.5 18,28 16,26.5 14,28 14.5,25.5 13,24 15,24" fill="#ffd700" opacity="0.8"/>
           <polygon points="76,78 77,80 79,80 77.5,81.5 78,84 76,82.5 74,84 74.5,81.5 73,80 75,80" fill="white" opacity="0.6"/>
-          <polygon points="20,72 21,74 23,74 21.5,75 22,77 20,76 18,77 18.5,75 17,74 19,74" fill="#ff6b6b" opacity="0.5"/>
+          <polygon points="20,72 21,74 23,74 21.5,75 22,77 20,76 18,77 18.5,75 17,74 19,74" fill="#ffd700" opacity="0.5"/>
           <polygon points="88,50 89,52 91,52 89.5,53 90,55 88,54 86,55 86.5,53 85,52 87,52" fill="white" opacity="0.6"/>
         </g>
       </g>
@@ -673,32 +700,22 @@ exports[`SVG snapshots > ocean theme > generates expected SVG with default param
 
 exports[`SVG snapshots > ocean theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#103d55"/>
-    <g><g transform="translate(50, 50) scale(0.8) translate(-50, -50)">
-    <path d="M50,16 Q62,16 62,28 Q62,40 50,44 Q38,48 38,60 Q38,72 50,76 Q54,78 52,84 Q48,90 44,88 Q38,84 40,78" fill="#ff7043" stroke="#e6572a" stroke-width="1"/>
+    <rect width="100" height="100" fill="#103d55"/>
+    <g><g transform="translate(50, 50) scale(0.82) translate(-50, -50)">
+    <path d="M15,50 L5,38 L5,62 Z" fill="#15b358"/>
   
-    <path d="M52,20 Q58,20 58,30 Q58,38 50,42 Q44,46 44,56 Q44,66 50,70" fill="#fdebd0" opacity="0.3" stroke="none"/>
+    <ellipse cx="45" cy="50" rx="30" ry="18" fill="#2ecc71"/>
+    <ellipse cx="45" cy="55" rx="22" ry="10" fill="#ffffff" opacity="0.4"/>
   
-    <path d="M50,16 Q50,12 56,10 Q60,10 60,14" fill="#ff7043" stroke="#e6572a" stroke-width="1"/>
+    <path d="M35,32 Q45,22 55,32" fill="#15b358"/>
   
-    <path d="M62,28 Q68,32 66,38 Q64,42 58,42" fill="#ff8457" opacity="0.6" stroke="#e6572a" stroke-width="0.5"/>
+    <path d="M38,55 Q32,65 28,68 Q36,62 40,58" fill="#15b358" opacity="0.7"/>
   
-    <line x1="48" y1="16" x2="46" y2="10" stroke="#e6572a" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="52" y1="14" x2="52" y2="8" stroke="#e6572a" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="56" y1="16" x2="58" y2="10" stroke="#e6572a" stroke-width="1.5" stroke-linecap="round"/>
-  
-        <circle cx="44.4" cy="38.4" r="1.12" fill="#e15225" opacity="0.4"/>
-        <circle cx="54.2" cy="35.6" r="0.84" fill="#e15225" opacity="0.4"/>
-        <circle cx="48.6" cy="52.4" r="0.9800000000000001" fill="#e15225" opacity="0.4"/>
-        <circle cx="57" cy="46.8" r="0.84" fill="#e15225" opacity="0.4"/>
-        <circle cx="43" cy="48.2" r="0.7000000000000001" fill="#e15225" opacity="0.4"/>
-        <circle cx="52.1" cy="30" r="0.7000000000000001" fill="#e15225" opacity="0.4"/>
-      
-    <circle cx="56" cy="24" r="4" fill="white"/>
-    <circle cx="56" cy="24" r="2.2" fill="#ffffff"/>
+    <circle cx="58" cy="46" r="5" fill="white"/>
+    <circle cx="58" cy="46" r="3" fill="#1a3c6e"/>
     
-    
-  <line x1="53" y1="12" x2="63" y2="12" stroke="#e6572a" stroke-width="1.5" stroke-linecap="round"/></g>
+    <line x1="54" y1="41" x2="62" y2="43" stroke="#1a3c6e" stroke-width="1.5"/>
+  <path d="M62,55 Q68,49 74,55" stroke="#15b358" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
     <circle cx="75" cy="18" r="3" fill="white" opacity="0.25"/>
     <circle cx="80" cy="12" r="2" fill="white" opacity="0.2"/>
     <circle cx="72" cy="8" r="2.5" fill="white" opacity="0.3"/>
@@ -709,43 +726,28 @@ exports[`SVG snapshots > ocean theme > generates expected SVG with seed "john@ex
 
 exports[`SVG snapshots > ocean theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#163a5f"/>
-    <g><g transform="translate(50, 50) scale(0.72) translate(-50, -50)">
-    <line x1="28" y1="62" x2="16" y2="72" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-    <line x1="34" y1="66" x2="24" y2="78" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-    <line x1="40" y1="68" x2="32" y2="82" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-    <line x1="72" y1="62" x2="84" y2="72" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-    <line x1="66" y1="66" x2="76" y2="78" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-    <line x1="60" y1="68" x2="68" y2="82" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
+    <rect width="100" height="100" rx="15" fill="#0c2d48"/>
+    <g><g transform="translate(50, 50) scale(0.76) translate(-50, -50)">
+    <path d="M14,52 Q6,40 4,32 Q10,38 14,42" fill="#e63939"/>
+    <path d="M14,52 Q6,64 4,72 Q10,66 14,62" fill="#e63939"/>
   
-    <ellipse cx="50" cy="55" rx="28" ry="18" fill="#1abc9c"/>
-    <ellipse cx="50" cy="58" rx="18" ry="10" fill="#ffffff" opacity="0.3"/>
+    <ellipse cx="50" cy="52" rx="36" ry="26" fill="#ff5252"/>
+    <ellipse cx="50" cy="60" rx="28" ry="16" fill="#ecf0f1" opacity="0.5"/>
   
-        <circle cx="38.8" cy="51.4" r="2.24" fill="#009e7e" opacity="0.4"/>
-        <circle cx="58.4" cy="49.6" r="1.68" fill="#009e7e" opacity="0.4"/>
-        <circle cx="47.2" cy="60.4" r="1.9600000000000002" fill="#009e7e" opacity="0.4"/>
-        <circle cx="64" cy="56.8" r="1.68" fill="#009e7e" opacity="0.4"/>
-        <circle cx="36" cy="57.7" r="1.4000000000000001" fill="#009e7e" opacity="0.4"/>
-        <circle cx="54.2" cy="46" r="1.4000000000000001" fill="#009e7e" opacity="0.4"/>
+    <path d="M42,65 Q36,75 30,78 Q38,72 42,68" fill="#e63939" opacity="0.6"/>
+  
+        <defs>
+          <pattern id="ocean-scales-50-50" width="8" height="8" patternUnits="userSpaceOnUse">
+            <path d="M0,4 Q4,0 8,4 Q4,8 0,4" fill="#e13434" opacity="0.2"/>
+          </pattern>
+        </defs>
+        <ellipse cx="50" cy="50" rx="30.599999999999998" ry="22.099999999999998" fill="url(#ocean-scales-50-50)"/>
       
-    <path d="M22,55 L12,42 L8,48 Q6,44 10,40 Q16,36 18,42 L22,48" fill="#1abc9c" stroke="#01a383" stroke-width="1"/>
-    <path d="M78,55 L88,42 L92,48 Q94,44 90,40 Q84,36 82,42 L78,48" fill="#1abc9c" stroke="#01a383" stroke-width="1"/>
-  
-    <line x1="38" y1="42" x2="34" y2="30" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-    <line x1="62" y1="42" x2="66" y2="30" stroke="#1abc9c" stroke-width="3" stroke-linecap="round"/>
-  
-        <circle cx="34" cy="28" r="4" fill="white"/>
-        <circle cx="66" cy="28" r="4" fill="white"/>
-        <circle cx="34" cy="29" r="2" fill="#ffffff"/>
-        <circle cx="66" cy="29" r="2" fill="#ffffff"/>
-        <line x1="30" y1="24" x2="38" y2="26" stroke="#ffffff" stroke-width="2"/>
-        <line x1="70" y1="24" x2="62" y2="26" stroke="#ffffff" stroke-width="2"/>
-      <path d="M44,63 Q50,57 56,63" stroke="#01a383" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
-    <circle cx="75" cy="18" r="3" fill="white" opacity="0.25"/>
-    <circle cx="80" cy="12" r="2" fill="white" opacity="0.2"/>
-    <circle cx="72" cy="8" r="2.5" fill="white" opacity="0.3"/>
-    <circle cx="82" cy="22" r="1.5" fill="white" opacity="0.2"/>
-  </g>
+    <circle cx="68" cy="48" r="5" fill="white"/>
+    <circle cx="68" cy="48" r="3" fill="#2c3e50"/>
+    
+    
+  <line x1="69" y1="56" x2="79" y2="56" stroke="#e63939" stroke-width="1.5" stroke-linecap="round"/></g></g>
   </svg>"
 `;
 
@@ -793,58 +795,11 @@ exports[`SVG snapshots > people theme > generates expected SVG with default para
 
 exports[`SVG snapshots > people theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#39d5a4"/>
+    <rect width="100" height="100" fill="#2f91b1"/>
     <g>
     <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
       
     
-        <path d="M14,36 C12,12 28,-2 50,-2 C72,-2 88,12 86,36 L86,80 C86,94 78,98 72,90 C68,84 66,56 64,40 C60,28 56,22 50,20 C44,22 40,28 36,40 C34,56 32,84 28,90 C22,98 14,94 14,80 Z" fill="#4a0080"/>
-      
-    
-    <ellipse cx="18" cy="55" rx="5" ry="8" fill="#8d5524"/>
-    <ellipse cx="18" cy="55" rx="3" ry="5" fill="#7e4615" opacity="0.3"/>
-    <ellipse cx="82" cy="55" rx="5" ry="8" fill="#8d5524"/>
-    <ellipse cx="82" cy="55" rx="3" ry="5" fill="#7e4615" opacity="0.3"/>
-  
-    
-    <ellipse cx="50" cy="55" rx="32" ry="38" fill="#8d5524"/>
-    <ellipse cx="50" cy="58" rx="28" ry="32" fill="#794110" opacity="0.1"/>
-  
-    
-    
-        <ellipse cx="38" cy="50" rx="5.5" ry="6" fill="white"/>
-        <ellipse cx="62" cy="50" rx="5.5" ry="6" fill="white"/>
-        <circle cx="38" cy="50" r="2.8" fill="#da67bc"/>
-        <circle cx="62" cy="50" r="2.8" fill="#da67bc"/>
-        <circle cx="38" cy="50" r="1.4" fill="#2c3e50"/>
-        <circle cx="62" cy="50" r="1.4" fill="#2c3e50"/>
-      
-      <path d="M30,44 Q38,42 46,44" stroke="#27005d" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <path d="M70,44 Q62,42 54,44" stroke="#27005d" stroke-width="2" stroke-linecap="round" fill="none"/>
-    
-    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#6f3706" stroke-width="1.4" fill="none"/><path d="M42,80 Q50,80 58,80" stroke="#743c0b" stroke-width="2" fill="none" stroke-linecap="round"/>
-    
-        <rect x="26" y="44" width="22" height="14" rx="3" fill="#2c3e50"/>
-        <rect x="52" y="44" width="22" height="14" rx="3" fill="#2c3e50"/>
-        <line x1="48" y1="50" x2="52" y2="50" stroke="#2c3e50" stroke-width="2"/>
-        <line x1="26" y1="48" x2="18" y2="46" stroke="#2c3e50" stroke-width="2"/>
-        <line x1="74" y1="48" x2="82" y2="46" stroke="#2c3e50" stroke-width="2"/>
-      
-  
-    </g>
-  </g>
-  </svg>"
-`;
-
-exports[`SVG snapshots > people theme > generates expected SVG with seed "test-user-123" 1`] = `
-"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#d42b37"/>
-    <g>
-    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
-      
-    
-        <path d="M14,36 C12,12 28,-2 50,-2 C72,-2 88,12 86,36 L86,80 C86,94 78,98 72,90 C68,84 66,56 64,40 C60,28 56,22 50,20 C44,22 40,28 36,40 C34,56 32,84 28,90 C22,98 14,94 14,80 Z" fill="#5d4e37"/>
-      
     
     <ellipse cx="18" cy="55" rx="5" ry="8" fill="#c68642"/>
     <ellipse cx="18" cy="55" rx="3" ry="5" fill="#b77733" opacity="0.3"/>
@@ -856,21 +811,85 @@ exports[`SVG snapshots > people theme > generates expected SVG with seed "test-u
     <ellipse cx="50" cy="58" rx="28" ry="32" fill="#b2722e" opacity="0.1"/>
   
     
+        <path d="M14,44 C10,32 14,20 26,14 C34,6 42,2 50,2 C58,2 66,6 74,14 C86,20 90,32 86,44 C82,36 68,34 50,34 C32,34 18,36 14,44 Z" fill="#2c1810"/>
+        <circle cx="14" cy="36" r="10" fill="#2c1810"/>
+        <circle cx="86" cy="36" r="10" fill="#2c1810"/>
+        <circle cx="22" cy="18" r="10" fill="#2c1810"/>
+        <circle cx="78" cy="18" r="10" fill="#2c1810"/>
+        <circle cx="36" cy="8" r="10" fill="#2c1810"/>
+        <circle cx="64" cy="8" r="10" fill="#2c1810"/>
+        <circle cx="50" cy="4" r="10" fill="#2c1810"/>
+      
     
         <ellipse cx="38" cy="52" rx="5.5" ry="6" fill="white"/>
         <ellipse cx="62" cy="52" rx="5.5" ry="6" fill="white"/>
-        <circle cx="38" cy="53" r="2.8" fill="#bcce46"/>
-        <circle cx="62" cy="53" r="2.8" fill="#bcce46"/>
+        <circle cx="38" cy="53" r="2.8" fill="#23cf0c"/>
+        <circle cx="62" cy="53" r="2.8" fill="#23cf0c"/>
         <circle cx="38" cy="53" r="1.4" fill="#2c3e50"/>
         <circle cx="62" cy="53" r="1.4" fill="#2c3e50"/>
         <path d="M32,47 Q38,48 44,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
         <path d="M56,47 Q62,48 68,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
       
-      <path d="M30,44 Q38,41 46,44" stroke="#3a2b14" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <path d="M70,44 Q62,41 54,44" stroke="#3a2b14" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M30,44 Q38,41 46,44" stroke="#090000" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,41 54,44" stroke="#090000" stroke-width="2" stroke-linecap="round" fill="none"/>
     
     <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#a86824" stroke-width="1.4" fill="none"/><path d="M42,82 Q50,79 58,82" stroke="#ad6d29" stroke-width="2" fill="none" stroke-linecap="round"/>
     
+        <circle cx="38" cy="50" r="10" fill="none" stroke="#2c3e50" stroke-width="2"/>
+        <circle cx="62" cy="50" r="10" fill="none" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="48" y1="50" x2="52" y2="50" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="28" y1="48" x2="20" y2="46" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="72" y1="48" x2="80" y2="46" stroke="#2c3e50" stroke-width="2"/>
+      
+  
+    </g>
+  </g>
+  </svg>"
+`;
+
+exports[`SVG snapshots > people theme > generates expected SVG with seed "test-user-123" 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect width="100" height="100" rx="15" fill="#42ddeb"/>
+    <g>
+    <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
+      
+    
+    
+    <ellipse cx="18" cy="55" rx="5" ry="8" fill="#8d5524"/>
+    <ellipse cx="18" cy="55" rx="3" ry="5" fill="#7e4615" opacity="0.3"/>
+    <ellipse cx="82" cy="55" rx="5" ry="8" fill="#8d5524"/>
+    <ellipse cx="82" cy="55" rx="3" ry="5" fill="#7e4615" opacity="0.3"/>
+  
+    
+    <ellipse cx="50" cy="55" rx="32" ry="38" fill="#8d5524"/>
+    <ellipse cx="50" cy="58" rx="28" ry="32" fill="#794110" opacity="0.1"/>
+  
+    
+        <path d="M24,36 C24,20 36,10 50,10 C64,10 76,20 76,36 C68,28 60,26 50,26 C40,26 32,28 24,36 Z" fill="#ff6347"/>
+        <ellipse cx="50" cy="6" rx="9" ry="10" fill="#ff6347"/>
+        <circle cx="50" cy="14" r="3.5" fill="#e14529"/>
+      
+    
+        <ellipse cx="38" cy="50" rx="6" ry="6" fill="white"/>
+        <ellipse cx="62" cy="50" rx="6" ry="6" fill="white"/>
+        <circle cx="38" cy="51" r="3.2" fill="#7070eb"/>
+        <circle cx="62" cy="51" r="3.2" fill="#7070eb"/>
+        <circle cx="38" cy="51" r="1.6" fill="#2c3e50"/>
+        <circle cx="62" cy="51" r="1.6" fill="#2c3e50"/>
+        <path d="M32,47 Q38,45 44,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
+        <path d="M56,47 Q62,45 68,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
+      
+      <path d="M30,44 Q38,42 46,44" stroke="#dc4024" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,42 54,44" stroke="#dc4024" stroke-width="2" stroke-linecap="round" fill="none"/>
+    
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#6f3706" stroke-width="1.4" fill="none"/><path d="M42,78 Q50,82 58,78" stroke="#743c0b" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+        <circle cx="38" cy="50" r="10" fill="none" stroke="#2c3e50" stroke-width="2"/>
+        <circle cx="62" cy="50" r="10" fill="none" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="48" y1="50" x2="52" y2="50" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="28" y1="48" x2="20" y2="46" stroke="#2c3e50" stroke-width="2"/>
+        <line x1="72" y1="48" x2="80" y2="46" stroke="#2c3e50" stroke-width="2"/>
+      
   
     </g>
   </g>
@@ -931,40 +950,48 @@ exports[`SVG snapshots > robots theme > generates expected SVG with default para
 
 exports[`SVG snapshots > robots theme > generates expected SVG with seed "john@example.com" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#51d6a8"/>
+    <rect width="100" height="100" fill="#6dd7df"/>
     <g>
     <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
       
     
-        <path d="M45,-7 L50,0 L45,0 L50,8" fill="#8812e2"/>
-        <path d="M55,-7 L50,0 L55,0 L50,8" fill="#8812e2" transform="scale(-1,1) translate(-100,0)"/>
+        <line x1="35" y1="8" x2="35" y2="-2" stroke="#e515bb" stroke-width="2"/>
+        <circle cx="35" cy="-4" r="3" fill="#e515bb"/>
+        <line x1="65" y1="8" x2="65" y2="-2" stroke="#e515bb" stroke-width="2"/>
+        <circle cx="65" cy="-4" r="3" fill="#e515bb"/>
       
     
-    <rect x="5" y="32" width="10" height="16" rx="2" fill="#2c3e50"/>
-    <rect x="85" y="32" width="10" height="16" rx="2" fill="#2c3e50"/>
-    <rect x="7" y="34" width="6" height="12" rx="1" fill="#0e2032" opacity="0.5"/>
-    <rect x="87" y="34" width="6" height="12" rx="1" fill="#0e2032" opacity="0.5"/>
-    <circle cx="10" cy="40" r="2" fill="#8812e2"/>
-    <circle cx="90" cy="40" r="2" fill="#8812e2"/>
+    <rect x="5" y="32" width="10" height="16" rx="2" fill="#9b59b6"/>
+    <rect x="85" y="32" width="10" height="16" rx="2" fill="#9b59b6"/>
+    <rect x="7" y="34" width="6" height="12" rx="1" fill="#7d3b98" opacity="0.5"/>
+    <rect x="87" y="34" width="6" height="12" rx="1" fill="#7d3b98" opacity="0.5"/>
+    <circle cx="10" cy="40" r="2" fill="#e515bb"/>
+    <circle cx="90" cy="40" r="2" fill="#e515bb"/>
   
     
-        <rect x="22" y="8" width="56" height="80" rx="10" fill="#2c3e50"/>
-        <rect x="26" y="12" width="48" height="72" rx="8" fill="#132537" opacity="0.3"/>
-        <rect x="26" y="12" width="48" height="10" fill="#4a5c6e" opacity="0.5"/>
+        <rect x="22" y="8" width="56" height="80" rx="10" fill="#9b59b6"/>
+        <rect x="26" y="12" width="48" height="72" rx="8" fill="#82409d" opacity="0.3"/>
+        <rect x="26" y="12" width="48" height="10" fill="#b977d4" opacity="0.5"/>
       
     
-        <circle cx="50" cy="35" r="15" fill="#1a1a2e"/>
-        <circle cx="50" cy="35" r="10" fill="#a92ed6"/>
-        <circle cx="50" cy="35" r="5" fill="#1a1a2e"/>
-        <circle cx="47" cy="32" r="3" fill="#d156fe"/>
+        <rect x="28" y="29" width="12" height="12" rx="2" fill="#1a1a2e"/>
+        <rect x="60" y="29" width="12" height="12" rx="2" fill="#1a1a2e"/>
+        <rect x="30" y="31" width="8" height="8" fill="#68f3b4"/>
+        <rect x="62" y="31" width="8" height="8" fill="#68f3b4"/>
+        <rect x="30" y="31" width="8" height="2" fill="#90ffdc"/>
+        <rect x="62" y="31" width="8" height="2" fill="#90ffdc"/>
       
     
+        <circle cx="35" cy="71" r="4" fill="#e515bb"/>
+        <circle cx="50" cy="71" r="4" fill="#e515bb"/>
+        <circle cx="65" cy="71" r="4" fill="#e515bb"/>
+      
     
-      <circle cx="30" cy="15" r="3" fill="#0e2032"/>
-      <circle cx="70" cy="15" r="3" fill="#0e2032"/>
-      <circle cx="30" cy="80" r="3" fill="#0e2032"/>
-      <circle cx="70" cy="80" r="3" fill="#0e2032"/>
-    <rect x="30" y="75" width="40" height="8" rx="2" fill="#0e2032"/><circle cx="50" cy="79" r="2" fill="#8812e2"/>
+      <circle cx="30" cy="15" r="3" fill="#7d3b98"/>
+      <circle cx="70" cy="15" r="3" fill="#7d3b98"/>
+      <circle cx="30" cy="80" r="3" fill="#7d3b98"/>
+      <circle cx="70" cy="80" r="3" fill="#7d3b98"/>
+    
   
     </g>
   </g>
@@ -973,31 +1000,42 @@ exports[`SVG snapshots > robots theme > generates expected SVG with seed "john@e
 
 exports[`SVG snapshots > robots theme > generates expected SVG with seed "test-user-123" 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <circle cx="50" cy="50" r="50" fill="#2fac2f"/>
+    <rect width="100" height="100" rx="15" fill="#b99f2d"/>
     <g>
     <g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
       
     
-    
-    
-        <rect x="8" y="28" width="84" height="52" rx="8" fill="#839192"/>
-        <rect x="12" y="32" width="76" height="44" rx="6" fill="#6a7879" opacity="0.3"/>
-        <rect x="12" y="32" width="76" height="8" fill="#a1afb0" opacity="0.5"/>
+        <path d="M45,-7 L50,0 L45,0 L50,8" fill="#c6a953"/>
+        <path d="M55,-7 L50,0 L55,0 L50,8" fill="#c6a953" transform="scale(-1,1) translate(-100,0)"/>
       
     
-        <rect x="22" y="40" width="56" height="16" rx="4" fill="#1a1a2e"/>
-        <rect x="25" y="43" width="50" height="10" rx="2" fill="#18f2d4" opacity="0.8"/>
-        <rect x="25" y="43" width="50" height="3" fill="#40fffc" opacity="0.5"/>
+    <rect x="5" y="32" width="10" height="16" rx="2" fill="#5d6d7e"/>
+    <rect x="85" y="32" width="10" height="16" rx="2" fill="#5d6d7e"/>
+    <rect x="7" y="34" width="6" height="12" rx="1" fill="#3f4f60" opacity="0.5"/>
+    <rect x="87" y="34" width="6" height="12" rx="1" fill="#3f4f60" opacity="0.5"/>
+    <circle cx="10" cy="40" r="2" fill="#c6a953"/>
+    <circle cx="90" cy="40" r="2" fill="#c6a953"/>
+  
+    
+        <rect x="22" y="8" width="56" height="80" rx="10" fill="#5d6d7e"/>
+        <rect x="26" y="12" width="48" height="72" rx="8" fill="#445465" opacity="0.3"/>
+        <rect x="26" y="12" width="48" height="10" fill="#7b8b9c" opacity="0.5"/>
       
     
-        <path d="M30,70 L38,65 L46,75 L54,65 L62,75 L70,70" stroke="#b89932" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="25,30 45,25 45,40 25,40" fill="#1a1a2e"/>
+        <polygon points="75,30 55,25 55,40 75,40" fill="#1a1a2e"/>
+        <circle cx="35" cy="35" r="5" fill="#e65156"/>
+        <circle cx="65" cy="35" r="5" fill="#e65156"/>
       
     
-      <circle cx="15" cy="35" r="3" fill="#657374"/>
-      <circle cx="85" cy="35" r="3" fill="#657374"/>
-      <circle cx="15" cy="70" r="3" fill="#657374"/>
-      <circle cx="85" cy="70" r="3" fill="#657374"/>
+        <path d="M30,70 L38,65 L46,75 L54,65 L62,75 L70,70" stroke="#c6a953" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      
     
+      <circle cx="30" cy="15" r="3" fill="#3f4f60"/>
+      <circle cx="70" cy="15" r="3" fill="#3f4f60"/>
+      <circle cx="30" cy="80" r="3" fill="#3f4f60"/>
+      <circle cx="70" cy="80" r="3" fill="#3f4f60"/>
+    <rect x="30" y="75" width="40" height="8" rx="2" fill="#3f4f60"/><circle cx="50" cy="79" r="2" fill="#c6a953"/>
   
     </g>
   </g>
@@ -1006,112 +1044,127 @@ exports[`SVG snapshots > robots theme > generates expected SVG with seed "test-u
 
 exports[`generateParams determinism > aliens params are deterministic with seed 1`] = `
 {
-  "antennae": "straight",
-  "backgroundColor": "#1b1b2f",
-  "backgroundShape": "circle",
-  "eyeColor": "#000000",
-  "eyeStyle": "compound",
-  "headShape": "classic",
-  "markings": "none",
-  "mouthStyle": "none",
-  "skinColor": "#95a5a6",
+  "antennae": "curved",
+  "backgroundColor": "#0f3460",
+  "backgroundShape": "rounded",
+  "eyeColor": "#1a1a2e",
+  "eyeStyle": "large",
+  "headShape": "bulbous",
+  "markings": "spots",
+  "mouthStyle": "slit",
+  "skinColor": "#2ecc71",
 }
 `;
 
 exports[`generateParams determinism > animals params are deterministic with seed 1`] = `
 {
-  "animalType": "koala",
-  "backgroundColor": "#d77733",
-  "backgroundShape": "circle",
-  "expression": "happy",
-  "eyeColor": "#30cfbc",
-  "primaryColor": "#21b04e",
+  "animalType": "bear",
+  "backgroundColor": "#cd2da2",
+  "backgroundShape": "rounded",
+  "expression": "sleepy",
+  "eyeColor": "#aae534",
+  "primaryColor": "#2b7abf",
   "secondaryColor": "#ffffff",
 }
 `;
 
 exports[`generateParams determinism > dinosaurs params are deterministic with seed 1`] = `
 {
-  "backgroundColor": "#a0785a",
-  "backgroundShape": "circle",
-  "dinosaurType": "parasaurolophus",
-  "expression": "fierce",
-  "eyeColor": "#2c3e50",
+  "backgroundColor": "#7a6652",
+  "backgroundShape": "rounded",
+  "dinosaurType": "stegosaurus",
+  "expression": "sleepy",
+  "eyeColor": "#f1c40f",
   "hasPlants": "yes",
-  "pattern": "spots",
-  "primaryColor": "#a0522d",
-  "secondaryColor": "#e8f5e9",
+  "pattern": "plates",
+  "primaryColor": "#6b8e23",
+  "secondaryColor": "#ffffff",
+}
+`;
+
+exports[`generateParams determinism > insects params are deterministic with seed 1`] = `
+{
+  "backgroundColor": "#F3E5F5",
+  "backgroundShape": "rounded",
+  "decoration": "flowers",
+  "expression": "sleepy",
+  "eyeColor": "#1a1a1a",
+  "insectType": "ladybug",
+  "pattern": "none",
+  "primaryColor": "#4CAF50",
+  "secondaryColor": "#F5F5F5",
+  "wingColor": "#B39DDB",
 }
 `;
 
 exports[`generateParams determinism > monsters params are deterministic with seed 1`] = `
 {
-  "backgroundColor": "#613dd6",
-  "backgroundShape": "circle",
-  "bodyColor": "#d34f27",
-  "bodyShape": "square",
+  "backgroundColor": "#722ead",
+  "backgroundShape": "rounded",
+  "bodyColor": "#b4843c",
+  "bodyShape": "tall",
   "expression": "surprised",
   "eyeColor": "#ffffff",
-  "eyeCount": 1,
-  "hasHorns": "curved",
-  "hasTeeth": "no",
-  "mouthColor": "#49c55e",
+  "eyeCount": 5,
+  "hasHorns": "spikes",
+  "hasTeeth": "yes",
+  "mouthColor": "#ef5725",
 }
 `;
 
 exports[`generateParams determinism > mythical params are deterministic with seed 1`] = `
 {
-  "backgroundColor": "#1e0a2e",
-  "backgroundShape": "circle",
-  "creatureType": "minotaur",
-  "expression": "majestic",
-  "eyeColor": "#ffd700",
+  "backgroundColor": "#161625",
+  "backgroundShape": "rounded",
+  "creatureType": "phoenix",
+  "expression": "mysterious",
+  "eyeColor": "#ff6b6b",
   "magic": "none",
-  "pattern": "spots",
-  "primaryColor": "#1a6b3c",
-  "secondaryColor": "#fff8e1",
+  "pattern": "scales",
+  "primaryColor": "#7b2d8e",
+  "secondaryColor": "#ffffff",
 }
 `;
 
 exports[`generateParams determinism > ocean params are deterministic with seed 1`] = `
 {
-  "backgroundColor": "#163a5f",
-  "backgroundShape": "circle",
-  "creatureType": "turtle",
-  "expression": "neutral",
-  "eyeColor": "#2c3e50",
+  "backgroundColor": "#0d4f6e",
+  "backgroundShape": "rounded",
+  "creatureType": "jellyfish",
+  "expression": "grumpy",
+  "eyeColor": "#ffffff",
   "hasBubbles": "yes",
-  "pattern": "spots",
-  "primaryColor": "#f39c12",
-  "secondaryColor": "#fef9e7",
+  "pattern": "scales",
+  "primaryColor": "#3498db",
+  "secondaryColor": "#e8f8f5",
 }
 `;
 
 exports[`generateParams determinism > people params are deterministic with seed 1`] = `
 {
-  "accessory": "glasses",
-  "backgroundColor": "#37b027",
-  "backgroundShape": "circle",
-  "expression": "happy",
-  "eyeColor": "#4ec6ae",
-  "hairColor": "#d2691e",
+  "accessory": "earrings",
+  "backgroundColor": "#c7d846",
+  "backgroundShape": "rounded",
+  "expression": "neutral",
+  "eyeColor": "#f14190",
+  "hairColor": "#2c1810",
   "hairStyle": "curly",
-  "skinColor": "#6b4423",
+  "skinColor": "#f5d0c5",
 }
 `;
 
 exports[`generateParams determinism > robots params are deterministic with seed 1`] = `
 {
-  "accentColor": "#21b04e",
-  "antennaStyle": "bunny",
-  "backgroundColor": "#d77733",
-  "backgroundShape": "circle",
-  "bodyColor": "#9b59b6",
-  "eyeColor": "#30cfbc",
+  "accentColor": "#2b7abf",
+  "antennaStyle": "double",
+  "backgroundColor": "#cd2da2",
+  "backgroundShape": "rounded",
+  "bodyColor": "#95a5a6",
+  "eyeColor": "#aae534",
   "eyeStyle": "angry",
-  "hasPanel": "no",
-  "headShape": "square",
-  "mouthStyle": "none",
-  "panelLights": 5,
+  "hasPanel": "yes",
+  "headShape": "wide",
+  "mouthStyle": "grille",
+  "panelLights": 2,
 }
 `;
