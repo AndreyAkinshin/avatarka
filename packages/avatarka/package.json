@@ -18,7 +18,9 @@
       }
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -29,7 +31,12 @@
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
   },
-  "keywords": ["avatar", "svg", "generator", "identicon"],
+  "keywords": [
+    "avatar",
+    "svg",
+    "generator",
+    "identicon"
+  ],
   "license": "MIT",
   "author": "Andrey Akinshin",
   "homepage": "https://github.com/AndreyAkinshin/avatarka",
@@ -45,5 +52,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "pragmastat": "^10.0.5"
   }
 }
