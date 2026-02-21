@@ -29,4 +29,5 @@ export {
   type DinosaurParams,
   type MythicalParams,
   type InsectsParams,
+  type BirdsParams,
 } from 'avatarka';
