@@ -178,10 +178,10 @@ exports[`SVG snapshots > animals theme > generates expected SVG with default par
 "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
     <circle cx="50" cy="50" r="50" fill="#ecf0f1"/>
     <g><g transform="translate(50, 50) scale(0.85) translate(-50, -50)">
-    <polygon points="15,35 25,5 40,30" fill="#e67e22"/>
-    <polygon points="20,32 27,12 37,30" fill="#ffa64a"/>
-    <polygon points="85,35 75,5 60,30" fill="#e67e22"/>
-    <polygon points="80,32 73,12 63,30" fill="#ffa64a"/>
+    <polygon points="18,39 25,9 40,34" fill="#e67e22"/>
+    <polygon points="22,36 27,16 37,34" fill="#ffa64a"/>
+    <polygon points="82,39 75,9 60,34" fill="#e67e22"/>
+    <polygon points="78,36 73,16 63,34" fill="#ffa64a"/>
   
     <ellipse cx="50" cy="55" rx="38" ry="35" fill="#e67e22"/>
     <ellipse cx="50" cy="60" rx="25" ry="22" fill="#ffffff"/>
@@ -218,6 +218,8 @@ exports[`SVG snapshots > animals theme > generates expected SVG with seed "john@
   
         <ellipse cx="32" cy="48" rx="14" ry="16" fill="#1a1a2e"/>
         <ellipse cx="68" cy="48" rx="14" ry="16" fill="#1a1a2e"/>
+        <ellipse cx="32" cy="50" rx="5" ry="3" fill="#a92ed6"/>
+        <ellipse cx="68" cy="50" rx="5" ry="3" fill="#a92ed6"/>
         <path d="M24,50 Q32,45 40,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M60,50 Q68,45 76,50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
       
@@ -298,9 +300,11 @@ exports[`SVG snapshots > monsters theme > generates expected SVG with default pa
     <circle cx="50" cy="50" r="50" fill="#e8f4f8"/>
     <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
     
-    <polygon points="25,23 30,33 20,33" fill="#73318e"/>
-    <polygon points="75,23 80,33 70,33" fill="#73318e"/>
-  
+        <polygon points="28,29 34,8 40,29" fill="#6e2c89"/>
+        <polygon points="31,28 34,11 37,28" fill="#a765c2" opacity="0.7"/>
+        <polygon points="60,29 66,8 72,29" fill="#6e2c89"/>
+        <polygon points="63,28 66,11 69,28" fill="#a765c2" opacity="0.7"/>
+      
     
         <ellipse cx="50" cy="55" rx="35" ry="38" fill="#9b59b6"/>
         <ellipse cx="50" cy="58" rx="30" ry="32" fill="#7d3b98" opacity="0.3"/>
@@ -320,6 +324,11 @@ exports[`SVG snapshots > monsters theme > generates expected SVG with seed "john
     <circle cx="50" cy="50" r="50" fill="#63c6ee"/>
     <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
     
+        <path d="M 34,20 L 30,10 L 24,4 M 30,12 L 24,12 M 28,8 L 22,8" fill="none" stroke="#2abb00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 66,20 L 70,10 L 76,4 M 70,12 L 76,12 M 72,8 L 78,8" fill="none" stroke="#2abb00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 34,20 L 30,10 L 24,4 M 30,12 L 24,12 M 28,8 L 22,8" fill="none" stroke="#63f432" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+        <path d="M 66,20 L 70,10 L 76,4 M 70,12 L 76,12 M 72,8 L 78,8" fill="none" stroke="#63f432" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+      
     
         <path d="M20,50 Q10,30 30,20 Q50,10 70,20 Q90,30 80,50 Q90,70 70,80 Q50,95 30,80 Q10,70 20,50" fill="#57e826"/>
         <path d="M25,50 Q15,32 32,23 Q50,15 68,23 Q85,32 77,50 Q85,68 68,77 Q50,88 32,77 Q15,68 25,50" fill="#39ca08" opacity="0.3"/>
@@ -335,9 +344,11 @@ exports[`SVG snapshots > monsters theme > generates expected SVG with seed "test
     <circle cx="50" cy="50" r="50" fill="#34b255"/>
     <g><g transform="translate(50, 50) scale(0.88) translate(-50, -50)">
     
-    <polygon points="25,23 30,33 20,33" fill="#9ebe51"/>
-    <polygon points="75,23 80,33 70,33" fill="#9ebe51"/>
-  
+        <polygon points="28,29 34,8 40,29" fill="#99b94c"/>
+        <polygon points="31,28 34,11 37,28" fill="#d2f285" opacity="0.7"/>
+        <polygon points="60,29 66,8 72,29" fill="#99b94c"/>
+        <polygon points="63,28 66,11 69,28" fill="#d2f285" opacity="0.7"/>
+      
     
         <ellipse cx="50" cy="55" rx="35" ry="38" fill="#c6e679"/>
         <ellipse cx="50" cy="58" rx="30" ry="32" fill="#a8c85b" opacity="0.3"/>
@@ -370,19 +381,19 @@ exports[`SVG snapshots > people theme > generates expected SVG with default para
         <path d="M20,40 C20,26 32,14 50,14 C68,14 80,26 80,40 C72,36 62,40 50,37 C38,40 28,36 20,40 Z" fill="#5d4e37"/>
       
     
-        <ellipse cx="38" cy="50" rx="7" ry="8" fill="white"/>
-        <ellipse cx="62" cy="50" rx="7" ry="8" fill="white"/>
-        <circle cx="38" cy="51" r="4" fill="#3498db"/>
-        <circle cx="62" cy="51" r="4" fill="#3498db"/>
-        <circle cx="38" cy="51" r="2" fill="#2c3e50"/>
-        <circle cx="62" cy="51" r="2" fill="#2c3e50"/>
-        <circle cx="36" cy="49" r="1.5" fill="white"/>
-        <circle cx="60" cy="49" r="1.5" fill="white"/>
+        <ellipse cx="38" cy="50" rx="6" ry="6" fill="white"/>
+        <ellipse cx="62" cy="50" rx="6" ry="6" fill="white"/>
+        <circle cx="38" cy="51" r="3.2" fill="#3498db"/>
+        <circle cx="62" cy="51" r="3.2" fill="#3498db"/>
+        <circle cx="38" cy="51" r="1.6" fill="#2c3e50"/>
+        <circle cx="62" cy="51" r="1.6" fill="#2c3e50"/>
+        <path d="M32,47 Q38,45 44,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
+        <path d="M56,47 Q62,45 68,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
       
-      <path d="M30,44 Q38,42 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
-      <path d="M70,44 Q62,42 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M30,44 Q38,42 46,44" stroke="#3a2b14" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,42 54,44" stroke="#3a2b14" stroke-width="2" stroke-linecap="round" fill="none"/>
     
-    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#d7b2a7" stroke-width="1.5" fill="none"/><path d="M40,78 Q50,86 60,78" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#d7b2a7" stroke-width="1.4" fill="none"/><path d="M42,78 Q50,82 58,78" stroke="#dcb7ac" stroke-width="2" fill="none" stroke-linecap="round"/>
     
   
     </g>
@@ -411,17 +422,17 @@ exports[`SVG snapshots > people theme > generates expected SVG with seed "john@e
   
     
     
-        <ellipse cx="38" cy="50" rx="6" ry="7" fill="white"/>
-        <ellipse cx="62" cy="50" rx="6" ry="7" fill="white"/>
-        <circle cx="38" cy="50" r="3" fill="#da67bc"/>
-        <circle cx="62" cy="50" r="3" fill="#da67bc"/>
-        <circle cx="38" cy="50" r="1.5" fill="#2c3e50"/>
-        <circle cx="62" cy="50" r="1.5" fill="#2c3e50"/>
+        <ellipse cx="38" cy="50" rx="5.5" ry="6" fill="white"/>
+        <ellipse cx="62" cy="50" rx="5.5" ry="6" fill="white"/>
+        <circle cx="38" cy="50" r="2.8" fill="#da67bc"/>
+        <circle cx="62" cy="50" r="2.8" fill="#da67bc"/>
+        <circle cx="38" cy="50" r="1.4" fill="#2c3e50"/>
+        <circle cx="62" cy="50" r="1.4" fill="#2c3e50"/>
       
-      <path d="M30,44 Q38,42 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
-      <path d="M70,44 Q62,42 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M30,44 Q38,42 46,44" stroke="#27005d" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,42 54,44" stroke="#27005d" stroke-width="2" stroke-linecap="round" fill="none"/>
     
-    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#6f3706" stroke-width="1.5" fill="none"/><line x1="42" y1="80" x2="58" y2="80" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#6f3706" stroke-width="1.4" fill="none"/><path d="M42,80 Q50,80 58,80" stroke="#743c0b" stroke-width="2" fill="none" stroke-linecap="round"/>
     
         <rect x="26" y="44" width="22" height="14" rx="3" fill="#2c3e50"/>
         <rect x="52" y="44" width="22" height="14" rx="3" fill="#2c3e50"/>
@@ -456,19 +467,19 @@ exports[`SVG snapshots > people theme > generates expected SVG with seed "test-u
   
     
     
-        <ellipse cx="38" cy="52" rx="6" ry="7" fill="white"/>
-        <ellipse cx="62" cy="52" rx="6" ry="7" fill="white"/>
-        <circle cx="38" cy="53" r="3" fill="#bcce46"/>
-        <circle cx="62" cy="53" r="3" fill="#bcce46"/>
-        <circle cx="38" cy="53" r="1.5" fill="#2c3e50"/>
-        <circle cx="62" cy="53" r="1.5" fill="#2c3e50"/>
-        <path d="M32,46 Q38,49 44,46" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
-        <path d="M56,46 Q62,49 68,46" stroke="#2c3e50" stroke-width="1.5" fill="none"/>
+        <ellipse cx="38" cy="52" rx="5.5" ry="6" fill="white"/>
+        <ellipse cx="62" cy="52" rx="5.5" ry="6" fill="white"/>
+        <circle cx="38" cy="53" r="2.8" fill="#bcce46"/>
+        <circle cx="62" cy="53" r="2.8" fill="#bcce46"/>
+        <circle cx="38" cy="53" r="1.4" fill="#2c3e50"/>
+        <circle cx="62" cy="53" r="1.4" fill="#2c3e50"/>
+        <path d="M32,47 Q38,48 44,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
+        <path d="M56,47 Q62,48 68,47" stroke="#2c3e50" stroke-width="1" fill="none"/>
       
-      <path d="M30,42 Q38,40 44,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
-      <path d="M70,42 Q62,40 56,44" stroke="#5d4e37" stroke-width="2" fill="none"/>
+      <path d="M30,44 Q38,41 46,44" stroke="#3a2b14" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M70,44 Q62,41 54,44" stroke="#3a2b14" stroke-width="2" stroke-linecap="round" fill="none"/>
     
-    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#a86824" stroke-width="1.5" fill="none"/><path d="M40,84 Q50,76 60,84" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M50,55 L47,68 Q50,70 53,68 L50,55" stroke="#a86824" stroke-width="1.4" fill="none"/><path d="M42,82 Q50,79 58,82" stroke="#ad6d29" stroke-width="2" fill="none" stroke-linecap="round"/>
     
   
     </g>
@@ -650,7 +661,7 @@ exports[`generateParams determinism > monsters params are deterministic with see
   "expression": "surprised",
   "eyeColor": "#ffffff",
   "eyeCount": 1,
-  "hasHorns": "no",
+  "hasHorns": "curved",
   "hasTeeth": "no",
   "mouthColor": "#49c55e",
 }
