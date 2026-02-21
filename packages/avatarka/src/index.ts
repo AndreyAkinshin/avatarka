@@ -56,7 +56,7 @@ export {
  *   mouthColor: '#c0392b',
  *   bodyShape: 'round',
  *   eyeCount: 2,
- *   hasHorns: 'yes',
+ *   hasHorns: 'spikes',
  *   hasTeeth: 'yes',
  *   expression: 'happy',
  * });

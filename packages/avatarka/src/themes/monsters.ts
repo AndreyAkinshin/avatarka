@@ -1,5 +1,13 @@
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, randomColor, randomInt, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import {
+  darkenColor,
+  lightenColor,
+  randomColor,
+  randomInt,
+  randomPick,
+  wrapSvgWithShape,
+  type BackgroundShape,
+} from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -36,8 +44,8 @@ export const schema = {
   },
   hasHorns: {
     type: 'select',
-    default: 'yes',
-    options: ['yes', 'no'],
+    default: 'spikes',
+    options: ['no', 'spikes', 'curved', 'antlers'],
   },
   hasTeeth: {
     type: 'select',
@@ -174,13 +182,86 @@ function generateHorns(params: MonsterParams): string {
 
   if (hasHorns === 'no') return '';
 
-  const hornColor = darkenColor(bodyColor, 40);
-  const baseY = bodyShape === 'tall' ? 12 : 18;
+  const hornColor = darkenColor(bodyColor, 45);
+  const hornHighlight = lightenColor(bodyColor, 12);
 
-  return `
-    <polygon points="25,${baseY + 5} 30,${baseY + 15} 20,${baseY + 15}" fill="${hornColor}"/>
-    <polygon points="75,${baseY + 5} 80,${baseY + 15} 70,${baseY + 15}" fill="${hornColor}"/>
-  `;
+  const isTall = bodyShape === 'tall';
+  const headTopY =
+    bodyShape === 'tall'
+      ? 8
+      : bodyShape === 'square'
+        ? 20
+        : bodyShape === 'round'
+          ? 17
+          : 10;
+  const baseY = headTopY + 4;
+  const spread = isTall ? 10 : 16;
+  const leftX = 50 - spread;
+  const rightX = 50 + spread;
+
+  switch (hasHorns) {
+    case 'spikes': {
+      const spikeHeight = isTall ? 13 : 15;
+      const spikeWidth = isTall ? 10 : 12;
+      const spikeYOffset = 2;
+      const spikeBottom = baseY + 6 + spikeYOffset;
+      const spikeTop = baseY - spikeHeight + spikeYOffset;
+      const half = spikeWidth / 2;
+      const innerHalf = spikeWidth / 4;
+
+      return `
+        <polygon points="${leftX - half},${spikeBottom} ${leftX},${spikeTop} ${leftX + half},${spikeBottom}" fill="${hornColor}"/>
+        <polygon points="${leftX - innerHalf},${spikeBottom - 1} ${leftX},${spikeTop + 3} ${leftX + innerHalf},${spikeBottom - 1}" fill="${hornHighlight}" opacity="0.7"/>
+        <polygon points="${rightX - half},${spikeBottom} ${rightX},${spikeTop} ${rightX + half},${spikeBottom}" fill="${hornColor}"/>
+        <polygon points="${rightX - innerHalf},${spikeBottom - 1} ${rightX},${spikeTop + 3} ${rightX + innerHalf},${spikeBottom - 1}" fill="${hornHighlight}" opacity="0.7"/>
+      `;
+    }
+    case 'curved': {
+      const curveHeight = isTall ? 9 : 11;
+      const curveOut = isTall ? 8 : 10;
+      const curveIn = isTall ? 4 : 6;
+      const curveBottom = baseY + 5;
+      const strokeWidth = isTall ? 5 : 6;
+      const highlightWidth = strokeWidth - 2;
+
+      const leftPath = `M ${leftX - 2},${curveBottom} C ${leftX - curveOut},${baseY + 2} ${leftX - curveOut},${baseY - curveHeight} ${leftX + curveIn},${baseY - curveHeight + 2}`;
+      const rightPath = `M ${rightX + 2},${curveBottom} C ${rightX + curveOut},${baseY + 2} ${rightX + curveOut},${baseY - curveHeight} ${rightX - curveIn},${baseY - curveHeight + 2}`;
+
+      return `
+        <path d="${leftPath}" fill="none" stroke="${hornColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="${rightPath}" fill="none" stroke="${hornColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="${leftPath}" fill="none" stroke="${hornHighlight}" stroke-width="${highlightWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+        <path d="${rightPath}" fill="none" stroke="${hornHighlight}" stroke-width="${highlightWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+      `;
+    }
+    case 'antlers': {
+      const antlerHeight = isTall ? 8 : 10;
+      const antlerOut = isTall ? 8 : 10;
+      const branch = isTall ? 5 : 6;
+      const strokeWidth = isTall ? 3 : 4;
+      const highlightWidth = strokeWidth - 1;
+
+      const leftPath = [
+        `M ${leftX},${baseY + 6} L ${leftX - 4},${baseY - 4} L ${leftX - antlerOut},${baseY - antlerHeight}`,
+        `M ${leftX - 4},${baseY - 2} L ${leftX - 4 - branch},${baseY - 2}`,
+        `M ${leftX - 6},${baseY - 6} L ${leftX - 6 - branch},${baseY - 6}`,
+      ].join(' ');
+      const rightPath = [
+        `M ${rightX},${baseY + 6} L ${rightX + 4},${baseY - 4} L ${rightX + antlerOut},${baseY - antlerHeight}`,
+        `M ${rightX + 4},${baseY - 2} L ${rightX + 4 + branch},${baseY - 2}`,
+        `M ${rightX + 6},${baseY - 6} L ${rightX + 6 + branch},${baseY - 6}`,
+      ].join(' ');
+
+      return `
+        <path d="${leftPath}" fill="none" stroke="${hornColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="${rightPath}" fill="none" stroke="${hornColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="${leftPath}" fill="none" stroke="${hornHighlight}" stroke-width="${highlightWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+        <path d="${rightPath}" fill="none" stroke="${hornHighlight}" stroke-width="${highlightWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+      `;
+    }
+    default:
+      return '';
+  }
 }
 
 // Scale factor to ensure monster fits within the circular background
@@ -206,6 +287,7 @@ export function randomize(rng: () => number): MonsterParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const bodyShapes = ['round', 'square', 'blob', 'tall'] as const;
   const expressions = ['happy', 'angry', 'surprised', 'silly'] as const;
+  const hornTypes = ['no', 'spikes', 'curved', 'antlers'] as const;
   const yesNo = ['yes', 'no'] as const;
 
   return {
@@ -216,7 +298,7 @@ export function randomize(rng: () => number): MonsterParams {
     mouthColor: randomColor(rng),
     bodyShape: randomPick(bodyShapes, rng),
     eyeCount: randomInt(1, 5, rng),
-    hasHorns: randomPick(yesNo, rng),
+    hasHorns: randomPick(hornTypes, rng),
     hasTeeth: randomPick(yesNo, rng),
     expression: randomPick(expressions, rng),
   };
