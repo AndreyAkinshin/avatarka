@@ -28,6 +28,7 @@ export type {
   MythicalParams,
   InsectsParams,
   BirdsParams,
+  PlantsParams,
 } from './themes';
 
 // Export themes
