@@ -47,23 +47,20 @@
 /* Tabs */
 .avatarka-tabs {
   display: flex;
-  background: var(--_avatarka-btn-bg);
-  border-radius: 8px;
-  padding: 4px;
+  gap: 16px;
 }
 
 .avatarka-tab {
-  flex: 1;
-  padding: 10px 16px;
+  padding: 10px 0;
   border: none;
-  border-radius: 6px;
   background: transparent;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.2s;
   color: var(--_avatarka-text-secondary);
   font-family: inherit;
+  outline: none;
 }
 
 .avatarka-tab:hover {
@@ -71,9 +68,8 @@
 }
 
 .avatarka-tab.active {
-  background: var(--_avatarka-bg);
   color: var(--_avatarka-accent);
-  box-shadow: 0 1px 3px var(--_avatarka-shadow);
+  font-weight: 600;
 }
 
 /* Theme Dropdown */
@@ -249,12 +245,8 @@
   gap: 12px;
 }
 
-.avatarka-picker--compact .avatarka-tabs {
-  padding: 2px;
-}
-
 .avatarka-picker--compact .avatarka-tab {
-  padding: 6px 12px;
+  padding: 6px 0;
   font-size: 13px;
 }
 
