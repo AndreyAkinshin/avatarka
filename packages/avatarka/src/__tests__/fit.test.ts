@@ -32,6 +32,7 @@ describe('fitToCircle — never overflows the target circle', () => {
     { label: 'wide ellipse', content: '<ellipse cx="50" cy="50" rx="48" ry="6"/>' },
     { label: 'polygon', content: '<polygon points="10,90 90,90 50,10"/>' },
     { label: 'path with curves', content: '<path d="M20,50 Q50,0 80,50 Q50,100 20,50 Z"/>' },
+    { label: 'arc (semicircle bulge)', content: '<path d="M10,50 A40,40 0 0,1 90,50"/>' },
     { label: 'rotated rect', content: '<rect x="30" y="48" width="40" height="4" transform="rotate(45 50 50)"/>' },
     { label: 'nested group transform', content: '<g transform="translate(50 50) scale(2) translate(-50 -50)"><circle cx="50" cy="50" r="20"/></g>' },
     { label: 'stroked line', content: '<line x1="10" y1="50" x2="90" y2="50" stroke="#000" stroke-width="6"/>', touch: false },
@@ -63,6 +64,23 @@ describe('fitToCircle — geometry parsing', () => {
     const content = '<clipPath id="c"><rect x="0" y="0" width="1000" height="1000"/></clipPath><circle cx="50" cy="50" r="20"/>';
     const max = maxRadius(fitToCircle(content, { padding: 4 }));
     expect(max).toBeLessThanOrEqual(46 + 0.05);
+  });
+
+  it('samples arc curvature, not just endpoints', () => {
+    // A semicircular arc between two points at y=50 bulges far from that line;
+    // endpoint-only bounds would miss it entirely.
+    const { points } = collectPoints('<path d="M10,50 A40,40 0 0,1 90,50"/>');
+    const ys = points.map((p) => p.y);
+    expect(Math.max(...ys) - Math.min(...ys)).toBeGreaterThan(30);
+  });
+
+  it('applies chained transforms in SVG (left-to-right) order', () => {
+    // translate(10 0) scale(2): per SVG, scale applies first, then translate,
+    // so cx=5 maps to 5*2 + 10 = 20 (a reversed order would give (5+10)*2 = 30).
+    const { points } = collectPoints('<g transform="translate(10 0) scale(2)"><circle cx="5" cy="0" r="0.01"/></g>');
+    const maxX = Math.max(...points.map((p) => p.x));
+    expect(maxX).toBeGreaterThan(19);
+    expect(maxX).toBeLessThan(21);
   });
 
   it('centers an off-center shape onto the viewBox center', () => {

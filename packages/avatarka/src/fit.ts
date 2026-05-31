@@ -112,6 +112,7 @@ function strokePad(attrs: string): number {
 const CIRCLE_SAMPLES = 24;
 const CUBIC_SAMPLES = 16;
 const QUAD_SAMPLES = 12;
+const ARC_SAMPLES = 24;
 
 function sampleCubic(p0: Pt, c1: Pt, c2: Pt, p1: Pt, out: Pt[]): void {
   for (let i = 0; i <= CUBIC_SAMPLES; i++) {
@@ -136,6 +137,85 @@ function sampleQuad(p0: Pt, c: Pt, p1: Pt, out: Pt[]): void {
     const b = 2 * u * t;
     const d = t * t;
     out.push({ x: a * p0.x + b * c.x + d * p1.x, y: a * p0.y + b * c.y + d * p1.y });
+  }
+}
+
+/**
+ * Sample an SVG elliptical arc (endpoint -> center parameterization, per the SVG
+ * spec implementation notes), so the arc's curvature is bounded — not just its
+ * endpoints. Without this, arcs (e.g. the rainbow) would be under-bounded and
+ * could overflow the fit circle.
+ */
+function sampleArc(
+  x1: number, y1: number,
+  rx: number, ry: number, phiDeg: number,
+  largeArc: boolean, sweep: boolean,
+  x2: number, y2: number,
+  out: Pt[],
+): void {
+  if (rx === 0 || ry === 0) {
+    out.push({ x: x2, y: y2 });
+    return;
+  }
+  rx = Math.abs(rx);
+  ry = Math.abs(ry);
+  const phi = (phiDeg * Math.PI) / 180;
+  const cosp = Math.cos(phi);
+  const sinp = Math.sin(phi);
+
+  const dx = (x1 - x2) / 2;
+  const dy = (y1 - y2) / 2;
+  const x1p = cosp * dx + sinp * dy;
+  const y1p = -sinp * dx + cosp * dy;
+
+  let rxs = rx * rx;
+  let rys = ry * ry;
+  const x1ps = x1p * x1p;
+  const y1ps = y1p * y1p;
+  const lambda = x1ps / rxs + y1ps / rys;
+  if (lambda > 1) {
+    const s = Math.sqrt(lambda);
+    rx *= s;
+    ry *= s;
+    rxs = rx * rx;
+    rys = ry * ry;
+  }
+
+  const sign = largeArc !== sweep ? 1 : -1;
+  const num = Math.max(0, rxs * rys - rxs * y1ps - rys * x1ps);
+  const denom = rxs * y1ps + rys * x1ps;
+  const co = denom === 0 ? 0 : sign * Math.sqrt(num / denom);
+  const cxp = (co * (rx * y1p)) / ry;
+  const cyp = (co * -(ry * x1p)) / rx;
+
+  const cx = cosp * cxp - sinp * cyp + (x1 + x2) / 2;
+  const cy = sinp * cxp + cosp * cyp + (y1 + y2) / 2;
+
+  const angle = (ux: number, uy: number, vx: number, vy: number): number => {
+    const dot = ux * vx + uy * vy;
+    const len = Math.sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
+    let a = len === 0 ? 0 : Math.acos(Math.min(1, Math.max(-1, dot / len)));
+    if (ux * vy - uy * vx < 0) a = -a;
+    return a;
+  };
+
+  const ux = (x1p - cxp) / rx;
+  const uy = (y1p - cyp) / ry;
+  const vx = (-x1p - cxp) / rx;
+  const vy = (-y1p - cyp) / ry;
+  const theta1 = angle(1, 0, ux, uy);
+  let dtheta = angle(ux, uy, vx, vy);
+  if (!sweep && dtheta > 0) dtheta -= 2 * Math.PI;
+  else if (sweep && dtheta < 0) dtheta += 2 * Math.PI;
+
+  for (let i = 0; i <= ARC_SAMPLES; i++) {
+    const t = theta1 + dtheta * (i / ARC_SAMPLES);
+    const cost = Math.cos(t);
+    const sint = Math.sin(t);
+    out.push({
+      x: cosp * rx * cost - sinp * ry * sint + cx,
+      y: sinp * rx * cost + cosp * ry * sint + cy,
+    });
   }
 }
 
@@ -236,12 +316,16 @@ function pathPoints(d: string): Pt[] {
         break;
       }
       case 'A': {
-        // arc: take endpoint (arcs are essentially unused by this library)
-        next(); next(); next(); next(); next();
-        let x = next(), y = next();
+        const rx = next();
+        const ry = next();
+        const rot = next();
+        const laf = next();
+        const sf = next();
+        let x = next();
+        let y = next();
         if (rel) { x += cx; y += cy; }
+        sampleArc(cx, cy, rx, ry, rot, laf !== 0, sf !== 0, x, y, out);
         cx = x; cy = y; px = x; py = y;
-        out.push({ x, y });
         break;
       }
       case 'Z': {
