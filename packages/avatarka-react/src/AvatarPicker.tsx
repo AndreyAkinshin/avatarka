@@ -157,13 +157,22 @@ export function AvatarPicker({
 
   const handleThemeChange = useCallback(
     (newTheme: ThemeName) => {
+      const newThemeData = getTheme(newTheme);
+      const newParams: DynamicParams = { ...generateParams(newTheme), backgroundShape: 'circle' };
+      // A manual theme switch must NOT clear locks (it only affects the dice/random
+      // button). Keep the theme lock, and for locked fields that also exist in the
+      // new theme (e.g. primaryColor) keep both their lock and their current value —
+      // mirroring how handleRandomize treats locks.
+      for (const name of lockedParams) {
+        if (name !== 'theme' && name in newThemeData.schema && name in params) {
+          newParams[name] = params[name]!;
+        }
+      }
       setTheme(newTheme);
-      setLockedParams(new Set());
-      const newParams = { ...generateParams(newTheme), backgroundShape: 'circle' };
       setParams(newParams);
       onParamsChange?.(newTheme, newParams as ThemeParams<ThemeName>);
     },
-    [onParamsChange]
+    [onParamsChange, lockedParams, params]
   );
 
   const handleParamChange = useCallback(
