@@ -223,12 +223,21 @@ export function AvatarPicker({
 
   const handleGallerySelect = useCallback(
     (item: GalleryItem) => {
+      const newThemeData = getTheme(item.theme);
+      const newParams: DynamicParams = { ...item.params };
+      // Keep locked field values that also exist in the picked avatar's theme,
+      // consistent with handleThemeChange / handleRandomize.
+      for (const name of lockedParams) {
+        if (name !== 'theme' && name in newThemeData.schema && name in params) {
+          newParams[name] = params[name]!;
+        }
+      }
       setTheme(item.theme);
-      setParams(item.params);
+      setParams(newParams);
       setMode('editor');
-      onParamsChange?.(item.theme, item.params as ThemeParams<ThemeName>);
+      onParamsChange?.(item.theme, newParams as ThemeParams<ThemeName>);
     },
-    [onParamsChange]
+    [onParamsChange, lockedParams, params]
   );
 
   const handleGalleryRandomize = useCallback(() => {

@@ -95,4 +95,23 @@ describe('AvatarPicker — lock survives value changes and is respected by Rando
     expect(bgAfter.lockBtn.classList.contains('locked')).toBe(true);
     expect((bgAfter.input as HTMLInputElement).value).toBe('#abcdef');
   });
+
+  it('preserves a locked field value when picking an avatar from the gallery', () => {
+    const { container, getByText } = render(<AvatarPicker defaultTheme="people" />);
+
+    // Lock Background Color (present in every theme) and set a value.
+    const bg = controlByLabel(container, 'Background Color');
+    fireEvent.click(bg.lockBtn);
+    fireEvent.change(bg.input, { target: { value: '#abcdef' } });
+
+    // Switch to the Gallery and pick the first avatar.
+    fireEvent.click(getByText('Gallery'));
+    const item = container.querySelector('.avatarka-gallery-item') as HTMLElement;
+    fireEvent.click(item);
+
+    // Back in the editor, the locked field keeps its lock and value.
+    const bgAfter = controlByLabel(container, 'Background Color');
+    expect(bgAfter.lockBtn.classList.contains('locked')).toBe(true);
+    expect((bgAfter.input as HTMLInputElement).value).toBe('#abcdef');
+  });
 });
