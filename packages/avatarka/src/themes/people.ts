@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, randomColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, randomColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -251,9 +251,6 @@ function generateEars(params: PeopleParams): string {
   `;
 }
 
-// Scale factor to ensure avatar fits within the circular background
-const PEOPLE_SCALE = 0.85;
-
 export function generate(params: PeopleParams): string {
   const { backgroundShape, backgroundColor, hairStyle } = params;
 
@@ -269,12 +266,7 @@ export function generate(params: PeopleParams): string {
     ${generateAccessory(params)}
   `;
 
-  // Apply scale transform centered at (50, 50) to fit within circle
-  const content = `
-    <g transform="translate(50, 50) scale(${PEOPLE_SCALE}) translate(-50, -50)">
-      ${innerContent}
-    </g>
-  `;
+  const content = fitToCircle(innerContent);
 
   return wrapSvgWithShape(content, backgroundShape as BackgroundShape, backgroundColor);
 }

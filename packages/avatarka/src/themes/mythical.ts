@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -41,11 +41,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'spots', 'stripes', 'scales'],
-  },
-  magic: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'sparkles', 'runes', 'orbs'],
   },
 } as const satisfies ParamSchema;
 
@@ -210,51 +205,6 @@ function generateMythicalPattern(
   }
 }
 
-function generateMagic(magic: MythicalParams['magic'], eyeColor: string): string {
-  switch (magic) {
-    case 'sparkles':
-      return `
-        <g opacity="0.7">
-          <polygon points="82,14 83,17 86,17 84,19 85,22 82,20 79,22 80,19 78,17 81,17" fill="white"/>
-          <polygon points="16,22 17,24 19,24 17.5,25.5 18,28 16,26.5 14,28 14.5,25.5 13,24 15,24" fill="${eyeColor}" opacity="0.8"/>
-          <polygon points="76,78 77,80 79,80 77.5,81.5 78,84 76,82.5 74,84 74.5,81.5 73,80 75,80" fill="white" opacity="0.6"/>
-          <polygon points="20,72 21,74 23,74 21.5,75 22,77 20,76 18,77 18.5,75 17,74 19,74" fill="${eyeColor}" opacity="0.5"/>
-          <polygon points="88,50 89,52 91,52 89.5,53 90,55 88,54 86,55 86.5,53 85,52 87,52" fill="white" opacity="0.6"/>
-        </g>
-      `;
-    case 'runes':
-      return `
-        <g opacity="0.3" stroke="${eyeColor}" stroke-width="1" fill="none">
-          <circle cx="12" cy="14" r="3"/>
-          <line x1="12" y1="11" x2="12" y2="17"/>
-          <line x1="9" y1="14" x2="15" y2="14"/>
-          <polygon points="86,80 89,86 83,86"/>
-          <path d="M14,82 L16,78 L18,82 L14,82 M16,78 L16,74"/>
-          <path d="M82,16 L84,12 L86,16 L84,12 L82,14 L86,14"/>
-        </g>
-      `;
-    case 'orbs':
-      return `
-        <g>
-          <circle cx="14" cy="18" r="5" fill="${eyeColor}" opacity="0.15"/>
-          <circle cx="14" cy="18" r="3" fill="${eyeColor}" opacity="0.25"/>
-          <circle cx="14" cy="18" r="1.5" fill="white" opacity="0.3"/>
-          <circle cx="84" cy="78" r="4" fill="${eyeColor}" opacity="0.15"/>
-          <circle cx="84" cy="78" r="2.5" fill="${eyeColor}" opacity="0.25"/>
-          <circle cx="84" cy="78" r="1" fill="white" opacity="0.3"/>
-          <circle cx="86" cy="22" r="3" fill="${eyeColor}" opacity="0.12"/>
-          <circle cx="86" cy="22" r="2" fill="${eyeColor}" opacity="0.2"/>
-          <circle cx="86" cy="22" r="0.8" fill="white" opacity="0.3"/>
-          <circle cx="18" cy="80" r="3.5" fill="${eyeColor}" opacity="0.12"/>
-          <circle cx="18" cy="80" r="2" fill="${eyeColor}" opacity="0.2"/>
-          <circle cx="18" cy="80" r="0.8" fill="white" opacity="0.3"/>
-        </g>
-      `;
-    default:
-      return '';
-  }
-}
-
 // --- Creature generators ---
 
 function generateDragon(params: MythicalParams): string {
@@ -395,12 +345,6 @@ function generatePhoenix(params: MythicalParams): string {
     <path d="M54,66 Q62,78 70,90 Q72,94 68,92" stroke="${primaryColor}" stroke-width="3" fill="none" stroke-linecap="round"/>
   `;
 
-  // Wing glow
-  const wingGlow = `
-    <path d="M12,32 L6,28 L10,36" fill="#ffd700" opacity="0.4"/>
-    <path d="M88,32 L94,28 L90,36" fill="#ffd700" opacity="0.4"/>
-  `;
-
   // Small beak
   const beak = `
     <polygon points="50,36 47,39 50,38 53,39" fill="${dark}"/>
@@ -410,7 +354,7 @@ function generatePhoenix(params: MythicalParams): string {
   const mouth = generateMythicalMouth(expression, dark, 50, 38);
   const pat = generateMythicalPattern(primaryColor, 50, 52, 12, 16, pattern);
 
-  return tail + wingGlow + body + wings + head + crest + beak + pat + eyes + mouth;
+  return tail + body + wings + head + crest + beak + pat + eyes + mouth;
 }
 
 function generateGriffin(params: MythicalParams): string {
@@ -633,9 +577,6 @@ function generateKitsune(params: MythicalParams): string {
     <path d="M42,76 Q28,80 20,74 Q14,68 18,62" stroke="${primaryColor}" stroke-width="6" fill="none" stroke-linecap="round"/>
     <path d="M50,78 Q48,88 42,92 Q36,94 34,90" stroke="${primaryColor}" stroke-width="6" fill="none" stroke-linecap="round"/>
     <path d="M58,76 Q72,80 80,74 Q86,68 82,62" stroke="${primaryColor}" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <circle cx="17" cy="60" r="3" fill="white" opacity="0.4"/>
-    <circle cx="33" cy="89" r="3" fill="white" opacity="0.4"/>
-    <circle cx="83" cy="60" r="3" fill="white" opacity="0.4"/>
   `;
 
   // Legs
@@ -817,22 +758,8 @@ function generateHydra(params: MythicalParams): string {
   return tail + body + necks + leftHead + rightHead + centerHead + tongues + pat + centerEyes + leftEyes + rightEyes;
 }
 
-// Scale factors per creature type
-const mythicalScaleFactors: Record<string, number> = {
-  dragon: 0.75,
-  unicorn: 0.78,
-  phoenix: 0.72,
-  griffin: 0.76,
-  yeti: 0.80,
-  cerberus: 0.72,
-  kitsune: 0.76,
-  minotaur: 0.80,
-  fairy: 0.75,
-  hydra: 0.72,
-};
-
 export function generate(params: MythicalParams): string {
-  const { backgroundShape, creatureType, backgroundColor, eyeColor, magic: magicType } = params;
+  const { backgroundShape, creatureType, backgroundColor } = params;
 
   let creature: string;
   switch (creatureType) {
@@ -870,12 +797,9 @@ export function generate(params: MythicalParams): string {
       creature = generateDragon(params);
   }
 
-  const scale = mythicalScaleFactors[creatureType] ?? 0.76;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const magic = generateMagic(magicType, eyeColor);
-
-  return wrapSvgWithShape(scaledCreature + magic, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): MythicalParams {
@@ -886,7 +810,6 @@ export function randomize(rng: Rng): MythicalParams {
   ] as const;
   const expressions = ['happy', 'majestic', 'surprised', 'mysterious'] as const;
   const patterns = ['none', 'spots', 'stripes', 'scales'] as const;
-  const magicOptions = ['none', 'sparkles', 'runes', 'orbs'] as const;
 
   const primaryColors = [
     '#7b2d8e', '#5b1d6e', '#4a0e6e', '#8e44ad',
@@ -919,7 +842,6 @@ export function randomize(rng: Rng): MythicalParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    magic: randomPick(magicOptions, rng),
   };
 }
 

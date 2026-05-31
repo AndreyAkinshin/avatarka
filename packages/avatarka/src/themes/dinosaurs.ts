@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -41,11 +41,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'spots', 'stripes', 'plates'],
-  },
-  hasPlants: {
-    type: 'select',
-    default: 'yes',
-    options: ['yes', 'no'],
   },
 } as const satisfies ParamSchema;
 
@@ -216,22 +211,6 @@ function generateDinoPattern(
     default:
       return '';
   }
-}
-
-function generatePlants(): string {
-  return `
-    <g opacity="0.3">
-      <path d="M8,92 Q10,82 6,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="5" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(-30, 5, 76)"/>
-      <ellipse cx="8" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(20, 8, 80)"/>
-      <ellipse cx="6" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(-15, 6, 84)"/>
-      <path d="M92,92 Q90,82 94,75" stroke="#2d5016" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="95" cy="76" rx="3" ry="2" fill="#4a7c28" transform="rotate(30, 95, 76)"/>
-      <ellipse cx="92" cy="80" rx="3" ry="2" fill="#4a7c28" transform="rotate(-20, 92, 80)"/>
-      <ellipse cx="94" cy="84" rx="2.5" ry="1.8" fill="#3d6b22" transform="rotate(15, 94, 84)"/>
-      <ellipse cx="85" cy="12" rx="4" ry="2" fill="#4a7c28" opacity="0.7" transform="rotate(-40, 85, 12)"/>
-    </g>
-  `;
 }
 
 // --- Dinosaur generators ---
@@ -773,22 +752,8 @@ function generatePachycephalosaurus(params: DinosaurParams): string {
   return tail + legs + body + arms + face + dome + bumps + pat + eyes + mouth;
 }
 
-// Scale factors per dinosaur type
-const dinoScaleFactors: Record<string, number> = {
-  trex: 0.82,
-  triceratops: 0.75,
-  stegosaurus: 0.78,
-  brachiosaurus: 0.72,
-  pterodactyl: 0.70,
-  ankylosaurus: 0.75,
-  velociraptor: 0.78,
-  parasaurolophus: 0.76,
-  spinosaurus: 0.74,
-  pachycephalosaurus: 0.80,
-};
-
 export function generate(params: DinosaurParams): string {
-  const { backgroundShape, dinosaurType, backgroundColor, hasPlants } = params;
+  const { backgroundShape, dinosaurType, backgroundColor } = params;
 
   let creature: string;
   switch (dinosaurType) {
@@ -826,12 +791,9 @@ export function generate(params: DinosaurParams): string {
       creature = generateTrex(params);
   }
 
-  const scale = dinoScaleFactors[dinosaurType] ?? 0.78;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const plants = hasPlants === 'yes' ? generatePlants() : '';
-
-  return wrapSvgWithShape(scaledCreature + plants, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): DinosaurParams {
@@ -842,7 +804,6 @@ export function randomize(rng: Rng): DinosaurParams {
   ] as const;
   const expressions = ['happy', 'fierce', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'spots', 'stripes', 'plates'] as const;
-  const plantOptions = ['yes', 'no'] as const;
 
   const primaryColors = [
     '#6b8e23', '#556b2f', '#8fbc8f', '#228b22',
@@ -875,7 +836,6 @@ export function randomize(rng: Rng): DinosaurParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    hasPlants: randomPick(plantOptions, rng),
   };
 }
 

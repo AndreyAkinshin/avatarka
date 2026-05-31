@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -38,11 +38,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'spots', 'stripes', 'scales'],
-  },
-  hasBubbles: {
-    type: 'select',
-    default: 'yes',
-    options: ['yes', 'no'],
   },
 } as const satisfies ParamSchema;
 
@@ -163,15 +158,6 @@ function generatePattern(
     default:
       return '';
   }
-}
-
-function generateBubbles(): string {
-  return `
-    <circle cx="75" cy="18" r="3" fill="white" opacity="0.25"/>
-    <circle cx="80" cy="12" r="2" fill="white" opacity="0.2"/>
-    <circle cx="72" cy="8" r="2.5" fill="white" opacity="0.3"/>
-    <circle cx="82" cy="22" r="1.5" fill="white" opacity="0.2"/>
-  `;
 }
 
 // --- Creature generators ---
@@ -622,22 +608,8 @@ function generateStarfish(params: OceanParams): string {
   return star + disc + bumps + pat + eyes + mouth;
 }
 
-// Scale factors to ensure each creature fits within the background shape
-const oceanScaleFactors: Record<string, number> = {
-  octopus: 0.78,
-  fish: 0.82,
-  jellyfish: 0.75,
-  crab: 0.72,
-  whale: 0.76,
-  seahorse: 0.80,
-  pufferfish: 0.72,
-  turtle: 0.80,
-  shark: 0.78,
-  starfish: 0.78,
-};
-
 export function generate(params: OceanParams): string {
-  const { backgroundShape, creatureType, backgroundColor, hasBubbles } = params;
+  const { backgroundShape, creatureType, backgroundColor } = params;
 
   let creature: string;
   switch (creatureType) {
@@ -675,12 +647,9 @@ export function generate(params: OceanParams): string {
       creature = generateOctopus(params);
   }
 
-  const scale = oceanScaleFactors[creatureType] ?? 0.78;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const bubbles = hasBubbles === 'yes' ? generateBubbles() : '';
-
-  return wrapSvgWithShape(scaledCreature + bubbles, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): OceanParams {
@@ -688,7 +657,6 @@ export function randomize(rng: Rng): OceanParams {
   const creatureTypes = ['octopus', 'fish', 'jellyfish', 'crab', 'whale', 'seahorse', 'pufferfish', 'turtle', 'shark', 'starfish'] as const;
   const expressions = ['happy', 'neutral', 'surprised', 'grumpy'] as const;
   const patterns = ['none', 'spots', 'stripes', 'scales'] as const;
-  const bubbleOptions = ['yes', 'no'] as const;
 
   const primaryColors = [
     '#3498db', '#2980b9', '#1abc9c', '#16a085',
@@ -721,7 +689,6 @@ export function randomize(rng: Rng): OceanParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    hasBubbles: randomPick(bubbleOptions, rng),
   };
 }
 

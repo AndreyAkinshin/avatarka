@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -28,7 +28,7 @@ export const schema = {
   eyeStyle: {
     type: 'select',
     default: 'large',
-    options: ['large', 'wrap', 'compound', 'multiple', 'glowing'],
+    options: ['large', 'compound', 'multiple', 'glowing'],
   },
   antennae: {
     type: 'select',
@@ -111,12 +111,6 @@ function generateEyes(params: AliensParams): string {
         <ellipse cx="62" cy="48" rx="10" ry="14" fill="${eyeColor}"/>
         <ellipse cx="36" cy="44" rx="3" ry="5" fill="${glowColor}" opacity="0.6"/>
         <ellipse cx="60" cy="44" rx="3" ry="5" fill="${glowColor}" opacity="0.6"/>
-      `;
-    case 'wrap':
-      // Wraparound visor-like eyes
-      return `
-        <path d="M22,48 Q50,40 78,48 Q50,60 22,48" fill="${eyeColor}"/>
-        <path d="M26,48 Q50,42 74,48" stroke="${glowColor}" stroke-width="2" fill="none" opacity="0.5"/>
       `;
     case 'compound':
       // Insect-like
@@ -269,13 +263,13 @@ export function generate(params: AliensParams): string {
     ${generateMouth(params)}
   `;
 
-  return wrapSvgWithShape(content, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(fitToCircle(content), backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): AliensParams {
   const bgShapes = ['circle', 'rounded', 'square'] as const;
   const headShapes = ['classic', 'bulbous', 'elongated', 'triangular', 'squid'] as const;
-  const eyeStyles = ['large', 'wrap', 'compound', 'multiple', 'glowing'] as const;
+  const eyeStyles = ['large', 'compound', 'multiple', 'glowing'] as const;
   const antennaeOptions = ['none', 'straight', 'curved', 'bulbs', 'feelers'] as const;
   const mouthStyles = ['slit', 'none', 'small', 'tentacles', 'beak'] as const;
   const markingsOptions = ['none', 'spots', 'stripes', 'glow', 'scales'] as const;

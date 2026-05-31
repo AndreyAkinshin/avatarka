@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -49,11 +49,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'spots', 'stripes', 'thorns'],
-  },
-  decoration: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'soil', 'butterflies', 'dewdrops'],
   },
 } as const satisfies ParamSchema;
 
@@ -180,50 +175,6 @@ function generatePlantPattern(
         <path d="M${cx + rx * 0.5},${cy + ry * 0.25} L${cx + rx * 0.7},${cy + ry * 0.2}" stroke="${light}" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
       `;
     }
-    default:
-      return '';
-  }
-}
-
-function generateDecoration(decoration: PlantsParams['decoration']): string {
-  switch (decoration) {
-    case 'soil':
-      return `
-        <g opacity="0.3">
-          <ellipse cx="20" cy="90" rx="6" ry="2" fill="#5D4037"/>
-          <ellipse cx="80" cy="88" rx="5" ry="1.5" fill="#5D4037"/>
-          <ellipse cx="12" cy="86" rx="3" ry="1" fill="#795548"/>
-          <ellipse cx="88" cy="92" rx="4" ry="1.2" fill="#795548"/>
-          <circle cx="16" cy="88" r="1.5" fill="#6D4C41"/>
-          <circle cx="84" cy="90" r="1" fill="#6D4C41"/>
-        </g>
-      `;
-    case 'butterflies':
-      return `
-        <g opacity="0.35">
-          <path d="M12,16 Q8,10 12,8 Q16,10 12,16 Q8,18 4,14 Q8,18 12,16 Z" fill="#E91E63"/>
-          <path d="M12,16 Q16,18 20,14 Q16,18 12,16 Z" fill="#EC407A"/>
-          <line x1="12" y1="14" x2="10" y2="10" stroke="#5D4037" stroke-width="0.4"/>
-          <line x1="12" y1="14" x2="14" y2="10" stroke="#5D4037" stroke-width="0.4"/>
-          <path d="M86,20 Q82,14 86,12 Q90,14 86,20 Q82,22 78,18 Q82,22 86,20 Z" fill="#7C4DFF"/>
-          <path d="M86,20 Q90,22 94,18 Q90,22 86,20 Z" fill="#9575CD"/>
-          <line x1="86" y1="18" x2="84" y2="14" stroke="#5D4037" stroke-width="0.4"/>
-          <line x1="86" y1="18" x2="88" y2="14" stroke="#5D4037" stroke-width="0.4"/>
-        </g>
-      `;
-    case 'dewdrops':
-      return `
-        <g opacity="0.3">
-          <ellipse cx="14" cy="22" rx="2" ry="2.5" fill="white"/>
-          <ellipse cx="13.5" cy="21" rx="0.8" ry="1" fill="white" opacity="0.6"/>
-          <ellipse cx="86" cy="18" rx="1.5" ry="2" fill="white"/>
-          <ellipse cx="85.5" cy="17" rx="0.6" ry="0.8" fill="white" opacity="0.6"/>
-          <ellipse cx="10" cy="78" rx="2" ry="2.5" fill="white"/>
-          <ellipse cx="9.5" cy="77" rx="0.8" ry="1" fill="white" opacity="0.6"/>
-          <ellipse cx="88" cy="82" rx="1.8" ry="2.2" fill="white"/>
-          <ellipse cx="87.5" cy="81" rx="0.7" ry="0.9" fill="white" opacity="0.6"/>
-        </g>
-      `;
     default:
       return '';
   }
@@ -514,12 +465,6 @@ function generateMushroom(params: PlantsParams): string {
   const { primaryColor, secondaryColor, bloomColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
 
-  // Soil base
-  const soil = `
-    <ellipse cx="50" cy="82" rx="20" ry="4" fill="#5D4037" opacity="0.4"/>
-    <ellipse cx="50" cy="82" rx="16" ry="3" fill="#795548" opacity="0.3"/>
-  `;
-
   // Thick stipe
   const stipe = `
     <rect x="43" y="52" width="14" height="30" rx="5" fill="${secondaryColor}" stroke="${darkenColor(secondaryColor, 15)}" stroke-width="0.5"/>
@@ -551,18 +496,12 @@ function generateMushroom(params: PlantsParams): string {
   const mouth = generatePlantMouth(expression, 50, 46);
   const pat = generatePlantPattern(primaryColor, 50, 36, 22, 18, pattern);
 
-  return soil + stipe + gills + cap + spots + pat + eyes + mouth;
+  return stipe + gills + cap + spots + pat + eyes + mouth;
 }
 
 function generateFern(params: PlantsParams): string {
   const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
-
-  // Soil base
-  const soil = `
-    <ellipse cx="50" cy="82" rx="18" ry="4" fill="#5D4037" opacity="0.4"/>
-    <ellipse cx="50" cy="82" rx="14" ry="3" fill="#795548" opacity="0.3"/>
-  `;
 
   // Central fiddlehead (the face)
   const fiddlehead = `
@@ -604,18 +543,12 @@ function generateFern(params: PlantsParams): string {
   const mouth = generatePlantMouth(expression, 48, 25);
   const pat = generatePlantPattern(primaryColor, 48, 22, 6, 6, pattern);
 
-  return soil + fronds + leaflets + fiddlehead + pat + eyes + mouth;
+  return fronds + leaflets + fiddlehead + pat + eyes + mouth;
 }
 
 function generateBamboo(params: PlantsParams): string {
   const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
-
-  // Soil base
-  const soil = `
-    <ellipse cx="50" cy="84" rx="18" ry="4" fill="#5D4037" opacity="0.4"/>
-    <ellipse cx="50" cy="84" rx="14" ry="3" fill="#795548" opacity="0.3"/>
-  `;
 
   // Segmented culm (main stalk)
   const culm = `
@@ -658,7 +591,7 @@ function generateBamboo(params: PlantsParams): string {
   const mouth = generatePlantMouth(expression, 50, 39);
   const pat = generatePlantPattern(primaryColor, 50, 50, 4, 30, pattern);
 
-  return soil + shoots + culm + nodes + leaves + faceBg + pat + eyes + mouth;
+  return shoots + culm + nodes + leaves + faceBg + pat + eyes + mouth;
 }
 
 function generateSucculent(params: PlantsParams): string {
@@ -710,22 +643,8 @@ function generateSucculent(params: PlantsParams): string {
   return pot + outerLeaves + middleLeaves + center + tips + pat + eyes + mouth;
 }
 
-// Scale factors per plant type
-const plantScaleFactors: Record<string, number> = {
-  cactus: 0.78,
-  sunflower: 0.74,
-  rose: 0.76,
-  tulip: 0.76,
-  'venus-flytrap': 0.78,
-  bonsai: 0.76,
-  mushroom: 0.76,
-  fern: 0.78,
-  bamboo: 0.72,
-  succulent: 0.80,
-};
-
 export function generate(params: PlantsParams): string {
-  const { backgroundShape, plantType, backgroundColor, decoration } = params;
+  const { backgroundShape, plantType, backgroundColor } = params;
 
   let creature: string;
   switch (plantType) {
@@ -763,12 +682,9 @@ export function generate(params: PlantsParams): string {
       creature = generateCactus(params);
   }
 
-  const scale = plantScaleFactors[plantType] ?? 0.78;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const decor = generateDecoration(decoration);
-
-  return wrapSvgWithShape(scaledCreature + decor, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): PlantsParams {
@@ -779,7 +695,6 @@ export function randomize(rng: Rng): PlantsParams {
   ] as const;
   const expressions = ['happy', 'shy', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'spots', 'stripes', 'thorns'] as const;
-  const decorations = ['none', 'soil', 'butterflies', 'dewdrops'] as const;
 
   const primaryColors = [
     '#4CAF50', '#388E3C', '#2E7D32', '#1B5E20',
@@ -824,7 +739,6 @@ export function randomize(rng: Rng): PlantsParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    decoration: randomPick(decorations, rng),
   };
 }
 

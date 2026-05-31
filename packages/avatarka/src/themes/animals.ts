@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -777,20 +777,6 @@ function generateLion(params: AnimalParams): string {
   return mane + face + eyes + nose;
 }
 
-// Scale factors to ensure each animal fits within the circular background
-const animalScaleFactors: Record<string, number> = {
-  bunny: 0.80,   // Ears extend upward
-  koala: 0.78,   // Ears extend beyond viewBox
-  bear: 0.82,    // Ears at corners
-  panda: 0.82,   // Same ear structure as bear
-  lion: 0.80,    // Mane circles at edges
-  cat: 0.85,     // Ears and whiskers
-  fox: 0.85,     // Similar to cat
-  owl: 0.85,     // Ear tufts
-  dog: 0.85,     // Floppy ears
-  penguin: 0.88, // Mostly contained
-};
-
 export function generate(params: AnimalParams): string {
   const { backgroundShape, animalType, backgroundColor } = params;
 
@@ -830,9 +816,7 @@ export function generate(params: AnimalParams): string {
       animal = generateCat(params);
   }
 
-  // Apply scale transform centered at (50, 50) to fit within circle
-  const scale = animalScaleFactors[animalType] ?? 0.85;
-  const scaledAnimal = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${animal}</g>`;
+  const scaledAnimal = fitToCircle(animal);
 
   return wrapSvgWithShape(scaledAnimal, backgroundShape as BackgroundShape, backgroundColor);
 }

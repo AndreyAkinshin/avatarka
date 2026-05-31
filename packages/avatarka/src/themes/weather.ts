@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -49,11 +49,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'swirls', 'dots', 'stripes'],
-  },
-  decoration: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'raindrops', 'snowflakes', 'windlines'],
   },
 } as const satisfies ParamSchema;
 
@@ -184,68 +179,11 @@ function generateWeatherPattern(
   }
 }
 
-function generateDecoration(decoration: WeatherParams['decoration']): string {
-  switch (decoration) {
-    case 'raindrops':
-      return `
-        <g opacity="0.3">
-          <path d="M16,20 Q15,16 16,14 Q17,16 16,20 Z" fill="#90CAF9"/>
-          <path d="M84,24 Q83,20 84,18 Q85,20 84,24 Z" fill="#90CAF9"/>
-          <path d="M20,78 Q19,74 20,72 Q21,74 20,78 Z" fill="#90CAF9"/>
-          <path d="M80,82 Q79,78 80,76 Q81,78 80,82 Z" fill="#90CAF9"/>
-          <path d="M14,50 Q13,46 14,44 Q15,46 14,50 Z" fill="#90CAF9"/>
-          <path d="M86,54 Q85,50 86,48 Q87,50 86,54 Z" fill="#90CAF9"/>
-        </g>
-      `;
-    case 'snowflakes':
-      return `
-        <g opacity="0.3" stroke="white" stroke-width="0.8" stroke-linecap="round">
-          <g transform="translate(14,18)">
-            <line x1="0" y1="-3" x2="0" y2="3"/>
-            <line x1="-2.6" y1="-1.5" x2="2.6" y2="1.5"/>
-            <line x1="-2.6" y1="1.5" x2="2.6" y2="-1.5"/>
-          </g>
-          <g transform="translate(86,22)">
-            <line x1="0" y1="-2.5" x2="0" y2="2.5"/>
-            <line x1="-2.2" y1="-1.3" x2="2.2" y2="1.3"/>
-            <line x1="-2.2" y1="1.3" x2="2.2" y2="-1.3"/>
-          </g>
-          <g transform="translate(12,80)">
-            <line x1="0" y1="-2" x2="0" y2="2"/>
-            <line x1="-1.7" y1="-1" x2="1.7" y2="1"/>
-            <line x1="-1.7" y1="1" x2="1.7" y2="-1"/>
-          </g>
-          <g transform="translate(88,78)">
-            <line x1="0" y1="-2.5" x2="0" y2="2.5"/>
-            <line x1="-2.2" y1="-1.3" x2="2.2" y2="1.3"/>
-            <line x1="-2.2" y1="1.3" x2="2.2" y2="-1.3"/>
-          </g>
-        </g>
-      `;
-    case 'windlines':
-      return `
-        <g opacity="0.2" stroke="#78909C" stroke-width="1.2" fill="none" stroke-linecap="round">
-          <path d="M8,30 Q16,28 24,30 Q28,32 32,30"/>
-          <path d="M68,22 Q76,20 84,22 Q88,24 92,22"/>
-          <path d="M6,70 Q14,68 22,70 Q26,72 30,70"/>
-          <path d="M70,76 Q78,74 86,76 Q90,78 94,76"/>
-        </g>
-      `;
-    default:
-      return '';
-  }
-}
-
 // --- Weather generators ---
 
 function generateSun(params: WeatherParams): string {
-  const { primaryColor, secondaryColor, glowColor, eyeColor, expression, pattern } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
-
-  // Glow aura
-  const glow = `
-    <circle cx="50" cy="50" r="28" fill="${glowColor}" opacity="0.15"/>
-  `;
 
   // Rays (8 triangular rays around the sun)
   const rays = `
@@ -271,7 +209,7 @@ function generateSun(params: WeatherParams): string {
   const mouth = generateWeatherMouth(expression, 50, 54);
   const pat = generateWeatherPattern(primaryColor, 50, 50, 16, 16, pattern);
 
-  return glow + rays + body + pat + eyes + mouth;
+  return rays + body + pat + eyes + mouth;
 }
 
 function generateCloud(params: WeatherParams): string {
@@ -327,13 +265,8 @@ function generateRaindrop(params: WeatherParams): string {
 }
 
 function generateSnowflake(params: WeatherParams): string {
-  const { primaryColor, secondaryColor, glowColor, eyeColor, expression, pattern } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
-
-  // Glow
-  const glow = `
-    <circle cx="50" cy="50" r="26" fill="${glowColor}" opacity="0.08"/>
-  `;
 
   // Six arms with branches
   const arms = `
@@ -368,7 +301,7 @@ function generateSnowflake(params: WeatherParams): string {
   const mouth = generateWeatherMouth(expression, 50, 53);
   const pat = generateWeatherPattern(primaryColor, 50, 50, 8, 8, pattern);
 
-  return glow + arms + center + pat + eyes + mouth;
+  return arms + center + pat + eyes + mouth;
 }
 
 function generateLightning(params: WeatherParams): string {
@@ -393,24 +326,15 @@ function generateLightning(params: WeatherParams): string {
     <path d="M54,34 L44,52 L52,52 L42,74" fill="none" stroke="${lightenColor(primaryColor, 20)}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   `;
 
-  // Sparks
-  const sparks = `
-    <g fill="${primaryColor}" opacity="0.5">
-      <circle cx="38" cy="60" r="1" />
-      <circle cx="56" cy="44" r="1.2" />
-      <circle cx="36" cy="70" r="0.8" />
-    </g>
-  `;
-
   const eyes = generateWeatherEyes(expression, eyeColor, 44, 56, 54, 56, 2.5);
   const mouth = generateWeatherMouth(expression, 49, 62);
   const pat = generateWeatherPattern(primaryColor, 48, 54, 10, 16, pattern);
 
-  return cloud + glow + bolt + sparks + pat + eyes + mouth;
+  return cloud + glow + bolt + pat + eyes + mouth;
 }
 
 function generateTornado(params: WeatherParams): string {
-  const { primaryColor, secondaryColor, glowColor, eyeColor, expression, pattern } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
 
   // Funnel cone from spiral-like curved lines
@@ -430,26 +354,15 @@ function generateTornado(params: WeatherParams): string {
     </g>
   `;
 
-  // Debris dots
-  const debris = `
-    <g fill="${glowColor}" opacity="0.3">
-      <circle cx="30" cy="32" r="1.5"/>
-      <circle cx="70" cy="34" r="1"/>
-      <circle cx="36" cy="46" r="1.2"/>
-      <circle cx="64" cy="42" r="0.8"/>
-      <circle cx="46" cy="72" r="1"/>
-    </g>
-  `;
-
   const eyes = generateWeatherEyes(expression, eyeColor, 44, 34, 56, 34, 2.5);
   const mouth = generateWeatherMouth(expression, 50, 40);
   const pat = generateWeatherPattern(primaryColor, 50, 36, 18, 8, pattern);
 
-  return funnel + highlights + debris + pat + eyes + mouth;
+  return funnel + highlights + pat + eyes + mouth;
 }
 
 function generateRainbow(params: WeatherParams): string {
-  const { primaryColor, secondaryColor, precipitationColor, eyeColor, expression, pattern } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
 
   // Small clouds at ends
   const leftCloud = `
@@ -476,30 +389,16 @@ function generateRainbow(params: WeatherParams): string {
     <path d="M18,64 A32,32 0 0,1 82,64" stroke="${primaryColor}" stroke-width="1.5" fill="none" opacity="0.2"/>
   `;
 
-  // Subtle sparkle on arc
-  const sparkle = `
-    <g fill="${precipitationColor}" opacity="0.3">
-      <circle cx="34" cy="40" r="1"/>
-      <circle cx="50" cy="32" r="1.2"/>
-      <circle cx="66" cy="40" r="1"/>
-    </g>
-  `;
-
   const eyes = generateWeatherEyes(expression, eyeColor, 44, 48, 56, 48, 2.5);
   const mouth = generateWeatherMouth(expression, 50, 54);
   const pat = generateWeatherPattern(primaryColor, 50, 46, 20, 14, pattern);
 
-  return leftCloud + rightCloud + arcs + mainArc + sparkle + pat + eyes + mouth;
+  return leftCloud + rightCloud + arcs + mainArc + pat + eyes + mouth;
 }
 
 function generateMoon(params: WeatherParams): string {
-  const { primaryColor, glowColor, eyeColor, expression, pattern } = params;
+  const { primaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 15);
-
-  // Subtle glow
-  const glow = `
-    <circle cx="50" cy="50" r="26" fill="${glowColor}" opacity="0.1"/>
-  `;
 
   // Crescent via clipping
   const crescent = `
@@ -532,17 +431,12 @@ function generateMoon(params: WeatherParams): string {
   const mouth = generateWeatherMouth(expression, 47, 56);
   const pat = generateWeatherPattern(primaryColor, 46, 52, 14, 14, pattern);
 
-  return glow + crescent + craters + highlight + pat + eyes + mouth;
+  return crescent + craters + highlight + pat + eyes + mouth;
 }
 
 function generateStar(params: WeatherParams): string {
-  const { primaryColor, secondaryColor, glowColor, eyeColor, expression, pattern } = params;
+  const { primaryColor, secondaryColor, eyeColor, expression, pattern } = params;
   const dark = darkenColor(primaryColor, 20);
-
-  // Glow
-  const glow = `
-    <circle cx="50" cy="50" r="28" fill="${glowColor}" opacity="0.1"/>
-  `;
 
   // Five-pointed star
   const starPoints: string[] = [];
@@ -578,7 +472,7 @@ function generateStar(params: WeatherParams): string {
   const mouth = generateWeatherMouth(expression, 50, 54);
   const pat = generateWeatherPattern(primaryColor, 50, 50, 10, 10, pattern);
 
-  return glow + body + highlight + twinkles + pat + eyes + mouth;
+  return body + highlight + twinkles + pat + eyes + mouth;
 }
 
 function generateComet(params: WeatherParams): string {
@@ -591,25 +485,6 @@ function generateComet(params: WeatherParams): string {
       <path d="M50,50 Q30,42 10,36" stroke="${secondaryColor}" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.3"/>
       <path d="M50,50 Q32,44 14,40" stroke="${precipitationColor}" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.4"/>
       <path d="M50,50 Q34,46 18,44" stroke="${lightenColor(secondaryColor, 15)}" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
-    </g>
-  `;
-
-  // Speed lines
-  const speedLines = `
-    <g stroke="${secondaryColor}" stroke-width="0.8" opacity="0.2" stroke-linecap="round">
-      <line x1="40" y1="36" x2="24" y2="30"/>
-      <line x1="38" y1="54" x2="22" y2="52"/>
-      <line x1="42" y1="62" x2="28" y2="60"/>
-    </g>
-  `;
-
-  // Particle dots along tail
-  const particles = `
-    <g fill="${glowColor}" opacity="0.3">
-      <circle cx="30" cy="44" r="1.5"/>
-      <circle cx="22" cy="40" r="1"/>
-      <circle cx="36" cy="46" r="1.2"/>
-      <circle cx="16" cy="38" r="0.8"/>
     </g>
   `;
 
@@ -628,25 +503,11 @@ function generateComet(params: WeatherParams): string {
   const mouth = generateWeatherMouth(expression, 54, 54);
   const pat = generateWeatherPattern(primaryColor, 54, 50, 12, 12, pattern);
 
-  return tail + speedLines + particles + glow + head + pat + eyes + mouth;
+  return tail + glow + head + pat + eyes + mouth;
 }
 
-// Scale factors per weather type
-const weatherScaleFactors: Record<string, number> = {
-  sun: 0.76,
-  cloud: 0.78,
-  raindrop: 0.76,
-  snowflake: 0.74,
-  lightning: 0.76,
-  tornado: 0.76,
-  rainbow: 0.78,
-  moon: 0.78,
-  star: 0.76,
-  comet: 0.76,
-};
-
 export function generate(params: WeatherParams): string {
-  const { backgroundShape, weatherType, backgroundColor, decoration } = params;
+  const { backgroundShape, weatherType, backgroundColor } = params;
 
   let creature: string;
   switch (weatherType) {
@@ -684,12 +545,9 @@ export function generate(params: WeatherParams): string {
       creature = generateSun(params);
   }
 
-  const scale = weatherScaleFactors[weatherType] ?? 0.76;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const decor = generateDecoration(decoration);
-
-  return wrapSvgWithShape(scaledCreature + decor, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): WeatherParams {
@@ -700,7 +558,6 @@ export function randomize(rng: Rng): WeatherParams {
   ] as const;
   const expressions = ['happy', 'breezy', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'swirls', 'dots', 'stripes'] as const;
-  const decorations = ['none', 'raindrops', 'snowflakes', 'windlines'] as const;
 
   const primaryColors = [
     '#FFD54F', '#FFC107', '#FFB300', '#FF8F00',
@@ -745,7 +602,6 @@ export function randomize(rng: Rng): WeatherParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    decoration: randomPick(decorations, rng),
   };
 }
 

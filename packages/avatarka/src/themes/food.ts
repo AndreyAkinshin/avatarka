@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -49,11 +49,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'sprinkles', 'sesame', 'drizzle'],
-  },
-  decoration: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'steam', 'crumbs', 'sparkles'],
   },
 } as const satisfies ParamSchema;
 
@@ -178,41 +173,6 @@ function generateFoodPattern(
         <g opacity="0.3">
           <path d="M${cx - rx * 0.5},${cy - ry * 0.2} Q${cx - rx * 0.25},${cy - ry * 0.35} ${cx},${cy - ry * 0.2} Q${cx + rx * 0.25},${cy - ry * 0.05} ${cx + rx * 0.5},${cy - ry * 0.2}" stroke="${dark}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
           <path d="M${cx - rx * 0.4},${cy + ry * 0.1} Q${cx - rx * 0.15},${cy - ry * 0.05} ${cx + rx * 0.1},${cy + ry * 0.1} Q${cx + rx * 0.3},${cy + ry * 0.25} ${cx + rx * 0.5},${cy + ry * 0.1}" stroke="${dark}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        </g>
-      `;
-    default:
-      return '';
-  }
-}
-
-function generateDecoration(decoration: FoodParams['decoration']): string {
-  switch (decoration) {
-    case 'steam':
-      return `
-        <g opacity="0.25">
-          <path d="M38,18 Q36,12 38,6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <path d="M50,16 Q48,10 50,4" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <path d="M62,18 Q64,12 62,6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </g>
-      `;
-    case 'crumbs':
-      return `
-        <g opacity="0.35">
-          <circle cx="16" cy="82" r="1.5" fill="#D7CCC8"/>
-          <circle cx="22" cy="86" r="1" fill="#BCAAA4"/>
-          <circle cx="78" cy="84" r="1.2" fill="#D7CCC8"/>
-          <circle cx="84" cy="80" r="0.8" fill="#BCAAA4"/>
-          <circle cx="18" cy="78" r="0.7" fill="#D7CCC8"/>
-          <circle cx="82" cy="88" r="1.1" fill="#BCAAA4"/>
-        </g>
-      `;
-    case 'sparkles':
-      return `
-        <g opacity="0.35">
-          <path d="M14,16 L15,12 L16,16 L20,15 L16,16 L15,20 L14,16 L10,15 Z" fill="#FFD54F"/>
-          <path d="M82,14 L83,11 L84,14 L87,13 L84,14 L83,17 L82,14 L79,13 Z" fill="#FFD54F"/>
-          <path d="M12,76 L13,73 L14,76 L17,75 L14,76 L13,79 L12,76 L9,75 Z" fill="#FFD54F"/>
-          <path d="M86,78 L87,75 L88,78 L91,77 L88,78 L87,81 L86,78 L83,77 Z" fill="#FFD54F"/>
         </g>
       `;
     default:
@@ -681,22 +641,8 @@ function generateWatermelon(params: FoodParams): string {
   return rind + whiteRind + flesh + seeds + juice + pat + eyes + mouth;
 }
 
-// Scale factors per food type
-const foodScaleFactors: Record<string, number> = {
-  sushi: 0.78,
-  pizza: 0.74,
-  cupcake: 0.76,
-  'ice-cream': 0.76,
-  donut: 0.78,
-  burger: 0.76,
-  taco: 0.78,
-  ramen: 0.74,
-  cookie: 0.78,
-  watermelon: 0.76,
-};
-
 export function generate(params: FoodParams): string {
-  const { backgroundShape, foodType, backgroundColor, decoration } = params;
+  const { backgroundShape, foodType, backgroundColor } = params;
 
   let creature: string;
   switch (foodType) {
@@ -734,12 +680,9 @@ export function generate(params: FoodParams): string {
       creature = generateSushi(params);
   }
 
-  const scale = foodScaleFactors[foodType] ?? 0.78;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const decor = generateDecoration(decoration);
-
-  return wrapSvgWithShape(scaledCreature + decor, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): FoodParams {
@@ -750,7 +693,6 @@ export function randomize(rng: Rng): FoodParams {
   ] as const;
   const expressions = ['happy', 'yummy', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'sprinkles', 'sesame', 'drizzle'] as const;
-  const decorations = ['none', 'steam', 'crumbs', 'sparkles'] as const;
 
   const primaryColors = [
     '#FF8A65', '#FF7043', '#E64A19', '#BF360C',
@@ -795,7 +737,6 @@ export function randomize(rng: Rng): FoodParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    decoration: randomPick(decorations, rng),
   };
 }
 

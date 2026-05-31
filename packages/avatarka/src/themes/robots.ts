@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomColor, randomPick, randomInt, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomColor, randomPick, randomInt, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -335,9 +335,6 @@ function generateEars(params: RobotParams): string {
   `;
 }
 
-// Scale factor to ensure robot fits within the circular background
-const ROBOT_SCALE = 0.85;
-
 export function generate(params: RobotParams): string {
   const { backgroundShape, backgroundColor } = params;
 
@@ -350,12 +347,7 @@ export function generate(params: RobotParams): string {
     ${generateDetails(params)}
   `;
 
-  // Apply scale transform centered at (50, 50) to fit within circle
-  const content = `
-    <g transform="translate(50, 50) scale(${ROBOT_SCALE}) translate(-50, -50)">
-      ${innerContent}
-    </g>
-  `;
+  const content = fitToCircle(innerContent);
 
   return wrapSvgWithShape(content, backgroundShape as BackgroundShape, backgroundColor);
 }

@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -45,11 +45,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'spots', 'stripes', 'gradient'],
-  },
-  decoration: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'leaves', 'flowers', 'dewdrops'],
   },
 } as const satisfies ParamSchema;
 
@@ -186,69 +181,6 @@ function generateInsectPattern(
         <ellipse cx="${cx}" cy="${cy}" rx="${rx * 0.85}" ry="${ry * 0.85}" fill="url(#${gradId})"/>
       `;
     }
-    default:
-      return '';
-  }
-}
-
-function generateDecoration(decoration: InsectsParams['decoration']): string {
-  switch (decoration) {
-    case 'leaves':
-      return `
-        <g opacity="0.3">
-          <path d="M10,90 Q8,82 12,76" stroke="#2d6b16" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="13" cy="77" rx="4" ry="2" fill="#4a8c28" transform="rotate(25, 13, 77)"/>
-          <ellipse cx="10" cy="81" rx="3.5" ry="1.8" fill="#3d7b22" transform="rotate(-20, 10, 81)"/>
-          <ellipse cx="12" cy="85" rx="3" ry="1.5" fill="#4a8c28" transform="rotate(10, 12, 85)"/>
-          <path d="M88,92 Q90,84 86,78" stroke="#2d6b16" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="85" cy="79" rx="4" ry="2" fill="#4a8c28" transform="rotate(-30, 85, 79)"/>
-          <ellipse cx="88" cy="83" rx="3.5" ry="1.8" fill="#3d7b22" transform="rotate(15, 88, 83)"/>
-          <path d="M6,16 Q8,12 12,14" stroke="#2d6b16" stroke-width="1" fill="none" stroke-linecap="round"/>
-          <ellipse cx="12" cy="13" rx="3" ry="1.5" fill="#4a8c28" opacity="0.7" transform="rotate(-10, 12, 13)"/>
-        </g>
-      `;
-    case 'flowers':
-      return `
-        <g opacity="0.4">
-          <circle cx="12" cy="84" r="3" fill="#e91e63"/>
-          <circle cx="9" cy="84" r="2" fill="#f48fb1"/>
-          <circle cx="15" cy="84" r="2" fill="#f48fb1"/>
-          <circle cx="12" cy="81" r="2" fill="#f48fb1"/>
-          <circle cx="12" cy="87" r="2" fill="#f48fb1"/>
-          <circle cx="12" cy="84" r="1.5" fill="#ffeb3b"/>
-          <path d="M12,88 Q12,92 10,96" stroke="#2d6b16" stroke-width="1" fill="none" stroke-linecap="round"/>
-          <circle cx="86" cy="14" r="2.5" fill="#9c27b0"/>
-          <circle cx="84" cy="14" r="1.5" fill="#ce93d8"/>
-          <circle cx="88" cy="14" r="1.5" fill="#ce93d8"/>
-          <circle cx="86" cy="12" r="1.5" fill="#ce93d8"/>
-          <circle cx="86" cy="16" r="1.5" fill="#ce93d8"/>
-          <circle cx="86" cy="14" r="1" fill="#ffeb3b"/>
-          <circle cx="88" cy="86" r="2" fill="#ff7043"/>
-          <circle cx="86" cy="86" r="1.2" fill="#ffab91"/>
-          <circle cx="90" cy="86" r="1.2" fill="#ffab91"/>
-          <circle cx="88" cy="84" r="1.2" fill="#ffab91"/>
-          <circle cx="88" cy="88" r="1.2" fill="#ffab91"/>
-          <circle cx="88" cy="86" r="0.8" fill="#ffeb3b"/>
-        </g>
-      `;
-    case 'dewdrops':
-      return `
-        <g>
-          <ellipse cx="12" cy="82" rx="2.5" ry="3" fill="white" opacity="0.25"/>
-          <ellipse cx="12" cy="81" rx="1.5" ry="1.8" fill="white" opacity="0.35"/>
-          <circle cx="11" cy="80" r="0.6" fill="white" opacity="0.5"/>
-          <ellipse cx="86" cy="16" rx="2" ry="2.5" fill="white" opacity="0.2"/>
-          <ellipse cx="86" cy="15" rx="1.2" ry="1.5" fill="white" opacity="0.3"/>
-          <circle cx="85.5" cy="14.5" r="0.5" fill="white" opacity="0.5"/>
-          <ellipse cx="14" cy="18" rx="1.5" ry="2" fill="white" opacity="0.2"/>
-          <ellipse cx="14" cy="17.5" rx="0.8" ry="1" fill="white" opacity="0.35"/>
-          <ellipse cx="88" cy="80" rx="2" ry="2.5" fill="white" opacity="0.22"/>
-          <ellipse cx="88" cy="79" rx="1.2" ry="1.5" fill="white" opacity="0.32"/>
-          <circle cx="87.5" cy="78.5" r="0.5" fill="white" opacity="0.5"/>
-          <ellipse cx="50" cy="92" rx="1.8" ry="2.2" fill="white" opacity="0.18"/>
-          <ellipse cx="50" cy="91.5" rx="1" ry="1.2" fill="white" opacity="0.28"/>
-        </g>
-      `;
     default:
       return '';
   }
@@ -778,22 +710,8 @@ function generateSpider(params: InsectsParams): string {
   return legs + body + pat + head + spiderEyes + fangs + mouth;
 }
 
-// Scale factors per insect type
-const insectScaleFactors: Record<string, number> = {
-  butterfly: 0.80,
-  bee: 0.82,
-  ladybug: 0.80,
-  ant: 0.76,
-  beetle: 0.78,
-  dragonfly: 0.74,
-  caterpillar: 0.72,
-  firefly: 0.80,
-  mantis: 0.74,
-  spider: 0.76,
-};
-
 export function generate(params: InsectsParams): string {
-  const { backgroundShape, insectType, backgroundColor, decoration } = params;
+  const { backgroundShape, insectType, backgroundColor } = params;
 
   let creature: string;
   switch (insectType) {
@@ -831,12 +749,9 @@ export function generate(params: InsectsParams): string {
       creature = generateButterfly(params);
   }
 
-  const scale = insectScaleFactors[insectType] ?? 0.78;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const decor = generateDecoration(decoration);
-
-  return wrapSvgWithShape(scaledCreature + decor, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): InsectsParams {
@@ -847,7 +762,6 @@ export function randomize(rng: Rng): InsectsParams {
   ] as const;
   const expressions = ['happy', 'curious', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'spots', 'stripes', 'gradient'] as const;
-  const decorations = ['none', 'leaves', 'flowers', 'dewdrops'] as const;
 
   const primaryColors = [
     '#4CAF50', '#388E3C', '#2E7D32', '#1B5E20',
@@ -886,7 +800,6 @@ export function randomize(rng: Rng): InsectsParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    decoration: randomPick(decorations, rng),
   };
 }
 

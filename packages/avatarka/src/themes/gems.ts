@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -28,10 +28,6 @@ export const schema = {
     type: 'color',
     default: '#FFFFFF',
   },
-  sparkleColor: {
-    type: 'color',
-    default: '#FFF9C4',
-  },
   eyeColor: {
     type: 'color',
     default: '#1a1a1a',
@@ -49,11 +45,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'facets', 'inclusions', 'shimmer'],
-  },
-  decoration: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'sparkles', 'stardust', 'glowring'],
   },
 } as const satisfies ParamSchema;
 
@@ -180,44 +171,6 @@ function generateGemPattern(
           <path d="M${cx - rx * 0.4},${cy - ry * 0.3} Q${cx - rx * 0.2},${cy - ry * 0.1} ${cx},${cy - ry * 0.3} Q${cx + rx * 0.2},${cy - ry * 0.5} ${cx + rx * 0.4},${cy - ry * 0.3}" stroke="${facetColor}" stroke-width="2" fill="none" stroke-linecap="round"/>
           <path d="M${cx - rx * 0.3},${cy + ry * 0.1} Q${cx},${cy - ry * 0.05} ${cx + rx * 0.3},${cy + ry * 0.1}" stroke="${facetColor}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         </g>
-      `;
-    default:
-      return '';
-  }
-}
-
-function generateGemDecoration(decoration: GemsParams['decoration'], sparkleColor: string): string {
-  switch (decoration) {
-    case 'sparkles':
-      return `
-        <g opacity="0.45">
-          <path d="M14,16 L15,12 L16,16 L20,15 L16,16 L15,20 L14,16 L10,15 Z" fill="${sparkleColor}"/>
-          <path d="M82,14 L83,11 L84,14 L87,13 L84,14 L83,17 L82,14 L79,13 Z" fill="${sparkleColor}"/>
-          <path d="M12,76 L13,73 L14,76 L17,75 L14,76 L13,79 L12,76 L9,75 Z" fill="${sparkleColor}"/>
-          <path d="M86,78 L87,75 L88,78 L91,77 L88,78 L87,81 L86,78 L83,77 Z" fill="${sparkleColor}"/>
-          <path d="M10,46 L11,43 L12,46 L15,45 L12,46 L11,49 L10,46 L7,45 Z" fill="${sparkleColor}"/>
-          <path d="M88,50 L89,47 L90,50 L93,49 L90,50 L89,53 L88,50 L85,49 Z" fill="${sparkleColor}"/>
-        </g>
-      `;
-    case 'stardust':
-      return `
-        <g opacity="0.3">
-          <circle cx="14" cy="18" r="1" fill="${sparkleColor}"/>
-          <circle cx="86" cy="16" r="0.8" fill="${sparkleColor}"/>
-          <circle cx="10" cy="50" r="1.2" fill="${sparkleColor}"/>
-          <circle cx="90" cy="48" r="0.9" fill="${sparkleColor}"/>
-          <circle cx="12" cy="80" r="1" fill="${sparkleColor}"/>
-          <circle cx="88" cy="82" r="0.7" fill="${sparkleColor}"/>
-          <circle cx="20" cy="34" r="0.6" fill="${sparkleColor}"/>
-          <circle cx="80" cy="32" r="1.1" fill="${sparkleColor}"/>
-          <circle cx="18" cy="66" r="0.8" fill="${sparkleColor}"/>
-          <circle cx="82" cy="68" r="0.9" fill="${sparkleColor}"/>
-        </g>
-      `;
-    case 'glowring':
-      return `
-        <circle cx="50" cy="50" r="42" stroke="${sparkleColor}" stroke-width="2" fill="none" opacity="0.12"/>
-        <circle cx="50" cy="50" r="46" stroke="${sparkleColor}" stroke-width="1" fill="none" opacity="0.06"/>
       `;
     default:
       return '';
@@ -620,22 +573,8 @@ function generateGeode(params: GemsParams): string {
   return exterior + texture + interior + crystals + sparkle + pat + eyes + mouth;
 }
 
-// Scale factors per gem type
-const gemScaleFactors: Record<string, number> = {
-  diamond: 0.76,
-  ruby: 0.78,
-  emerald: 0.76,
-  sapphire: 0.76,
-  amethyst: 0.74,
-  opal: 0.78,
-  topaz: 0.76,
-  pearl: 0.76,
-  crystal: 0.76,
-  geode: 0.74,
-};
-
 export function generate(params: GemsParams): string {
-  const { backgroundShape, gemType, backgroundColor, decoration, sparkleColor } = params;
+  const { backgroundShape, gemType, backgroundColor } = params;
 
   let creature: string;
   switch (gemType) {
@@ -673,12 +612,9 @@ export function generate(params: GemsParams): string {
       creature = generateDiamond(params);
   }
 
-  const scale = gemScaleFactors[gemType] ?? 0.76;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const decor = generateGemDecoration(decoration, sparkleColor);
-
-  return wrapSvgWithShape(scaledCreature + decor, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): GemsParams {
@@ -689,7 +625,6 @@ export function randomize(rng: Rng): GemsParams {
   ] as const;
   const expressions = ['happy', 'dazzled', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'facets', 'inclusions', 'shimmer'] as const;
-  const decorations = ['none', 'sparkles', 'stardust', 'glowring'] as const;
 
   const primaryColors = [
     '#B3E5FC', '#81D4FA', '#4FC3F7', '#29B6F6',
@@ -708,11 +643,6 @@ export function randomize(rng: Rng): GemsParams {
     '#FFE082', '#C5CAE9', '#B0BEC5', '#F5F5F5',
   ];
 
-  const sparkleColors = [
-    '#FFF9C4', '#FFFFFF', '#E0E0E0', '#FFE082',
-    '#B3E5FC', '#FFD54F', '#C5CAE9', '#F5F5F5',
-  ];
-
   const backgroundColors = [
     '#1A237E', '#263238', '#311B92', '#004D40',
     '#880E4F', '#3E2723', '#F3E5F5', '#E8EAF6',
@@ -729,12 +659,10 @@ export function randomize(rng: Rng): GemsParams {
     primaryColor: randomPick(primaryColors, rng),
     secondaryColor: randomPick(secondaryColors, rng),
     facetColor: randomPick(facetColors, rng),
-    sparkleColor: randomPick(sparkleColors, rng),
     eyeColor: randomPick(eyeColors, rng),
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    decoration: randomPick(decorations, rng),
   };
 }
 

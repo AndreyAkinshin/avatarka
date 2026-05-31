@@ -7,6 +7,7 @@ import {
   randomInt,
   randomPick,
   wrapSvgWithShape,
+  fitToCircle,
   type BackgroundShape,
 } from '../utils';
 
@@ -265,9 +266,6 @@ function generateHorns(params: MonsterParams): string {
   }
 }
 
-// Scale factor to ensure monster fits within the circular background
-const MONSTER_SCALE = 0.88;
-
 export function generate(params: MonsterParams): string {
   const { backgroundShape, backgroundColor } = params;
 
@@ -278,8 +276,7 @@ export function generate(params: MonsterParams): string {
     ${generateMouth(params)}
   `;
 
-  // Apply scale transform centered at (50, 50) to fit within circle
-  const scaledContent = `<g transform="translate(50, 50) scale(${MONSTER_SCALE}) translate(-50, -50)">${content}</g>`;
+  const scaledContent = fitToCircle(content);
 
   return wrapSvgWithShape(scaledContent, backgroundShape as BackgroundShape, backgroundColor);
 }

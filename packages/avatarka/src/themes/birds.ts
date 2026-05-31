@@ -1,6 +1,6 @@
 import type { Rng } from 'pragmastat';
 import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, type BackgroundShape } from '../utils';
+import { darkenColor, lightenColor, randomPick, wrapSvgWithShape, fitToCircle, type BackgroundShape } from '../utils';
 
 export const schema = {
   backgroundShape: {
@@ -45,11 +45,6 @@ export const schema = {
     type: 'select',
     default: 'none',
     options: ['none', 'spots', 'stripes', 'feathers'],
-  },
-  decoration: {
-    type: 'select',
-    default: 'none',
-    options: ['none', 'branches', 'clouds', 'feathers'],
   },
 } as const satisfies ParamSchema;
 
@@ -178,55 +173,6 @@ function generateBirdPattern(
         <path d="M${cx + rx * 0.05},${cy + ry * 0.2} Q${cx + rx * 0.25},${cy + ry * 0.1} ${cx + rx * 0.4},${cy + ry * 0.2}" stroke="${light}" stroke-width="1" fill="none" opacity="0.4"/>
       `;
     }
-    default:
-      return '';
-  }
-}
-
-function generateDecoration(decoration: BirdsParams['decoration']): string {
-  switch (decoration) {
-    case 'branches':
-      return `
-        <g opacity="0.3">
-          <path d="M8,88 Q10,78 14,72" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <path d="M14,72 Q18,68 22,70" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <path d="M12,76 Q8,74 6,70" stroke="#5D4037" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <ellipse cx="23" cy="69" rx="3" ry="1.5" fill="#4a8c28" transform="rotate(-10, 23, 69)"/>
-          <ellipse cx="5" cy="69" rx="3" ry="1.5" fill="#4a8c28" transform="rotate(20, 5, 69)"/>
-          <path d="M86,92 Q88,82 84,76" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <path d="M84,76 Q80,72 76,74" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="75" cy="73" rx="3" ry="1.5" fill="#4a8c28" transform="rotate(15, 75, 73)"/>
-          <path d="M88,12 Q90,8 94,6" stroke="#5D4037" stroke-width="1" fill="none" stroke-linecap="round"/>
-          <ellipse cx="94" cy="5" rx="2.5" ry="1.2" fill="#4a8c28" transform="rotate(-20, 94, 5)"/>
-        </g>
-      `;
-    case 'clouds':
-      return `
-        <g opacity="0.2">
-          <ellipse cx="14" cy="14" rx="8" ry="4" fill="white"/>
-          <ellipse cx="10" cy="13" rx="5" ry="3" fill="white"/>
-          <ellipse cx="18" cy="13" rx="5" ry="3" fill="white"/>
-          <ellipse cx="82" cy="10" rx="6" ry="3" fill="white"/>
-          <ellipse cx="78" cy="9" rx="4" ry="2.5" fill="white"/>
-          <ellipse cx="86" cy="9" rx="4" ry="2.5" fill="white"/>
-          <ellipse cx="88" cy="88" rx="7" ry="3.5" fill="white"/>
-          <ellipse cx="84" cy="87" rx="4.5" ry="2.5" fill="white"/>
-          <ellipse cx="92" cy="87" rx="4.5" ry="2.5" fill="white"/>
-        </g>
-      `;
-    case 'feathers':
-      return `
-        <g opacity="0.25">
-          <path d="M10,84 Q12,78 16,76 Q12,80 14,86 Q10,82 10,84 Z" fill="#8D6E63"/>
-          <path d="M10,84 L13,80" stroke="#6D4C41" stroke-width="0.5" fill="none"/>
-          <path d="M86,12 Q88,6 92,4 Q88,8 90,14 Q86,10 86,12 Z" fill="#78909C"/>
-          <path d="M86,12 L89,8" stroke="#546E7A" stroke-width="0.5" fill="none"/>
-          <path d="M84,90 Q86,84 90,82 Q86,86 88,92 Q84,88 84,90 Z" fill="#A1887F"/>
-          <path d="M84,90 L87,86" stroke="#6D4C41" stroke-width="0.5" fill="none"/>
-          <path d="M12,16 Q14,10 18,8 Q14,12 16,18 Q12,14 12,16 Z" fill="#90A4AE"/>
-          <path d="M12,16 L15,12" stroke="#607D8B" stroke-width="0.5" fill="none"/>
-        </g>
-      `;
     default:
       return '';
   }
@@ -781,22 +727,8 @@ function generateCrow(params: BirdsParams): string {
   return tail + wings + wingEdge + body + glossSheen + pat + head + eyes + extraGaze + beak + feet;
 }
 
-// Scale factors per bird type
-const birdScaleFactors: Record<string, number> = {
-  parrot: 0.78,
-  owl: 0.78,
-  penguin: 0.78,
-  flamingo: 0.74,
-  eagle: 0.76,
-  toucan: 0.78,
-  peacock: 0.72,
-  hummingbird: 0.82,
-  robin: 0.80,
-  crow: 0.76,
-};
-
 export function generate(params: BirdsParams): string {
-  const { backgroundShape, birdType, backgroundColor, decoration } = params;
+  const { backgroundShape, birdType, backgroundColor } = params;
 
   let creature: string;
   switch (birdType) {
@@ -834,12 +766,9 @@ export function generate(params: BirdsParams): string {
       creature = generateParrot(params);
   }
 
-  const scale = birdScaleFactors[birdType] ?? 0.78;
-  const scaledCreature = `<g transform="translate(50, 50) scale(${scale}) translate(-50, -50)">${creature}</g>`;
+  const scaledCreature = fitToCircle(creature);
 
-  const decor = generateDecoration(decoration);
-
-  return wrapSvgWithShape(scaledCreature + decor, backgroundShape as BackgroundShape, backgroundColor);
+  return wrapSvgWithShape(scaledCreature, backgroundShape as BackgroundShape, backgroundColor);
 }
 
 export function randomize(rng: Rng): BirdsParams {
@@ -850,7 +779,6 @@ export function randomize(rng: Rng): BirdsParams {
   ] as const;
   const expressions = ['happy', 'proud', 'surprised', 'sleepy'] as const;
   const patterns = ['none', 'spots', 'stripes', 'feathers'] as const;
-  const decorations = ['none', 'branches', 'clouds', 'feathers'] as const;
 
   const primaryColors = [
     '#43A047', '#388E3C', '#2E7D32', '#1B5E20',
@@ -889,7 +817,6 @@ export function randomize(rng: Rng): BirdsParams {
     backgroundColor: randomPick(backgroundColors, rng),
     expression: randomPick(expressions, rng),
     pattern: randomPick(patterns, rng),
-    decoration: randomPick(decorations, rng),
   };
 }
 
