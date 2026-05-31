@@ -4,6 +4,9 @@
 
 import type { Rng } from 'pragmastat';
 
+export { fitToCircle } from './fit';
+export type { FitOptions } from './fit';
+
 /**
  * Converts HSL values to hex color string
  */
