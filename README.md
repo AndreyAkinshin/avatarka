@@ -332,55 +332,55 @@ Extraterrestrial beings with various head shapes and features.
 
 Ocean creatures including octopus, fish, jellyfish, crab, whale, seahorse, pufferfish, turtle, shark, and starfish.
 
-**Parameters**: `backgroundShape`, `creatureType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `hasBubbles`
+**Parameters**: `backgroundShape`, `creatureType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Dinosaurs
 
 Prehistoric dinosaurs including trex, triceratops, stegosaurus, brachiosaurus, pterodactyl, and more.
 
-**Parameters**: `backgroundShape`, `dinosaurType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `hasPlants`
+**Parameters**: `backgroundShape`, `dinosaurType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Mythical
 
 Mythical creatures including dragon, unicorn, phoenix, griffin, yeti, cerberus, kitsune, minotaur, fairy, and hydra.
 
-**Parameters**: `backgroundShape`, `creatureType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `magic`
+**Parameters**: `backgroundShape`, `creatureType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Insects
 
 Insects including butterfly, bee, ladybug, ant, beetle, dragonfly, caterpillar, firefly, mantis, and spider.
 
-**Parameters**: `backgroundShape`, `insectType`, `primaryColor`, `secondaryColor`, `wingColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `decoration`
+**Parameters**: `backgroundShape`, `insectType`, `primaryColor`, `secondaryColor`, `wingColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Birds
 
 Bird species including parrot, owl, penguin, flamingo, eagle, toucan, peacock, hummingbird, robin, and crow.
 
-**Parameters**: `backgroundShape`, `birdType`, `primaryColor`, `secondaryColor`, `crestColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `decoration`
+**Parameters**: `backgroundShape`, `birdType`, `primaryColor`, `secondaryColor`, `crestColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Plants
 
 Plants including cactus, sunflower, rose, tulip, venus-flytrap, bonsai, mushroom, fern, bamboo, and succulent.
 
-**Parameters**: `backgroundShape`, `plantType`, `primaryColor`, `secondaryColor`, `potColor`, `bloomColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `decoration`
+**Parameters**: `backgroundShape`, `plantType`, `primaryColor`, `secondaryColor`, `potColor`, `bloomColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Food
 
 Food items including sushi, pizza, cupcake, ice-cream, donut, burger, taco, ramen, cookie, and watermelon.
 
-**Parameters**: `backgroundShape`, `foodType`, `primaryColor`, `secondaryColor`, `toppingColor`, `plateColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `decoration`
+**Parameters**: `backgroundShape`, `foodType`, `primaryColor`, `secondaryColor`, `toppingColor`, `plateColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Weather
 
 Weather phenomena including sun, cloud, raindrop, snowflake, lightning, tornado, rainbow, moon, star, and comet.
 
-**Parameters**: `backgroundShape`, `weatherType`, `primaryColor`, `secondaryColor`, `glowColor`, `precipitationColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `decoration`
+**Parameters**: `backgroundShape`, `weatherType`, `primaryColor`, `secondaryColor`, `glowColor`, `precipitationColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ### Gems
 
 Gemstones including diamond, ruby, emerald, sapphire, amethyst, opal, topaz, pearl, crystal, and geode.
 
-**Parameters**: `backgroundShape`, `gemType`, `primaryColor`, `secondaryColor`, `facetColor`, `sparkleColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`, `decoration`
+**Parameters**: `backgroundShape`, `gemType`, `primaryColor`, `secondaryColor`, `facetColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
 
 ## License
 
