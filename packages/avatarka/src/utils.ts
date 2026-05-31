@@ -184,10 +184,11 @@ export function generateBackgroundShape(
 }
 
 /**
- * Wrap content in an SVG with background shape.
+ * Wrap content in an SVG with a background shape.
  *
- * Content is placed on top of the background shape without clipping,
- * allowing elements like ears or antennas to extend beyond the shape boundary.
+ * The content is drawn on top of the background shape without clipping. Callers
+ * are expected to pre-size it with {@link fitToCircle} so it stays within the
+ * inscribed circle; this wrapper itself applies no clip.
  */
 export function wrapSvgWithShape(
   content: string,
