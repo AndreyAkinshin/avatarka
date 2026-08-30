@@ -1,0 +1,46 @@
+.app--catalog-review {
+  width: min(100%, 1120px);
+}
+
+.app--catalog-review .avatarka-picker__gallery {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.catalog-review-switch {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.catalog-review-switch button {
+  min-width: 34px;
+  min-height: 26px;
+  padding: 0 8px;
+  border: 1px solid var(--avatarka-picker-border, #dfe3ea);
+  border-radius: 7px;
+  color: var(--avatarka-picker-muted, #646f82);
+  background: var(--avatarka-picker-bg, #ffffff);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.catalog-review-switch button[aria-pressed='true'] {
+  border-color: var(--avatarka-picker-accent, #585be0);
+  color: var(--avatarka-picker-accent, #585be0);
+  background: color-mix(in srgb, var(--avatarka-picker-accent, #585be0) 8%, transparent);
+}
+
+.catalog-review-switch button:focus-visible {
+  outline: 3px solid var(--avatarka-picker-focus, #4f46e5);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .app--catalog-review .avatarka-picker__gallery {
+    gap: 4px;
+  }
+}

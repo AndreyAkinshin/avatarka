@@ -4,13 +4,63 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_exists: ${{ steps.release-state.outputs.tag_exists }}
+      version: ${{ steps.release-state.outputs.version }}
+      npm_tag: ${{ steps.release-state.outputs.npm_tag }}
+      is_prerelease: ${{ steps.release-state.outputs.is_prerelease }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require the main branch
+        run: test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Verify package versions
+        run: node scripts/check-versions.mjs
+
+      - name: Inspect resumable release state
+        id: release-state
+        run: |
+          version="$(tr -d '\r\n' < VERSION)"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          case "${version%%+*}" in
+            *-*)
+              echo "npm_tag=next" >> "$GITHUB_OUTPUT"
+              echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "npm_tag=latest" >> "$GITHUB_OUTPUT"
+              echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+          if git rev-parse --verify --quiet "refs/tags/v${version}"; then
+            tag_revision="$(git rev-list -n 1 "v${version}")"
+            if [ "$tag_revision" != "$GITHUB_SHA" ]; then
+              echo "Tag v${version} belongs to ${tag_revision}, not ${GITHUB_SHA}" >&2
+              exit 1
+            fi
+            echo "tag_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+
   # ==========================================================================
   # Build + Test
   # ==========================================================================
   build:
+    needs: [preflight]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,59 +70,184 @@ jobs:
       - run: mise run check
       - run: mise run test
 
+      - name: Pack the verified npm packages
+        run: |
+          pack_root="$RUNNER_TEMP/avatarka-packs"
+          mkdir -p "$pack_root"
+          (cd packages/avatarka && pnpm pack --pack-destination "$pack_root" --json >/dev/null)
+          (cd packages/avatarka-react && pnpm pack --pack-destination "$pack_root" --json >/dev/null)
+
+      - name: Save the verified npm packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-packages
+          path: ${{ runner.temp }}/avatarka-packs/*.tgz
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Save the verified demo
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-static
+          path: apps/demo/dist
+          if-no-files-found: error
+          retention-days: 1
+
   # ==========================================================================
-  # npm publish + GitHub Release
+  # npm publish
   # ==========================================================================
-  release:
-    needs: [build]
+  publish:
+    needs: [preflight, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Read version
-        id: version
-        run: echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+      - name: Restore the verified npm packages
+        uses: actions/download-artifact@v4
+        with:
+          name: npm-packages
+          path: ${{ runner.temp }}/avatarka-packs
 
-      - name: Configure npm auth
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Inspect published package state
+        id: package-state
+        run: |
+          version="${{ needs.preflight.outputs.version }}"
+          pack_root="$RUNNER_TEMP/avatarka-packs"
 
-      - run: mise run restore
-      - run: mise run build
+          check_package() {
+            package_name="$1"
+            output_name="$2"
+            tarball="$pack_root/${package_name}-${version}.tgz"
+            if [ ! -f "$tarball" ]; then
+              echo "Verified package artifact is missing: ${tarball}" >&2
+              exit 1
+            fi
+            local_integrity="sha512-$(openssl dgst -sha512 -binary "$tarball" | openssl base64 -A)"
+            view_error="$RUNNER_TEMP/${package_name}-npm-view-error"
+            if published_integrity="$(npm view "${package_name}@${version}" dist.integrity 2>"$view_error")"; then
+              if [ -z "$published_integrity" ]; then
+                echo "${package_name}@${version} exists without an integrity digest" >&2
+                exit 1
+              fi
+            elif grep -Eq 'E404|404 Not Found' "$view_error"; then
+              published_integrity=""
+            else
+              cat "$view_error" >&2
+              exit 1
+            fi
+
+            if [ -z "$published_integrity" ]; then
+              echo "${output_name}=false" >> "$GITHUB_OUTPUT"
+            elif [ "$published_integrity" = "$local_integrity" ]; then
+              echo "${output_name}=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "${package_name}@${version} already exists with different contents" >&2
+              exit 1
+            fi
+          }
+
+          check_package avatarka core_published
+          check_package avatarka-react react_published
+
+      - name: Configure publish-only npm auth
+        if: steps.package-state.outputs.core_published != 'true' || steps.package-state.outputs.react_published != 'true'
+        run: |
+          umask 077
+          printf '%s\n' "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > "$NPM_CONFIG_USERCONFIG"
+        env:
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/avatarka-npmrc
 
       - name: Publish avatarka
-        run: pnpm publish --no-git-checks --access public
-        working-directory: packages/avatarka
+        if: steps.package-state.outputs.core_published != 'true'
+        run: npm publish "$RUNNER_TEMP/avatarka-packs/avatarka-${RELEASE_VERSION}.tgz" --access public --tag "$NPM_TAG"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/avatarka-npmrc
+          NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
+          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
 
       - name: Publish avatarka-react
-        run: pnpm publish --no-git-checks --access public
-        working-directory: packages/avatarka-react
+        if: steps.package-state.outputs.react_published != 'true'
+        run: npm publish "$RUNNER_TEMP/avatarka-packs/avatarka-react-${RELEASE_VERSION}.tgz" --access public --tag "$NPM_TAG"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/avatarka-npmrc
+          NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
+          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
+
+      - name: Verify npm dist-tags
+        run: |
+          verify_dist_tag() {
+            package_name="$1"
+            actual_version="$(npm view "${package_name}@${NPM_TAG}" version 2>/dev/null || true)"
+            if [ "$actual_version" != "$RELEASE_VERSION" ]; then
+              echo "Expected ${package_name}@${NPM_TAG} to resolve to ${RELEASE_VERSION}; got ${actual_version:-nothing}" >&2
+              exit 1
+            fi
+          }
+
+          verify_dist_tag avatarka
+          verify_dist_tag avatarka-react
+        env:
+          NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
+          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
+
+  # ==========================================================================
+  # Git tag + GitHub Release (no checkout or dependency scripts)
+  # ==========================================================================
+  release:
+    needs: [preflight, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
+      IS_PRERELEASE: ${{ needs.preflight.outputs.is_prerelease }}
+    steps:
 
       - name: Create tag
+        if: needs.preflight.outputs.tag_exists != 'true'
         run: |
-          git tag "v${{ steps.version.outputs.version }}"
-          git push origin "v${{ steps.version.outputs.version }}"
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f ref="refs/tags/v${RELEASE_VERSION}" \
+            -f sha="$GITHUB_SHA"
 
       - name: Create GitHub Release
-        run: gh release create "v${{ steps.version.outputs.version }}" --generate-notes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="v${RELEASE_VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            actual_prerelease="$(gh release view "$tag" --json isPrerelease --jq '.isPrerelease')"
+            if [ "$actual_prerelease" != "$IS_PRERELEASE" ]; then
+              echo "GitHub Release ${tag} has prerelease=${actual_prerelease}; expected ${IS_PRERELEASE}" >&2
+              exit 1
+            fi
+            echo "GitHub Release ${tag} already exists"
+          else
+            release_args=(--generate-notes --verify-tag)
+            if [ "$IS_PRERELEASE" = "true" ]; then
+              release_args+=(--prerelease --latest=false)
+            fi
+            gh release create "$tag" "${release_args[@]}"
+          fi
 
   # ==========================================================================
   # Deploy demo to GitHub Pages
   # ==========================================================================
   deploy:
-    needs: [build]
+    needs: [build, release]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
-      - run: mise run restore
-      - run: mise run build:static
+      - name: Restore the verified demo
+        uses: actions/download-artifact@v4
+        with:
+          name: demo-static
+          path: apps/demo/dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -80,3 +255,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./apps/demo/dist
           publish_branch: gh-pages
+          full_commit_message: |
+            deploy: ${{ github.sha }}
+
+            Acked-by: Andrey Akinshin <andrey.akinshin@gmail.com>

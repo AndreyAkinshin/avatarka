@@ -1,0 +1,914 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Avatarka recipe v1 golden protocol > keeps a mixed gallery stable 1`] = `
+[
+  {
+    "params": {
+      "accentPosition": "side",
+      "backgroundShape": "circle",
+      "faceStyle": "quiet",
+      "orbShape": "medal",
+      "palette": "clay",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:0",
+      "palette": "clay",
+      "seed": 1520794932,
+      "theme": "orbs",
+      "traits": {
+        "orbShape": "medal",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#9b806b"/>
+    <g><g data-part="artwork" transform="translate(50 50) scale(0.8484) translate(-50 -48.1118)"><g data-part="accent" data-accent-position="side"><path d="M71 25Q91 28 94 50Q95 73 75 83Q64 73 67 56Q70 41 71 25Z" fill="#d09945"/></g><g data-part="body" data-orb-shape="medal" data-topology="ribboned circular medal" data-negative-spaces="0"><path d="M25 5H47L54 29L42 38ZM75 5H53L46 29L58 38Z" fill="#dd8d74"/><circle cx="50" cy="62" r="31" fill="#dd8d74"/></g><g data-part="face-field"><ellipse cx="50" cy="62" rx="17" ry="15.5" fill="#e8cbb4"/></g><g data-part="face" data-face-style="quiet" transform="rotate(0.414 49.849 61.869)"><g data-part="eyes"><circle cx="42.757" cy="59.108000000000004" r="2.077777777777778" fill="#241711"/><circle cx="56.35699999999999" cy="59.108000000000004" r="2.077777777777778" fill="#241711"/></g><g data-part="mouth"><path d="M45.599 67.34677777777777Q49.849 67.91344444444445 54.099 67.34677777777777" fill="none" stroke="#241711" stroke-width="1.7" stroke-linecap="round"/></g></g></g></g>
+  </svg>",
+    "theme": "orbs",
+  },
+  {
+    "params": {
+      "accessory": "headband",
+      "backgroundShape": "circle",
+      "eyeStyle": "soft",
+      "faceShape": "oval",
+      "hairColor": "chestnut",
+      "hairStyle": "braided-crown",
+      "mouthStyle": "soft-smile",
+      "palette": "clay",
+      "skinTone": "porcelain",
+      "topStyle": "hood",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:1",
+      "palette": "clay",
+      "seed": 1901113258,
+      "theme": "folks",
+      "traits": {
+        "hairStyle": "braided-crown",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#9b806b"/>
+    <g>
+    <g transform="rotate(-0.008 50 91)">
+        <path d="M15.4 84.6 Q20.5 78.5 30 75 Q39 70 50 72 Q61 70 70 75 Q79.5 78.5 84.6 84.6 A48.9 48.9 0 0 1 15.4 84.6 Z" fill="#e8cbb4"/>
+        <path d="M24.6 91.8 Q28.9 84.4 38 81 Q50 93 62 81 Q71.1 84.4 75.4 91.8 A48.9 48.9 0 0 1 24.6 91.8 Z" fill="#dd8d74"/>
+      </g>
+    <g transform="translate(0.375 0.34) rotate(1.785 50 53)">
+␠␠␠␠␠␠
+      <path d="M41 68 Q41 79 38 82 Q50 89 62 82 Q59 79 59 68 Z" fill="#f4d9ce" stroke="#c1a89e" stroke-width="1.2" stroke-linejoin="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+      <g data-folks-hair="braided-crown" data-folks-hair-layer="back">
+    <g fill="#75442f" stroke="#4f2c20" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M27 43Q25 23 42 16Q61 11 74 31L72 44L66 35H34Z"/></g>
+␠␠␠␠
+␠␠␠␠
+␠␠␠␠
+  </g>
+␠␠␠␠␠␠
+    <ellipse cx="26.564" cy="53.09285" rx="3.9312000000000005" ry="6.3648" fill="#f4d9ce" stroke="#c1a89e" stroke-width="1.2"/>
+    <ellipse cx="73.436" cy="53.04315" rx="3.8556000000000004" ry="6.2424" fill="#f4d9ce" stroke="#c1a89e" stroke-width="1.2"/>
+    <path d="M26.564 50.09285Q25.064 53.09285 26.564 56.09285M73.436 50.04315Q74.936 53.04315 73.436 56.04315" fill="none" stroke="#927a72" stroke-width="1.35" stroke-linecap="round" opacity="0.4"/>
+␠␠
+      <path d="M50 18C64 18 72 29 72.5 47C73 66 64 79 50 81C36 79 27 66 27.5 47C28 29 36 18 50 18Z" fill="#f4d9ce" stroke="#c1a89e" stroke-width="1.2" stroke-linejoin="round"/>
+      <g data-folks-hair="braided-crown" data-folks-hair-layer="scalp"><g fill="#75442f" stroke="#4f2c20" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M24 44.5C22.8 37 22.8 29 25 22.5C27.5 16.5 33 13.8 41 12.8C45.5 12.3 54.5 12.3 59 12.8C67 13.8 72.5 16.5 75 22.5C77.2 29 77.2 37 76 44.5L67 44L64 28L62 23L50 21.3L44 21.6L38 23L36 28L33 44Z"/></g></g>
+      <path d="M27 32Q50 15 73 32" fill="none" stroke="#d09945" stroke-width="3.4" stroke-linecap="round"/>
+      <g data-folks-hair="braided-crown" data-folks-hair-layer="front">
+    <g fill="#75442f" stroke="#4f2c20" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M27 40Q29 23 48 18L50 34Q42 28 37 29Q34 37 27 40ZM73 40Q71 23 52 18L50 34Q58 28 63 29Q66 37 73 40Z"/><path d="M47.3 18H52.7L51.5 34.5H48.5Z" stroke="none"/></g>
+␠␠␠␠
+␠␠␠␠
+    <g fill="none" stroke="#4f2c20" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" opacity=".58"><path d="M29 29Q35 18 50 17Q65 18 71 29" stroke-width="5"/><path d="M31 27L36 31M37 21L42 26M44 18L48 23M52 18L56 23M58 21L63 26M64 25L69 30"/></g>
+  </g>
+␠␠␠␠␠␠
+      <path d="M35.8665 43.253150000000005 Q40.8665 40.278000000000006 45.8665 43.26735000000001 M54.1335 43.288650000000004 Q59.1335 40.278000000000006 64.1335 43.30285000000001" fill="none" stroke="#4f2c20" stroke-width="1.75" stroke-linecap="round"/>
+␠␠␠␠␠␠
+    <ellipse cx="40.8665" cy="50.3115" rx="2.5407" ry="3.2935" fill="#3f2924"/>
+    <circle cx="40.5435" cy="49.3115" r="0.75" fill="#fffaf7"/>
+␠␠
+    <ellipse cx="59.1335" cy="50.240500000000004" rx="2.5164000000000004" ry="3.262" fill="#3f2924"/>
+    <circle cx="58.8105" cy="49.240500000000004" r="0.75" fill="#fffaf7"/>
+␠␠
+      <path d="M49.706 54.873 Q45.544000000000004 60.873 50.1831 61.873" fill="none" stroke="#927a72" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" opacity="0.82"/>
+      <path d="M43.577 66.731 Q49.528 70.731 55.479 66.731" fill="none" stroke="#927a72" stroke-width="1.7" stroke-linecap="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    </g>
+  </g>
+  </svg>",
+    "theme": "folks",
+  },
+  {
+    "params": {
+      "backgroundShape": "circle",
+      "companion": "none",
+      "expression": "soft-smile",
+      "finish": "plain",
+      "palette": "clay",
+      "pose": "centered",
+      "snack": "berry",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:2",
+      "palette": "clay",
+      "seed": 560349759,
+      "theme": "snacks",
+      "traits": {
+        "snack": "berry",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#9b806b"/>
+    <g><g transform="translate(50 50) scale(0.8491) translate(-50 -50)">
+    <circle cx="50" cy="50" r="49" fill="none" stroke="transparent" stroke-width="8"/>
+    <g transform="translate(0 0) rotate(0.641 50 76) translate(50 76) scale(1.021 0.976) translate(-50 -76)">
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+          <g data-snack-silhouette="berry" stroke-width="1.25" stroke-linejoin="round">
+            <circle data-snack-lobe="berry-lower-left" cx="33.8505" cy="68" r="17" fill="#dd8d74" stroke="#a96c58"/>
+            <circle data-snack-lobe="berry-lower-right" cx="66.1495" cy="68" r="17" fill="#dd8d74" stroke="#a96c58"/>
+            <circle data-snack-lobe="berry-upper-left" cx="35.7907" cy="48" r="18" fill="#dd8d74" stroke="#a96c58"/>
+            <circle data-snack-lobe="berry-upper-right" cx="64.2093" cy="48" r="18" fill="#dd8d74" stroke="#a96c58"/>
+            <circle data-snack-lobe="berry-center" cx="50.1196" cy="61" r="20" fill="#dd8d74" stroke="#a96c58"/>
+          </g>
+          <path data-snack-leaf="berry" d="M58 24Q68 10 81 17Q75 31 59 32Z" fill="#e8cbb4" stroke="#ad9583" stroke-width="1.45" stroke-linejoin="round"/>
+          <path data-snack-calyx="berry" d="M39 31Q42 22 49.1794 27Q51 17 57.2392 25Q66 21 65 32Q57 30 51.1794 36Q46 30 39 31Z" fill="#b19986" stroke="#ad9583" stroke-width="1.45" stroke-linejoin="round"/>
+          <path data-snack-stem="berry" d="M51 28Q58 19 70 17M61 27L76 19" fill="none" stroke="#9a8373" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+␠␠␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    <ellipse cx="42.60235" cy="52.17" rx="3.9405999999999994" ry="4.666499999999999" fill="#9b806b" stroke="#241711" stroke-width="2.35"/>
+    <circle cx="42.60235" cy="52.52" r="1.8147499999999999" fill="#241711"/>
+␠␠
+    <ellipse cx="58.81165" cy="52.672" rx="3.9405999999999994" ry="4.666499999999999" fill="#9b806b" stroke="#241711" stroke-width="2.35"/>
+    <circle cx="58.81165" cy="53.022" r="1.8147499999999999" fill="#241711"/>
+␠␠
+    <path d="M44.53725 64.2526Q50.707 69.9738 56.87675 64.2526" fill="none" stroke="#9b806b" stroke-width="4.35" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M44.53725 64.2526Q50.707 69.9738 56.87675 64.2526" fill="none" stroke="#241711" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+␠␠
+␠␠␠␠␠␠
+    </g>
+  </g></g>
+  </svg>",
+    "theme": "snacks",
+  },
+  {
+    "params": {
+      "accentPosition": "halo",
+      "backgroundShape": "circle",
+      "faceStyle": "content",
+      "orbShape": "pawn",
+      "palette": "clay",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:3",
+      "palette": "clay",
+      "seed": 1479775699,
+      "theme": "orbs",
+      "traits": {
+        "orbShape": "pawn",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#9b806b"/>
+    <g><g data-part="artwork" transform="translate(50 50) scale(0.8968) translate(-50 -54.1085)"><g data-part="accent" data-accent-position="halo"><circle cx="50" cy="50" r="42" fill="#d09945"/></g><g data-part="body" data-orb-shape="pawn" data-topology="classic game pawn" data-negative-spaces="0"><path d="M50 7Q65 7 66 21Q67 32 58 37Q70 46 68 62L80 84Q83 93 72 93H28Q17 93 20 84L32 62Q30 46 42 37Q33 32 34 21Q35 7 50 7Z" fill="#dd8d74"/></g><g data-part="face-field"><rect x="33" y="43" width="34" height="28" rx="7.700000000000001" fill="#e8cbb4"/></g><g data-part="face" data-face-style="content" transform="rotate(-0.405 49.785 56.818)"><g data-part="eyes"><path d="M39.611666666666665 54.67133333333333Q43.065 56.257999999999996 46.51833333333333 54.67133333333333" fill="none" stroke="#241711" stroke-width="1.6333333333333333" stroke-linecap="round"/><path d="M53.05166666666666 54.67133333333333Q56.504999999999995 56.257999999999996 59.95833333333333 54.67133333333333" fill="none" stroke="#241711" stroke-width="1.6333333333333333" stroke-linecap="round"/></g><g data-part="mouth"><path d="M44.651666666666664 61.76466666666666Q49.785 64.938 54.91833333333333 61.76466666666666" fill="none" stroke="#241711" stroke-width="1.6800000000000002" stroke-linecap="round"/></g></g></g></g>
+  </svg>",
+    "theme": "orbs",
+  },
+]
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps adventurers params and SVG stable 1`] = `
+{
+  "params": {
+    "archetype": "masked-hero",
+    "backgroundShape": "rounded",
+    "expression": "content",
+    "faceGear": "none",
+    "insignia": "dot",
+    "palette": "sky",
+    "skinTone": "porcelain",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "adventurers",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect width="100" height="100" rx="22" fill="#7289a1"/>
+    <g><g transform="translate(50 50) scale(1.0556) translate(-46.3347 -64.8857)">
+    <g transform="translate(0 0.009) rotate(-0.021 50 54)">
+      <path d="M42 64Q13 68 18 94Q39 89 54 72Z" fill="#bbd4ee" stroke="#7e92a6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 82Q22 73 38 70Q50 68 62 70Q78 73 83 82Q80 91 67 94Q58 97 50 97Q42 97 33 94Q20 91 17 82Z" fill="#76ace4" stroke="#5278a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M29 77Q50 85 71 77L73 91Q62 96 50 96Q38 96 27 91Z" fill="#76ace4" stroke="#5278a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="50" cy="50" rx="22.5" ry="25.5" fill="#f4d9ce" stroke="#b9a299" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M29 34Q50 22 71 34" fill="none" stroke="#76ace4" stroke-width="4" stroke-linecap="round"/><path d="M35 44Q42 39 50 44Q58 39 65 44L62 54Q56 57 50 52Q44 57 38 54Z" fill="#e47d70" stroke="#985a55" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+      <g transform="translate(49.6 86.686) rotate(0.805) scale(0.68) scale(1.011 1.01)"><path d="M0 -4.6C2.7 -4.5 4.45 -2.2 4.25 .3C4 2.85 2 4.45 -.45 4.3C-2.9 4.15 -4.45 2.1 -4.25 -.35C-4.05 -2.8 -2.05 -4.45 0 -4.6Z" fill="#e47d70"/></g>
+␠␠␠␠␠␠
+    <path d="M36.212 49.94Q40.612 52.64 45.012 49.94" fill="none" stroke="#826f68" stroke-width="1.75" stroke-linecap="round"/><path d="M54.712 50.06Q59.112 52.760000000000005 63.512 50.06" fill="none" stroke="#826f68" stroke-width="1.75" stroke-linecap="round"/>
+    <path d="M49.8557 55.8Q47.4557 61.3 51.0557 61.8" fill="none" stroke="#826f68" stroke-width="1.35" stroke-linecap="round" opacity="0.78"/>
+    <path d="M44.804 64.484Q49.844 69.484 54.884 64.484" fill="none" stroke="#826f68" stroke-width="1.75" stroke-linecap="round"/>
+␠␠
+␠␠␠␠␠␠
+    </g>
+  </g></g>
+  </svg>",
+  "theme": "adventurers",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps bots params and SVG stable 1`] = `
+{
+  "params": {
+    "antenna": "none",
+    "backgroundShape": "circle",
+    "chassis": "twin-wheel",
+    "eyeSystem": "dual",
+    "palette": "orchid",
+    "panel": "plain",
+    "sideSensors": "rails",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "bots",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#8c809c"/>
+    <g><g transform="translate(50 50) scale(0.88) translate(-50 -50)"><g data-bots-fixed-envelope="true"><circle data-bots-hardware-envelope="reserved" cx="50" cy="50" r="46.5" fill="none" stroke="transparent" stroke-width="7"/><g data-bots-hardware="side-sensors" data-bots-hardware-profile="wheel"><rect x="17.5" y="38.5" width="9" height="21" rx="4.5" fill="#d8cae9" stroke="#9c91aa" stroke-width="1.5"/><rect x="73.5" y="37.3" width="9" height="21" rx="4.5" fill="#d8cae9" stroke="#9c91aa" stroke-width="1.5"/></g><g data-bots-chassis="twin-wheel" data-bots-density="3">
+    <g data-bots-head-cue="light-bar" data-bots-head-cue-layer="behind" fill="#d8cae9" stroke="#a095ae" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"><path d="M36 29V21H64V29H58V26H42V29Z"/></g>
+    <g data-bots-chassis-layer="body" fill="#b199de" stroke="#8170a3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M28 25H72L76 68H24Z"/></g>
+    <g data-bots-chassis-layer="secondary" fill="#d8cae9" stroke="#a095ae" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="70" r="12"/><circle cx="76" cy="70" r="12"/></g>
+    <g data-bots-chassis-layer="line" fill="none" stroke="#8170a3" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 70H30M70 70H82"/></g>
+␠␠␠␠
+  </g><g data-bots-faceplate="twin-wheel" fill="#d8cae9" stroke="#a398b2" stroke-width="1.15" stroke-linejoin="round"><path d="M31 36H69L67 59H33Z"/></g><g data-bots-eyes="dual"><circle cx="41" cy="47" r="4.4" fill="#1c1825"/><circle cx="59" cy="47" r="4.4" fill="#1c1825"/><circle cx="39.8" cy="45.8" r="1.15" fill="#da7baa"/><circle cx="57.8" cy="45.8" r="1.15" fill="#da7baa"/></g><path data-bots-mouth="friendly" d="M44.6 56Q50 60 55.4 56" fill="none" stroke="#1c1825" stroke-width="2.1" stroke-linecap="round"/><g data-bots-panel="plain" data-bots-hardware-profile="low"><rect x="40" y="62.4" width="20" height="5.2" rx="2.6" fill="#d8cae9" stroke="#a095ae" stroke-width="1.1"/></g></g></g></g>
+  </svg>",
+  "theme": "bots",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps critters params and SVG stable 1`] = `
+{
+  "params": {
+    "accessory": "none",
+    "backgroundShape": "rounded",
+    "coat": "classic",
+    "expression": "soft-smile",
+    "marking": "cheek-spots",
+    "palette": "orchid",
+    "species": "penguin",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "critters",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect width="100" height="100" rx="22" fill="#8c809c"/>
+    <g><g transform="translate(50 50) scale(0.9813) translate(-53.2768 -51.8251)"><g data-part="species-body" data-species="penguin"><path d="M28 52Q13 57 18 77Q28 83 38 69M72 52Q87 57 82 77Q72 83 62 69" fill="#726390"/><path d="M29 31Q36 17 50 18Q64 17 71 31Q79 48 72 70Q66 84 50 87Q34 84 28 70Q21 48 29 31Z" fill="#726390"/><path d="M33 38Q40 26 50 34Q60 26 67 38L67 66Q61 80 50 82Q39 80 33 66Z" fill="#d8cae9"/><path d="M42 56Q50 48 58 56L50 64Z" fill="#da7baa"/></g><g data-part="marking" data-marking="cheek-spots"><circle cx="33.343" cy="60" r="3.8" fill="#8c809c" opacity="0.78"/><circle cx="65.743" cy="60" r="3.8" fill="#8c809c" opacity="0.78"/></g><g data-part="expression" data-expression="soft-smile"><ellipse cx="40.543" cy="47.01" rx="2.5" ry="3.1" fill="#1c1825" transform="rotate(-2 40.543 47.01)"/><ellipse cx="58.543" cy="46.99" rx="2.5" ry="3.1" fill="#1c1825" transform="rotate(2 58.543 46.99)"/><path d="M45.505 64Q49.255 67.3 53.005 64" fill="none" stroke="#1c1825" stroke-width="1.9" stroke-linecap="round"/></g><g data-part="species-details"><circle cx="50" cy="56" r="2" fill="#1c1825"/><path d="M39 84L31 89M61 84L69 89" fill="none" stroke="#da7baa" stroke-width="3" stroke-linecap="round"/></g><g data-part="accessory" data-accessory="none"></g></g></g>
+  </svg>",
+  "theme": "critters",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps folks params and SVG stable 1`] = `
+{
+  "params": {
+    "accessory": "none",
+    "backgroundShape": "circle",
+    "eyeStyle": "focused",
+    "faceShape": "tapered",
+    "hairColor": "gold",
+    "hairStyle": "side-braid",
+    "mouthStyle": "smile",
+    "palette": "mono",
+    "skinTone": "peach",
+    "topStyle": "wrap",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "folks",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#80878d"/>
+    <g>
+    <g transform="rotate(-0.971 50 91)">
+        <path d="M17.9 86.8 Q23.1 82.6 31 80 Q40 76 44 76 L58 76 Q64 78 72 82 Q77.1 84.7 81 87.9 A48.9 48.9 0 0 1 17.9 86.8 Z" fill="#98a7b4"/>
+        <path d="M25 81 Q41.6 86 65.2 96.5 A48.9 48.9 0 0 1 46.3 98.8 Q35.6 92.2 21 88 Z" fill="#cbd2d8"/>
+      </g>
+    <g transform="translate(0.24 0.269) rotate(1.603 50 53)">
+␠␠␠␠␠␠
+      <path d="M41 68 Q41 79 38 82 Q50 89 62 82 Q59 79 59 68 Z" fill="#edc4ae" stroke="#bc9987" stroke-width="1.2" stroke-linejoin="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    <ellipse cx="29.377" cy="52.4836" rx="3.8976" ry="6.3104000000000005" fill="#edc4ae" stroke="#bc9987" stroke-width="1.2"/>
+    <ellipse cx="70.623" cy="52.2764" rx="4.2756" ry="6.9224" fill="#edc4ae" stroke="#bc9987" stroke-width="1.2"/>
+    <path d="M29.377 49.4836Q27.877 52.4836 29.377 55.4836M70.623 49.2764Q72.123 52.2764 70.623 55.2764" fill="none" stroke="#8f7063" stroke-width="1.35" stroke-linecap="round" opacity="0.4"/>
+␠␠
+      <g data-folks-hair="side-braid" data-folks-hair-layer="back">
+    <g fill="#c69752" stroke="#8d6637" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M25 45Q23 23 41 16Q62 9 75 31L70 50L62 35H34Z"/></g>
+␠␠␠␠
+␠␠␠␠
+␠␠␠␠
+  </g>
+␠␠␠␠␠␠
+      <path d="M28 35Q28 20 50 18Q72 20 72 35L68 61Q64 74 50 82Q36 74 32 61Z" fill="#edc4ae" stroke="#bc9987" stroke-width="1.2" stroke-linejoin="round"/>
+      <g data-folks-hair="side-braid" data-folks-hair-layer="scalp"><g fill="#c69752" stroke="#8d6637" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M24 44.5C22.8 37 22.8 29 25 22.5C27.5 16.5 33 13.8 41 12.8C45.5 12.3 54.5 12.3 59 12.8C67 13.8 72.5 16.5 75 22.5C77.2 29 77.2 37 76 44.5L67 44L64 28L62 23L50 21.3L44 21.6L38 23L36 28L33 44Z"/></g></g>
+␠␠␠␠␠␠
+      <g data-folks-hair="side-braid" data-folks-hair-layer="front">
+    <g fill="#c69752" stroke="#8d6637" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M26 40Q27 20 48 15Q68 13 74 33L72 40Q60 36 46 25Q40 36 26 40Z"/></g>
+␠␠␠␠
+␠␠␠␠
+    <g fill="none" stroke="#8d6637" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" opacity=".58"><path d="M43 21Q55 30 71 31"/></g>
+  </g>
+      <g data-folks-hair="side-braid" data-folks-hair-layer="overlay">
+    <g fill="#c69752" stroke="#8d6637" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M69 35Q80 42 73 51Q82 57 74 64Q81 72 72 78Q68 82 70 86Q62 82 66 75Q59 68 67 62Q59 55 67 49Q60 42 69 35Z"/></g>
+    <g fill="#8d6637" stroke="none"><path d="M68 47L75 52L67 59L75 65L67 72L73 77L69 82" opacity=".22"/></g>
+␠␠␠␠
+    <g fill="none" stroke="#8d6637" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" opacity=".58"><path d="M67 45L75 51M66 57L75 63M66 69L74 75"/></g>
+  </g>
+      <path d="M36.460499999999996 41.3474 Q41.460499999999996 38.451 46.460499999999996 41.4066 M53.539500000000004 41.495400000000004 Q58.539500000000004 38.451 63.539500000000004 41.5546" fill="none" stroke="#8d6637" stroke-width="1.75" stroke-linecap="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠␠␠
+    <ellipse cx="41.460499999999996" cy="50.047000000000004" rx="3.144" ry="3.3536" fill="#3f2924"/>
+    <circle cx="40.6845" cy="49.047000000000004" r="0.75" fill="#fffaf7"/>
+␠␠
+    <ellipse cx="58.539500000000004" cy="49.751" rx="2.8169999999999997" ry="3.0048" fill="#3f2924"/>
+    <circle cx="57.76350000000001" cy="48.751" r="0.75" fill="#fffaf7"/>
+␠␠
+        <path d="M37.460499999999996 47.047000000000004Q41.460499999999996 45.047000000000004 45.460499999999996 48.047000000000004M54.539500000000004 47.751Q58.539500000000004 44.751 62.539500000000004 46.751" fill="none" stroke="#8f7063" stroke-width="1.55" stroke-linecap="round"/>
+␠␠␠␠␠␠
+      <path d="M50.615 54.415 Q46.954 60.415 51.317550000000004 61.415" fill="none" stroke="#8f7063" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" opacity="0.82"/>
+      <path d="M44.025000000000006 66.142 Q50.88 70.142 57.735 66.142" fill="none" stroke="#8f7063" stroke-width="1.7" stroke-linecap="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    </g>
+  </g>
+  </svg>",
+  "theme": "folks",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps nooks params and SVG stable 1`] = `
+{
+  "params": {
+    "accent": "none",
+    "backgroundShape": "square",
+    "dwelling": "caravan",
+    "expression": "curious",
+    "material": "canvas",
+    "palette": "clay",
+    "windowStyle": "round",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "nooks",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect width="100" height="100" fill="#9b806b"/>
+    <g><g transform="translate(50 50) scale(1.0875) translate(-50.0813 -58.0727)">
+    <g transform="rotate(-0.767 50 52)">
+␠␠␠␠␠␠
+          <circle cx="30" cy="78" r="8" fill="#a26754"/>
+          <circle cx="72" cy="78" r="8" fill="#a26754"/>
+␠␠␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+          <path d="M15 47Q17 29 35 26H67Q83 29 85 47V75H15Z" fill="#dd8d74" stroke="#a26754" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M18 48Q20 34 36 32H65Q79 34 82 48" fill="none" stroke="#e8cbb4" stroke-width="5" stroke-linecap="round"/>
+          <path d="M16 67H84V75H16Z" fill="#d09945" opacity="0.72"/>
+␠␠␠␠␠␠␠␠
+      <path d="M34.88 42Q37.120000000000005 53.07 34.32 63" fill="none" stroke="#e8cbb4" stroke-width="1.6" stroke-linecap="round" opacity="0.58"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    <ellipse cx="36.5" cy="49.0235" rx="7.251659999999999" ry="6.1979999999999995" fill="#e8cbb4" stroke="#a58e7d" stroke-width="1.55" stroke-linejoin="round"/>
+    <ellipse cx="63" cy="48.9765" rx="5.6335500000000005" ry="5.778" fill="#e8cbb4" stroke="#a58e7d" stroke-width="1.55" stroke-linejoin="round"/>
+␠␠
+    <circle cx="36.6" cy="49.140499999999996" r="2.45" fill="#241711"/>
+    <circle cx="63.1" cy="49.0935" r="2.45" fill="#241711"/>
+␠␠
+      <rect x="42.904" y="59.84" width="15" height="8.32" rx="3.9" fill="#d09945" stroke="#966d33" stroke-width="1.55" stroke-linejoin="round" stroke-linecap="round"/><circle cx="51.004000000000005" cy="64" r="2.25" fill="#241711"/>
+    </g>
+  </g></g>
+  </svg>",
+  "theme": "nooks",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps oddlings params and SVG stable 1`] = `
+{
+  "params": {
+    "backgroundShape": "circle",
+    "bodyShape": "pinwheel",
+    "eyeArrangement": "stacked",
+    "feature": "none",
+    "mouthStyle": "crooked",
+    "palette": "orchid",
+    "pattern": "belly",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "oddlings",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#8c809c"/>
+    <g><g transform="translate(50 50) scale(0.823) translate(-48.04 -50.42)"><g data-part="feature" data-feature="none" data-layer="behind"></g><g data-part="body" data-body-shape="pinwheel" data-topology="four curled radial arms"><path d="M50 43Q33 17 11 24Q23 39 42 49Q16 67 24 89Q39 77 49 58Q67 84 89 76Q77 61 58 51Q84 33 76 11Q61 23 50 43Z" fill="#da7baa"/><circle cx="50" cy="50" r="15" fill="#da7baa"/></g><g data-part="pattern" data-pattern="belly"><path d="M27.802499999999995 70.16330870399999Q49.9785 65.65483919999998 72.1545 71.82633129599999Q70.38042 90.06617999999999 49.9785 90.06617999999999Q29.576579999999996 90.06617999999999 27.802499999999995 70.16330870399999Z" fill="#d8cae9" transform="rotate(-0.38345 49.9785 80.53049999999999)"/></g><g data-part="face" transform="rotate(0.889 50 54.68)"><g data-part="eyes" data-eye-arrangement="stacked"><ellipse cx="47.78947368421053" cy="44.8421052631579" rx="3.967526315789473" ry="4.328210526315789" fill="#8c809c" stroke="#5f566c" stroke-width="1.4"/><circle cx="48.147673684210524" cy="45.1204052631579" r="1.5870105263157894" fill="#1c1825"/><ellipse cx="52.94736842105263" cy="54.421052631578945" rx="4.29578947368421" ry="4.686315789473684" fill="#8c809c" stroke="#5f566c" stroke-width="1.4"/><circle cx="53.30556842105263" cy="54.69935263157895" r="1.7183157894736842" fill="#1c1825"/></g><g data-part="mouth" data-mouth-style="crooked"><path d="M43.907631578947374 62.38752631578948Q48.70447368421053 57.59068421052632 56.24236842105263 61.70226315789474" fill="none" stroke="#1c1825" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g><g data-part="feature" data-feature="none" data-layer="front"></g></g></g>
+  </svg>",
+  "theme": "oddlings",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps one identity from every avatar family stable 1`] = `
+[
+  {
+    "params": {
+      "antenna": "none",
+      "backgroundShape": "circle",
+      "chassis": "block",
+      "eyeSystem": "scanner",
+      "palette": "mono",
+      "panel": "badge",
+      "sideSensors": "discs",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:0",
+      "palette": "mono",
+      "seed": 210511517,
+      "theme": "bots",
+      "traits": {
+        "chassis": "block",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#80878d"/>
+    <g><g transform="translate(50 50) scale(0.88) translate(-50 -50)"><g data-bots-fixed-envelope="true"><circle data-bots-hardware-envelope="reserved" cx="50" cy="50" r="46.5" fill="none" stroke="transparent" stroke-width="7"/><g transform="translate(50 50) scale(1.0695) translate(-50 -50)"><g data-bots-hardware="side-sensors" data-bots-hardware-profile="temple"><circle cx="20" cy="52" r="7" fill="#98a7b4" stroke="#6e7a85" stroke-width="1.5"/><circle cx="20" cy="52" r="3.8" fill="#b0948d"/><circle cx="80" cy="52" r="6.5" fill="#98a7b4" stroke="#6e7a85" stroke-width="1.5"/><circle cx="80" cy="52" r="3.3" fill="#b0948d"/></g><g data-bots-chassis="block" data-bots-density="1">
+    <g data-bots-head-cue="carry-handle" data-bots-head-cue-layer="behind" fill="#cbd2d8" stroke="#959ba1" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"><path d="M37 29V23Q37 18 42 18H58Q63 18 63 23V29H57V24H43V29Z"/></g>
+    <g data-bots-chassis-layer="body" fill="#98a7b4" stroke="#6e7a85" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="27" width="56" height="52" rx="9"/></g>
+␠␠␠␠
+␠␠␠␠
+␠␠␠␠
+  </g><g data-bots-faceplate="block" fill="#cbd2d8" stroke="#989fa4" stroke-width="1.15" stroke-linejoin="round"><rect x="28" y="38" width="44" height="24" rx="5"/></g><g data-bots-eyes="scanner"><path d="M34.5 49L39 45L43.5 49L39 53ZM56.5 49L61 45L65.5 49L61 53Z" fill="#161b20"/><circle cx="61" cy="49" r="1.7" fill="#b0948d"/></g><path data-bots-mouth="friendly" d="M43.4 57Q50 61 56.6 57" fill="none" stroke="#161b20" stroke-width="2.1" stroke-linecap="round"/><g data-bots-panel="badge" data-bots-hardware-profile="center"><circle cx="50" cy="70" r="4.5" fill="#b0948d" stroke="#82706c" stroke-width="1.1"/></g></g></g></g></g>
+  </svg>",
+    "theme": "bots",
+  },
+  {
+    "params": {
+      "accessory": "none",
+      "backgroundShape": "circle",
+      "coat": "classic",
+      "expression": "content",
+      "marking": "none",
+      "palette": "clay",
+      "species": "gecko",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:1",
+      "palette": "clay",
+      "seed": 971557457,
+      "theme": "critters",
+      "traits": {
+        "species": "gecko",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#9b806b"/>
+    <g><g transform="translate(50 50) scale(0.8308) translate(-50.9325 -59.5462)"><g data-part="species-body" data-species="gecko">
+          <path d="M36 72Q17 77 14 88Q14 97 25 96Q33 94 31 85" fill="none" stroke="#8f5b4a" stroke-width="8" stroke-linecap="round"/>
+          <path d="M30 57Q18 59 13 67M70 57Q82 59 87 67M38 77Q31 85 33 92M62 77Q69 85 67 92" fill="none" stroke="#8f5b4a" stroke-width="5.5" stroke-linecap="round"/>
+          <g fill="#e8cbb4"><circle cx="9" cy="63" r="2.2"/><circle cx="7.5" cy="68.5" r="2.2"/><circle cx="11.5" cy="72" r="2.2"/><circle cx="91" cy="63" r="2.2"/><circle cx="92.5" cy="68.5" r="2.2"/><circle cx="88.5" cy="72" r="2.2"/><circle cx="28" cy="91" r="2.2"/><circle cx="32" cy="96" r="2.2"/><circle cx="37" cy="94" r="2.2"/><circle cx="72" cy="91" r="2.2"/><circle cx="68" cy="96" r="2.2"/><circle cx="63" cy="94" r="2.2"/></g>
+        <path d="M27 40Q31 23 50 22Q69 23 73 40Q76 51 70 61Q63 75 50 78Q37 75 30 61Q24 51 27 40Z" fill="#e5a895"/>
+          <ellipse cx="39" cy="46" rx="10" ry="9" fill="#e8cbb4"/>
+          <ellipse cx="61" cy="46" rx="10" ry="9" fill="#e8cbb4"/>
+          <path d="M31 43Q39 36 47 43M53 43Q61 36 69 43" fill="none" stroke="#946b5e" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="33" cy="32" r="2.4" fill="#e8cbb4"/><circle cx="67" cy="32" r="2.4" fill="#e8cbb4"/><circle cx="50" cy="27" r="2" fill="#e8cbb4"/>
+        <ellipse cx="50" cy="64" rx="15" ry="11" fill="#e8cbb4"/></g><g data-part="marking" data-marking="none"></g><g data-part="expression" data-expression="content"><path d="M34.169000000000004 46.863Q38.819 49.663 43.469 46.863" fill="none" stroke="#241711" stroke-width="1.9" stroke-linecap="round" transform="rotate(-4 38.819 46.863)"/><path d="M56.169000000000004 47.137Q60.819 49.937 65.46900000000001 47.137" fill="none" stroke="#241711" stroke-width="1.9" stroke-linecap="round" transform="rotate(4 60.819 47.137)"/><path d="M46.49 63Q49.93 65.7 53.37 63" fill="none" stroke="#241711" stroke-width="1.9" stroke-linecap="round"/></g><g data-part="species-details"><circle cx="45" cy="59" r="1.8" fill="#241711"/><circle cx="55" cy="59" r="1.8" fill="#241711"/><circle cx="33" cy="62" r="2.2" fill="#9b806b"/><circle cx="67" cy="62" r="2.2" fill="#9b806b"/></g><g data-part="accessory" data-accessory="none"></g></g></g>
+  </svg>",
+    "theme": "critters",
+  },
+  {
+    "params": {
+      "backgroundShape": "circle",
+      "companion": "pick",
+      "expression": "calm",
+      "finish": "plain",
+      "palette": "orchid",
+      "pose": "lean-right",
+      "snack": "fries",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:2",
+      "palette": "orchid",
+      "seed": 491825656,
+      "theme": "snacks",
+      "traits": {
+        "snack": "fries",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#8c809c"/>
+    <g><g transform="translate(50 50) scale(0.8491) translate(-50 -50)">
+    <circle cx="50" cy="50" r="49" fill="none" stroke="transparent" stroke-width="8"/>
+    <g transform="translate(2.7 1) rotate(4.375 50 79) translate(50 79) scale(1.0058649999999998 0.962345) translate(-50 -79)">
+      <g transform="translate(50 50) scale(1.114) translate(-50 -50)">
+      <path d="M58 43L65 18" stroke="#7e6d9f" stroke-width="1.65" stroke-linecap="round"/><circle cx="65" cy="18" r="4.3" fill="#da7baa" stroke="#99597d" stroke-width="1.45" stroke-linejoin="round"/>
+␠␠␠␠␠␠
+      <path d="M28.68095 58Q22 59 19 65" fill="none" stroke="#8d839b" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M70.68095 58Q78 59 81 65" fill="none" stroke="#8d839b" stroke-width="3.2" stroke-linecap="round"/>
+      <circle cx="19" cy="65" r="2.7" fill="#d8cae9" stroke="#8d839b" stroke-width="1.1"/>
+      <circle cx="81" cy="65" r="2.7" fill="#d8cae9" stroke="#8d839b" stroke-width="1.1"/>
+␠␠␠␠
+      <path d="M42 79Q41 85 36 86" fill="none" stroke="#8d839b" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M58 79Q59 85 64 86" fill="none" stroke="#8d839b" stroke-width="3.4" stroke-linecap="round"/>
+␠␠␠␠
+␠␠␠␠␠␠
+          <g stroke="#a095ae" stroke-width="1.45" stroke-linejoin="round" fill="#d8cae9">
+            <path d="M27 50L24 18Q29 14 34 18L37 51Z"/><path d="M38 50L39 12Q44 9 49 13L49 51Z"/><path d="M50 51L53 16Q58 12 62 17L61 52Z"/><path d="M62 51L69 20Q75 18 77 24L72 55Z"/>
+          </g>
+          <path d="M22 43Q50 51 78 43L72 83Q50 89 28 83Z" fill="#b199de" stroke="#8472a6" stroke-width="1.45" stroke-linejoin="round"/>
+          <path d="M27 51Q50 57 73 51L71 61Q50 66 29 61Z" fill="#da7baa"/>
+␠␠␠␠␠␠␠␠
+␠␠␠␠␠␠
+      <circle cx="61" cy="33" r="2.2" fill="#1c1825"/>
+␠␠␠␠␠␠
+    <ellipse cx="41.604074999999995" cy="62.904999999999994" rx="3.24615" ry="3.876" fill="#8c809c" stroke="#1c1825" stroke-width="2.35"/>
+    <circle cx="41.604074999999995" cy="63.254999999999995" r="1.50195" fill="#1c1825"/>
+␠␠
+    <ellipse cx="58.355925" cy="63.079" rx="3.24615" ry="3.876" fill="#8c809c" stroke="#1c1825" stroke-width="2.35"/>
+    <circle cx="58.355925" cy="63.429" r="1.50195" fill="#1c1825"/>
+␠␠
+    <path d="M46.392779999999995 75.9952Q49.98 76.7952 53.56722 75.9952" fill="none" stroke="#8c809c" stroke-width="4.35" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M46.392779999999995 75.9952Q49.98 76.7952 53.56722 75.9952" fill="none" stroke="#1c1825" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+␠␠
+      </g>
+    </g>
+  </g></g>
+  </svg>",
+    "theme": "snacks",
+  },
+  {
+    "params": {
+      "accessory": "none",
+      "backgroundShape": "circle",
+      "eyeStyle": "soft",
+      "faceShape": "tapered",
+      "hairColor": "espresso",
+      "hairStyle": "twist-out",
+      "mouthStyle": "smile",
+      "palette": "sky",
+      "skinTone": "umber",
+      "topStyle": "wrap",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:3",
+      "palette": "sky",
+      "seed": 1474180275,
+      "theme": "folks",
+      "traits": {
+        "hairStyle": "twist-out",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#7289a1"/>
+    <g>
+    <g transform="rotate(-1.368 50 91)">
+        <path d="M17.9 86.8 Q23.1 82.6 31 80 Q40 76 44 76 L58 76 Q64 78 72 82 Q77.1 84.7 81 87.9 A48.9 48.9 0 0 1 17.9 86.8 Z" fill="#76ace4"/>
+        <path d="M25 81 Q41.6 86 65.2 96.5 A48.9 48.9 0 0 1 46.3 98.8 Q35.6 92.2 21 88 Z" fill="#bbd4ee"/>
+      </g>
+    <g transform="translate(0.764 0.567) rotate(0.892 50 53)">
+␠␠␠␠␠␠
+      <path d="M41 68 Q41 79 38 82 Q50 89 62 82 Q59 79 59 68 Z" fill="#85543c" stroke="#6c4431" stroke-width="1.2" stroke-linejoin="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    <ellipse cx="28.638" cy="51.95385" rx="4.095" ry="6.63" fill="#85543c" stroke="#6c4431" stroke-width="1.2"/>
+    <ellipse cx="71.362" cy="52.19815" rx="3.9144000000000005" ry="6.3376" fill="#85543c" stroke="#6c4431" stroke-width="1.2"/>
+    <path d="M28.638 48.95385Q27.138 51.95385 28.638 54.95385M71.362 49.19815Q72.862 52.19815 71.362 55.19815" fill="none" stroke="#4d3024" stroke-width="1.35" stroke-linecap="round" opacity="0.4"/>
+␠␠
+      <g data-folks-hair="twist-out" data-folks-hair-layer="back">
+    <g fill="#4a332a" stroke="#2f211c" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M23 64Q18 52 25 44Q18 33 29 28Q29 16 42 18Q50 10 58 18Q72 16 71 29Q82 34 75 45Q82 54 76 65L65 59H35Z"/><ellipse cx="25" cy="39" rx="8" ry="11" transform="rotate(-28 25 39)"/><ellipse cx="75" cy="39" rx="8" ry="11" transform="rotate(28 75 39)"/><ellipse cx="36" cy="22" rx="7" ry="10" transform="rotate(-20 36 22)"/><ellipse cx="64" cy="22" rx="7" ry="10" transform="rotate(20 64 22)"/></g>
+␠␠␠␠
+␠␠␠␠
+    <g fill="none" stroke="#2f211c" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" opacity=".58"><path d="M22 43Q31 36 27 28M34 29Q42 22 38 17M78 43Q69 36 73 28M66 29Q58 22 62 17"/></g>
+  </g>
+␠␠␠␠␠␠
+      <path d="M28 35Q28 20 50 18Q72 20 72 35L68 61Q64 74 50 82Q36 74 32 61Z" fill="#85543c" stroke="#6c4431" stroke-width="1.2" stroke-linejoin="round"/>
+      <g data-folks-hair="twist-out" data-folks-hair-layer="scalp"><g fill="#4a332a" stroke="#2f211c" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M24 44.5C22.8 37 22.8 29 25 22.5C27.5 16.5 33 13.8 41 12.8C45.5 12.3 54.5 12.3 59 12.8C67 13.8 72.5 16.5 75 22.5C77.2 29 77.2 37 76 44.5L67 44L64 28L62 23L50 21.3L44 21.6L38 23L36 28L33 44Z"/></g></g>
+␠␠␠␠␠␠
+      <g data-folks-hair="twist-out" data-folks-hair-layer="front">
+    <g fill="#4a332a" stroke="#2f211c" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M27 40Q25 28 36 23Q44 14 52 21Q61 14 67 25Q76 29 73 41Q64 34 58 27Q50 36 42 28Q36 37 27 40Z"/></g>
+␠␠␠␠
+␠␠␠␠
+␠␠␠␠
+  </g>
+␠␠␠␠␠␠
+      <path d="M36.1665 42.32015 Q41.1665 39.198 46.1665 42.25035 M53.8335 42.14565 Q58.8335 39.198 63.8335 42.07585" fill="none" stroke="#2f211c" stroke-width="1.75" stroke-linecap="round"/>
+␠␠␠␠␠␠
+    <ellipse cx="41.1665" cy="48.8535" rx="2.6433" ry="3.4265" fill="#2b1a16"/>
+    <circle cx="40.9915" cy="47.8535" r="0.75" fill="#fffaf7"/>
+␠␠
+    <ellipse cx="58.8335" cy="49.2025" rx="2.7648" ry="3.584" fill="#2b1a16"/>
+    <circle cx="58.658500000000004" cy="48.2025" r="0.75" fill="#fffaf7"/>
+␠␠
+      <path d="M49.282 53.624 Q47.342999999999996 59.624 50.759449999999994 60.624" fill="none" stroke="#4d3024" stroke-width="1.62" stroke-linecap="round" stroke-linejoin="round" opacity="0.82"/>
+      <path d="M43.524 65.898 Q50.529 69.898 57.534000000000006 65.898" fill="none" stroke="#4d3024" stroke-width="1.9" stroke-linecap="round"/>
+      <g fill="#4d3024" opacity="0.42"><circle cx="40.529" cy="60.897999999999996" r="0.8"/><circle cx="43.529" cy="61.897999999999996" r="0.65"/><circle cx="58.529" cy="61.397999999999996" r="0.75"/></g>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    </g>
+  </g>
+  </svg>",
+    "theme": "folks",
+  },
+  {
+    "params": {
+      "accentPosition": "upper-left",
+      "backgroundShape": "circle",
+      "faceStyle": "soft-smile",
+      "orbShape": "flame",
+      "palette": "coast",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:4",
+      "palette": "coast",
+      "seed": 1129892032,
+      "theme": "orbs",
+      "traits": {
+        "orbShape": "flame",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#678f8a"/>
+    <g><g data-part="artwork" transform="translate(50 50) scale(0.9091) translate(-50 -52.2527)"><g data-part="accent" data-accent-position="upper-left"><path d="M14 45Q10 24 27 14Q44 6 53 24Q54 38 41 47Q25 55 14 45Z" fill="#56bfb1"/></g><g data-part="body" data-orb-shape="flame" data-topology="swept double-tip flame" data-negative-spaces="0"><path d="M55 6Q76 27 65 45Q82 38 84 61Q87 84 63 92Q39 98 21 79Q6 61 25 39Q26 56 42 58Q32 34 55 6Z" fill="#e37f65"/></g><g data-part="face-field"><path d="M48 44.5Q63.5 57.55 61.64 65.525Q56.525 73.5 48 73.5Q39.475 73.5 34.36 65.525Q32.5 57.55 48 44.5Z" fill="#b3dbcf" transform="rotate(1 48 59)"/></g><g data-part="face" data-face-style="soft-smile" transform="rotate(0.911 48.029 59.023)"><g data-part="eyes"><circle cx="41.79" cy="56.668" r="1.8944444444444446" fill="#0c1e1c"/><circle cx="54.190000000000005" cy="56.668" r="1.8944444444444446" fill="#0c1e1c"/></g><g data-part="mouth"><path d="M42.2165 63.500777777777785Q48.029 67.4618888888889 53.8415 63.500777777777785" fill="none" stroke="#0c1e1c" stroke-width="1.55" stroke-linecap="round"/></g></g></g></g>
+  </svg>",
+    "theme": "orbs",
+  },
+  {
+    "params": {
+      "backgroundShape": "circle",
+      "bodyShape": "mitten",
+      "eyeArrangement": "wink",
+      "feature": "none",
+      "mouthStyle": "open",
+      "palette": "grove",
+      "pattern": "plain",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:5",
+      "palette": "grove",
+      "seed": 2138284258,
+      "theme": "oddlings",
+      "traits": {
+        "bodyShape": "mitten",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#808b6e"/>
+    <g><g transform="translate(50 50) scale(0.8523) translate(-49.6689 -47.7459)"><g data-part="feature" data-feature="none" data-layer="behind"></g><g data-part="body" data-body-shape="mitten" data-topology="thumbed mitten"><path d="M38 12Q47 8 51 20Q54 7 62 12Q68 17 64 35Q74 24 81 32Q88 44 72 58L73 79Q64 92 43 90Q25 88 22 72L18 47Q18 35 29 36Q34 37 38 43Z" fill="#cfd5b0"/></g><g data-part="pattern" data-pattern="plain"></g><g data-part="face" transform="rotate(0.30400000000000005 50 53.58)"><g data-part="eyes" data-eye-arrangement="wink"><ellipse cx="42.18421052631579" cy="48.127" rx="5.548776315789474" ry="5.975605263157895" fill="#808b6e" stroke="#565f48" stroke-width="1.4"/><circle cx="41.90281052631579" cy="48.0071" r="2.2195105263157897" fill="#181d10"/><path d="M52.60526315789474 48.74142105263158Q57.81578947368421 43.5308947368421 63.026315789473685 47.873" fill="none" stroke="#181d10" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g><g data-part="mouth" data-mouth-style="open"><ellipse cx="50.236868421052634" cy="61.50586842105263" rx="5.15321052631579" ry="4.2943421052631585" fill="#181d10"/></g></g><g data-part="feature" data-feature="none" data-layer="front"></g></g></g>
+  </svg>",
+    "theme": "oddlings",
+  },
+  {
+    "params": {
+      "archetype": "parachutist",
+      "backgroundShape": "circle",
+      "expression": "soft-smile",
+      "faceGear": "none",
+      "insignia": "none",
+      "palette": "mono",
+      "skinTone": "sand",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:6",
+      "palette": "mono",
+      "seed": 179043596,
+      "theme": "adventurers",
+      "traits": {
+        "archetype": "parachutist",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#80878d"/>
+    <g><g transform="translate(50 50) scale(0.8554) translate(-50.0288 -47.0574)">
+    <g transform="translate(0 0.253) rotate(0.229 50 54)">
+␠␠␠␠␠␠
+          <path d="M12 13Q50 -2 88 13L75 31M12 13L25 31M25 31L34 80M75 31L66 80" fill="none" stroke="#b0948d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 82Q22 73 38 70Q50 68 62 70Q78 73 83 82Q80 91 67 94Q58 97 50 97Q42 97 33 94Q20 91 17 82Z" fill="#cbd2d8" stroke="#8a9096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+␠␠␠␠␠␠␠␠
+      <path d="M29 77Q50 85 71 77L73 91Q62 96 50 96Q38 96 27 91Z" fill="#98a7b4" stroke="#69757f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="50" cy="49" rx="22.5" ry="25.5" fill="#dca982" stroke="#a77f62" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M27 34Q29 14 50 12Q71 14 73 34L67 40Q50 31 33 40Z" fill="#cbd2d8" stroke="#8a9096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 37Q50 27 75 37" fill="none" stroke="#b0948d" stroke-width="3.5" stroke-linecap="round"/>
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠
+    <ellipse cx="40.428" cy="49.117" rx="2.8651209999999994" ry="3.38975" fill="#1d1310"/>
+    <circle cx="39.95399999999999" cy="48.317" r="0.7300999999999999" fill="#f3e6de"/>
+␠␠
+    <ellipse cx="58.928" cy="48.883" rx="2.8019399999999997" ry="3.315" fill="#1d1310"/>
+    <circle cx="58.45399999999999" cy="48.083000000000006" r="0.714" fill="#f3e6de"/>
+␠␠
+    <path d="M49.779849999999996 54.8Q47.37985 60.3 50.97985 60.8" fill="none" stroke="#755844" stroke-width="1.35" stroke-linecap="round" opacity="0.78"/>
+    <path d="M44.36899999999999 63.724000000000004Q49.968999999999994 68.224 55.568999999999996 63.724000000000004" fill="none" stroke="#755844" stroke-width="1.75" stroke-linecap="round"/>
+␠␠
+␠␠␠␠␠␠
+    </g>
+  </g></g>
+  </svg>",
+    "theme": "adventurers",
+  },
+  {
+    "params": {
+      "accent": "sign",
+      "backgroundShape": "circle",
+      "dwelling": "tower",
+      "expression": "calm",
+      "material": "brick",
+      "palette": "coast",
+      "windowStyle": "shuttered",
+    },
+    "recipe": {
+      "backgroundShape": "circle",
+      "format": "avatarka",
+      "namespace": "recipe-v1-test:gallery-item:7",
+      "palette": "coast",
+      "seed": 439053290,
+      "theme": "nooks",
+      "traits": {
+        "dwelling": "tower",
+      },
+      "version": 1,
+    },
+    "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#678f8a"/>
+    <g><g transform="translate(50 50) scale(1.0463) translate(-50.505 -53.3076)">
+    <g transform="rotate(-0.217 50 52)">
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+          <path d="M31 40Q29.5 62 26.5 84H74.5Q71.5 62 70 40Z" fill="#56bfb1" stroke="#3e8b81" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M50.746 12L78 38Q50 42 23 38Z" fill="#b3dbcf" stroke="#7e9f96" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M35 40.5V45.5M66 40.5V45.5" fill="none" stroke="#7e9f96" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M30 47H71" fill="none" stroke="#3e8b81" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+          <path d="M46 51V46.5Q46 42.5 50.5 42.5Q55 42.5 55 46.5V51Z" fill="#b3dbcf" stroke="#7e9f96" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M44.5 51.5H56.5" fill="none" stroke="#7e9f96" stroke-width="1.7" stroke-linecap="round"/>
+          <path d="M24 78H77V85H24Z" fill="#b3dbcf" stroke="#7e9f96" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+␠␠␠␠␠␠␠␠
+      <path d="M35 62.32599999999999H47.54M53.459999999999994 62.32599999999999H66M40 73.326H52.35M58.64 73.326H64" fill="none" stroke="#b3dbcf" stroke-width="1.7" stroke-linecap="round" opacity="0.58"/>
+␠␠␠␠␠␠
+          <path d="M74 40.1V47.12Q74 49.46 70.1 49.46" fill="none" stroke="#9a5e4c" stroke-width="1.2480000000000002" stroke-linecap="round"/>
+          <circle cx="66.98" cy="49.46" r="4.68" fill="#e37f65" stroke="#9a5e4c" stroke-width="1.326" stroke-linejoin="round" stroke-linecap="round"/>
+␠␠␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠
+        <rect x="33.439750000000004" y="53.48625" width="11.1205" height="11.1205" rx="3.55856" fill="#b3dbcf" stroke="#7a9b92" stroke-width="1.55" stroke-linejoin="round"/>
+        <rect x="29.339750000000002" y="54.48625" width="3" height="9.1205" rx="1.5" fill="#e37f65"/>
+␠␠␠␠␠␠
+␠␠␠␠
+        <rect x="56.434" y="53.387499999999996" width="11.132" height="11.132" rx="3.56224" fill="#b3dbcf" stroke="#7a9b92" stroke-width="1.55" stroke-linejoin="round"/>
+        <rect x="68.666" y="54.387499999999996" width="3" height="9.132" rx="1.5" fill="#e37f65"/>
+␠␠␠␠␠␠
+␠␠
+    <circle cx="39.09295" cy="59.135600000000004" r="2.45" fill="#0c1e1c"/>
+    <circle cx="62.09295" cy="59.0426" r="2.45" fill="#0c1e1c"/>
+␠␠
+      <path d="M43.435 83V75Q50.685 66 57.935 75V83Z" fill="#b3dbcf" stroke="#7a9b92" stroke-width="1.55" stroke-linejoin="round" stroke-linecap="round"/><path d="M47.205000000000005 76H54.165" fill="none" stroke="#0c1e1c" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g></g>
+  </svg>",
+    "theme": "nooks",
+  },
+]
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps orbs params and SVG stable 1`] = `
+{
+  "params": {
+    "accentPosition": "upper-right",
+    "backgroundShape": "circle",
+    "faceStyle": "content",
+    "orbShape": "portal",
+    "palette": "grove",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "orbs",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#808b6e"/>
+    <g><g data-part="artwork" transform="translate(50 50) scale(0.8524) translate(-50 -57.747)"><g data-part="accent" data-accent-position="upper-right"><path d="M86 45Q90 24 73 14Q56 6 47 24Q46 38 59 47Q75 55 86 45Z" fill="#db8c54"/></g><g data-part="body" data-orb-shape="portal" data-topology="hollow rounded portal" data-negative-spaces="1"><path d="M13 91V45Q13 9 50 9Q87 9 87 45V91H65V46Q65 29 50 29Q35 29 35 46V91Z" fill="#86b37d" fill-rule="evenodd"/></g><g data-part="face-field"><ellipse cx="50" cy="51" rx="14" ry="12" fill="#cfd5b0"/></g><g data-part="face" data-face-style="content" transform="rotate(-0.238 50.141 51.123)"><g data-part="eyes"><path d="M41.66322222222222 49.334111111111106Q44.541 50.65633333333333 47.41877777777778 49.334111111111106" fill="none" stroke="#181d10" stroke-width="1.3611111111111112" stroke-linecap="round"/><path d="M52.86322222222222 49.334111111111106Q55.741 50.65633333333333 58.61877777777778 49.334111111111106" fill="none" stroke="#181d10" stroke-width="1.3611111111111112" stroke-linecap="round"/></g><g data-part="mouth"><path d="M45.86322222222222 55.24522222222222Q50.141 57.88966666666666 54.41877777777778 55.24522222222222" fill="none" stroke="#181d10" stroke-width="1.4000000000000001" stroke-linecap="round"/></g></g></g></g>
+  </svg>",
+  "theme": "orbs",
+}
+`;
+
+exports[`Avatarka recipe v1 golden protocol > keeps snacks params and SVG stable 1`] = `
+{
+  "params": {
+    "backgroundShape": "circle",
+    "companion": "none",
+    "expression": "soft-smile",
+    "finish": "plain",
+    "palette": "grove",
+    "pose": "lean-left",
+    "snack": "artichoke",
+  },
+  "recipe": {
+    "format": "avatarka",
+    "namespace": "recipe-v1-test",
+    "seed": "golden-identity",
+    "theme": "snacks",
+    "version": 1,
+  },
+  "svg": "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="50" fill="#808b6e"/>
+    <g><g transform="translate(50 50) scale(0.8491) translate(-50 -50)">
+    <circle cx="50" cy="50" r="49" fill="none" stroke="transparent" stroke-width="8"/>
+    <g transform="translate(-2.4 1) rotate(-6.086 50 76) translate(50 76) scale(1.0130299999999999 1.00584) translate(-50 -76)">
+      <g transform="translate(50 50) scale(1.092) translate(-50 -50)">
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+      <path d="M28.9424 58Q22 59 19 65" fill="none" stroke="#868b70" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M70.9424 58Q78 59 81 65" fill="none" stroke="#868b70" stroke-width="3.2" stroke-linecap="round"/>
+      <circle cx="19" cy="65" r="2.7" fill="#cfd5b0" stroke="#868b70" stroke-width="1.1"/>
+      <circle cx="81" cy="65" r="2.7" fill="#cfd5b0" stroke="#868b70" stroke-width="1.1"/>
+␠␠␠␠
+      <path d="M42 79Q41 85 36 86" fill="none" stroke="#868b70" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M58 79Q59 85 64 86" fill="none" stroke="#868b70" stroke-width="3.4" stroke-linecap="round"/>
+␠␠␠␠
+␠␠␠␠␠␠
+          <path d="M50 18Q59 27 59 39Q70 30 75 42Q77 55 67 64Q73 64 69 75Q61 87 50 89Q39 87 31 75Q27 64 33 64Q23 55 25 42Q30 30 41 39Q41 27 50 18Z" fill="#86b37d" stroke="#65865c" stroke-width="1.45" stroke-linejoin="round"/>
+          <path d="M50 25Q43 43 50 53Q57 43 50 25ZM34 40Q33 54 45 62Q47 49 34 40ZM66 40Q67 54 55 62Q53 49 66 40ZM34 66Q41 79 50 82Q48 67 34 66ZM66 66Q59 79 50 82Q52 67 66 66Z" fill="#cfd5b0" stroke="#989e80" stroke-width="1.45" stroke-linejoin="round"/>
+␠␠␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+␠␠␠␠␠␠
+    <ellipse cx="41.8054" cy="54.448" rx="3.2844" ry="3.808" fill="#808b6e" stroke="#181d10" stroke-width="2.35"/>
+    <circle cx="41.8054" cy="54.798" r="1.5232" fill="#181d10"/>
+␠␠
+    <ellipse cx="56.760600000000004" cy="54.686" rx="3.2844" ry="3.808" fill="#808b6e" stroke="#181d10" stroke-width="2.35"/>
+    <circle cx="56.760600000000004" cy="55.036" r="1.5232" fill="#181d10"/>
+␠␠
+    <path d="M43.4618 66.7402Q49.283 71.8366 55.104200000000006 66.7402" fill="none" stroke="#808b6e" stroke-width="4.35" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M43.4618 66.7402Q49.283 71.8366 55.104200000000006 66.7402" fill="none" stroke="#181d10" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+␠␠
+      </g>
+    </g>
+  </g></g>
+  </svg>",
+  "theme": "snacks",
+}
+`;

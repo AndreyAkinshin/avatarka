@@ -17,20 +17,20 @@ export type NumberParam = {
 export type SelectParam = {
   type: 'select';
   default: string;
-  options: string[];
+  options: readonly string[];
 };
 
 export type ParamDefinition = ColorParam | NumberParam | SelectParam;
 
 export type ParamSchema = {
-  [key: string]: ParamDefinition;
+  readonly [key: string]: ParamDefinition;
 };
 
 /**
  * Extract the parameter values type from a schema
  */
 export type ParamsFromSchema<T extends ParamSchema> = {
-  [K in keyof T]: T[K] extends ColorParam
+  -readonly [K in keyof T]: T[K] extends ColorParam
     ? string
     : T[K] extends NumberParam
       ? number
@@ -39,21 +39,5 @@ export type ParamsFromSchema<T extends ParamSchema> = {
         : never;
 };
 
-import type { Rng } from 'pragmastat';
-
-/**
- * Theme definition interface
- */
-export interface Theme<T extends ParamSchema = ParamSchema> {
-  name: string;
-  schema: T;
-  /** Schema key that defines the primary visual shape/silhouette of this theme */
-  shapeParam: string & keyof T;
-  generate: (params: ParamsFromSchema<T>) => string;
-  randomize: (rng: Rng) => ParamsFromSchema<T>;
-}
-
-/**
- * Generic params type for external use
- */
-export type AvatarParams = Record<string, string | number>;
+/** A stable identity seed. String and number seeds are intentionally distinct. */
+export type Seed = string | number;

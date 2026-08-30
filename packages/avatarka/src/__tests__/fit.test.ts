@@ -17,6 +17,16 @@ function maxRadius(content: string): number {
   return max;
 }
 
+/** Max radial extent including the conservative stroke padding. */
+function visibleRadius(content: string): number {
+  const { points, pad } = collectPoints(content);
+  let max = 0;
+  for (const point of points) {
+    max = Math.max(max, Math.hypot(point.x - CENTER, point.y - CENTER));
+  }
+  return max + pad;
+}
+
 describe('fitToCircle — never overflows the target circle', () => {
   const padding = 4;
   const R = SIZE / 2 - padding; // 46
@@ -92,6 +102,66 @@ describe('fitToCircle — geometry parsing', () => {
 
   it('returns content unchanged when there is no geometry', () => {
     expect(fitToCircle('<defs></defs>')).toBe('<g><defs></defs></g>');
+  });
+
+  it('includes stroke inherited from a group in the fitted visible radius', () => {
+    const content = '<g stroke="#000" stroke-width="20"><circle cx="50" cy="50" r="10"/></g>';
+    const fitted = fitToCircle(content, { padding: 4 });
+
+    expect(visibleRadius(fitted)).toBeLessThanOrEqual(46.01);
+    expect(fitted).toContain('scale(2.3)');
+  });
+
+  it('honors nested stroke overrides and inline style precedence', () => {
+    const inherited = collectPoints(
+      '<g stroke="#000" stroke-width="12"><g style="stroke-width: 4"><circle cx="50" cy="50" r="10"/></g></g>',
+    );
+    const disabled = collectPoints(
+      '<g stroke="#000" stroke-width="12"><circle cx="50" cy="50" r="10" stroke="none"/></g>',
+    );
+    const styleWins = collectPoints(
+      '<g stroke="#000" stroke-width="12"><circle cx="50" cy="50" r="10" stroke="none" style="stroke: #fff; stroke-width: 6"/></g>',
+    );
+    const importantWins = collectPoints(
+      '<circle cx="50" cy="50" r="10" style="stroke: #000 !important; stroke: none; stroke-width: 8"/>',
+    );
+    const invalidStyleFallsBack = collectPoints(
+      '<circle cx="50" cy="50" r="10" stroke="#000" stroke-width="14" style="stroke-width: banana"/>',
+    );
+
+    expect(inherited.pad).toBe(2);
+    expect(disabled.pad).toBe(0);
+    expect(styleWins.pad).toBe(3);
+    expect(importantWins.pad).toBe(4);
+    expect(invalidStyleFallsBack.pad).toBe(7);
+  });
+
+  it('lets a child re-enable an inherited-width stroke without leaking into siblings', () => {
+    const childEnabled = collectPoints(
+      '<g stroke="none" stroke-width="12"><circle cx="50" cy="50" r="10" stroke="#000"/></g>',
+    );
+    const restoredAfterGroup = collectPoints(
+      '<g stroke="#000" stroke-width="12"><g stroke="none"><circle cx="50" cy="50" r="10"/></g></g><circle cx="50" cy="50" r="10" stroke="#000"/>',
+    );
+
+    expect(childEnabled.pad).toBe(6);
+    expect(restoredAfterGroup.pad).toBe(0.5);
+  });
+
+  it('uses the largest axis scale when bounding transformed strokes', () => {
+    const stretched = collectPoints(
+      '<line x1="0" y1="0" x2="10" y2="0" stroke="#000" stroke-width="10" transform="scale(3 1)"/>',
+    );
+    const reflected = collectPoints(
+      '<line x1="0" y1="0" x2="10" y2="0" stroke="#000" stroke-width="10" transform="scale(-3 1)"/>',
+    );
+    const sheared = collectPoints(
+      '<line x1="0" y1="0" x2="10" y2="0" stroke="#000" stroke-width="10" transform="matrix(1 1 0 1 0 0)"/>',
+    );
+
+    expect(stretched.pad).toBeCloseTo(15, 6);
+    expect(reflected.pad).toBeCloseTo(15, 6);
+    expect(sheared.pad).toBeCloseTo(5 * ((1 + Math.sqrt(5)) / 2), 6);
   });
 });
 

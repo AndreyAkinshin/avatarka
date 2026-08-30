@@ -10,10 +10,10 @@
  * The library generates SVG as strings and must work in Node (no DOM /
  * `getBBox`), so bounds are computed analytically: we parse the primitives
  * this library emits (circle, ellipse, rect, line, polygon, polyline, path),
- * honor nested `<g transform>` and element-level transforms, account for
- * stroke width, sample curves, and skip non-drawn `<defs>` / `<clipPath>`
- * content. Everything is deterministic (no Math.random / Date) so SVG output
- * is stable for snapshot tests.
+ * honor nested `<g transform>` and element-level transforms, resolve inherited
+ * stroke paint, sample curves, and skip non-drawn `<defs>` / `<clipPath>` content.
+ * Everything is deterministic (no Math.random / Date) so SVG output is stable
+ * for snapshot tests.
  */
 
 export interface FitOptions {
@@ -49,10 +49,10 @@ function matApply(m: Mat, x: number, y: number): Pt {
   return { x: m[0] * x + m[2] * y + m[4], y: m[1] * x + m[3] * y + m[5] };
 }
 
-/** Representative uniform scale of a matrix (for converting stroke width to viewBox units). */
-function matScale(m: Mat): number {
-  const det = Math.abs(m[0] * m[3] - m[1] * m[2]);
-  return Math.sqrt(det) || 1;
+/** Largest linear scale of a matrix, so transformed strokes stay conservatively bounded. */
+function maxLinearScale(m: Mat): number {
+  const [a, b, c, d] = m;
+  return (Math.hypot(a + d, b - c) + Math.hypot(a - d, b + c)) / 2;
 }
 
 /** Parse an SVG `transform` attribute value (one or more ops) into a matrix. */
@@ -101,12 +101,76 @@ function strAttr(attrs: string, name: string): string | undefined {
   return m ? m[1] : undefined;
 }
 
-/** Effective half stroke width (in local units) contributed by an element, 0 if no stroke. */
-function strokePad(attrs: string): number {
-  const stroke = strAttr(attrs, 'stroke');
-  if (stroke === undefined || stroke === 'none') return 0;
-  const sw = numAttr(attrs, 'stroke-width');
-  return (sw === undefined ? 1 : sw) / 2;
+interface PaintContext {
+  stroke: string;
+  strokeWidth: number;
+}
+
+const DEFAULT_PAINT: PaintContext = { stroke: 'none', strokeWidth: 1 };
+
+/** Resolve same-origin inline declarations, honoring validity and `!important`. */
+function styleProperty(
+  attrs: string,
+  name: string,
+  isValid: (value: string) => boolean,
+): string | undefined {
+  const style = strAttr(attrs, 'style');
+  if (style === undefined) return undefined;
+
+  let winner: { value: string; important: boolean } | undefined;
+  for (const declaration of style.split(';')) {
+    const separator = declaration.indexOf(':');
+    if (separator < 0) continue;
+    if (declaration.slice(0, separator).trim().toLowerCase() !== name) continue;
+
+    const rawValue = declaration.slice(separator + 1).trim();
+    const important = /\s*!\s*important\s*$/i.test(rawValue);
+    const value = rawValue.replace(/\s*!\s*important\s*$/i, '').trim();
+    if (!isValid(value)) continue;
+    if (!winner || important || !winner.important) winner = { value, important };
+  }
+  return winner?.value;
+}
+
+/** Inline style wins over the equivalent SVG presentation attribute. */
+function paintProperty(
+  attrs: string,
+  name: string,
+  isValid: (value: string) => boolean,
+): string | undefined {
+  return styleProperty(attrs, name, isValid) ?? strAttr(attrs, name);
+}
+
+function resolvePaint(attrs: string, inherited: PaintContext): PaintContext {
+  const strokeValue = paintProperty(attrs, 'stroke', (value) => value.length > 0)?.trim();
+  const strokeKeyword = strokeValue?.toLowerCase();
+  let stroke = inherited.stroke;
+  if (strokeValue && strokeKeyword !== 'inherit' && strokeKeyword !== 'unset') {
+    stroke = strokeKeyword === 'initial' ? DEFAULT_PAINT.stroke : strokeValue;
+  }
+
+  const widthValue = paintProperty(attrs, 'stroke-width', (value) => {
+    const keyword = value.toLowerCase();
+    if (keyword === 'inherit' || keyword === 'initial' || keyword === 'unset') return true;
+    if (!/^(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?(?:px)?$/i.test(value)) return false;
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) && parsed >= 0;
+  })?.trim();
+  const widthKeyword = widthValue?.toLowerCase();
+  let strokeWidth = inherited.strokeWidth;
+  if (widthKeyword === 'initial') {
+    strokeWidth = DEFAULT_PAINT.strokeWidth;
+  } else if (widthValue && widthKeyword !== 'inherit' && widthKeyword !== 'unset') {
+    const parsed = Number.parseFloat(widthValue);
+    if (Number.isFinite(parsed) && parsed >= 0) strokeWidth = parsed;
+  }
+
+  return { stroke, strokeWidth };
+}
+
+/** Effective half stroke width (in local units), or 0 when paint disables it. */
+function strokePad(paint: PaintContext): number {
+  return paint.stroke.trim().toLowerCase() === 'none' ? 0 : paint.strokeWidth / 2;
 }
 
 const CIRCLE_SAMPLES = 24;
@@ -344,7 +408,7 @@ function pathPoints(d: string): Pt[] {
 function collectPoints(content: string): { points: Pt[]; pad: number } {
   const points: Pt[] = [];
   let maxPad = 0;
-  const stack: Mat[] = [IDENT];
+  const stack: Array<{ ctm: Mat; paint: PaintContext }> = [{ ctm: IDENT, paint: DEFAULT_PAINT }];
   let skipDepth = 0; // inside <defs> / <clipPath>: not drawn
 
   const tagRe = /<(\/?)\s*([a-zA-Z]+)([^>]*?)(\/?)\s*>/g;
@@ -364,9 +428,11 @@ function collectPoints(content: string): { points: Pt[]; pad: number } {
       if (closing) {
         if (stack.length > 1) stack.pop();
       } else {
+        const parent = stack[stack.length - 1]!;
         const tf = strAttr(attrs, 'transform');
-        const ctm = tf ? matMul(stack[stack.length - 1]!, parseTransform(tf)) : stack[stack.length - 1]!;
-        if (!selfClose) stack.push(ctm);
+        const ctm = tf ? matMul(parent.ctm, parseTransform(tf)) : parent.ctm;
+        const paint = resolvePaint(attrs, parent.paint);
+        if (!selfClose) stack.push({ ctm, paint });
       }
       continue;
     }
@@ -375,7 +441,8 @@ function collectPoints(content: string): { points: Pt[]; pad: number } {
     // Drawable shape — compute its effective CTM (group CTM + element transform).
     const tf = strAttr(attrs, 'transform');
     const base = stack[stack.length - 1]!;
-    const ctm = tf ? matMul(base, parseTransform(tf)) : base;
+    const ctm = tf ? matMul(base.ctm, parseTransform(tf)) : base.ctm;
+    const paint = resolvePaint(attrs, base.paint);
     const local: Pt[] = [];
 
     switch (name) {
@@ -438,7 +505,7 @@ function collectPoints(content: string): { points: Pt[]; pad: number } {
     }
 
     if (local.length === 0) continue;
-    const pad = strokePad(attrs) * matScale(ctm);
+    const pad = strokePad(paint) * maxLinearScale(ctm);
     if (pad > maxPad) maxPad = pad;
     for (const p of local) points.push(matApply(ctm, p.x, p.y));
   }

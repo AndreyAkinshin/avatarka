@@ -4,7 +4,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    include: ['packages/**/__tests__/**/*.test.{ts,tsx}'],
+    include: [
+      'packages/**/__tests__/**/*.test.{ts,tsx}',
+      'apps/**/src/**/*.test.{ts,tsx}',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -16,5 +19,4 @@ export default defineConfig({
     },
   },
 });
-
 

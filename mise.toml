@@ -1,5 +1,8 @@
 [tools]
-node = "20"
+# Node 20 is used by the workspace; Node 24 provides the globally installed
+# `agent-browser` CLI without changing the project's primary runtime. Node 18
+# remains installed for the published engine-floor determinism contract.
+node = ["20", "18", "24.14.0"]
 pnpm = "9"
 
 [tasks.restore]
@@ -20,7 +23,15 @@ run = "pnpm test"
 
 [tasks.check]
 description = "Run TypeScript type checking"
-run = "pnpm check"
+run = ["pnpm check", "mise run check:determinism"]
+
+[tasks."check:determinism"]
+description = "Verify the built recipe protocol across ESM and CJS"
+run = [
+  "mise x node@18 -- node scripts/check-determinism.mjs",
+  "mise x node@20 -- node scripts/check-determinism.mjs",
+  "mise x node@24.14.0 -- node scripts/check-determinism.mjs",
+]
 
 [tasks."check:fix"]
 description = "Auto-fix static analysis issues (no-op: no linter/formatter configured)"
@@ -38,8 +49,9 @@ run = "pnpm dev"
 description = "Bump version, stage, and commit"
 usage = 'arg "<version>"'
 run = '''
-if ! echo "$usage_version" | grep -qE '^[0-9]+(\.[0-9]+)*$'; then
-  echo "Error: version must contain only digits and dots (got: $usage_version)" >&2
+node scripts/check-versions.mjs --candidate "$usage_version"
+if [ -n "$(git status --porcelain --untracked-files=normal)" ]; then
+  echo "Error: versioning requires a clean worktree and index" >&2
   exit 1
 fi
 echo "$usage_version" > VERSION
@@ -50,18 +62,51 @@ node -e "
     fs.writeFileSync(p, raw.replace(/\"version\": \"[^\"]+\"/, '\"version\": \"'+'$usage_version'+'\"'));
   }
 "
+node scripts/check-versions.mjs
 git add VERSION packages/avatarka/package.json packages/avatarka-react/package.json
-git diff --cached --quiet && echo "Already at $usage_version" || git commit -m "chore: bump version to $usage_version"
+git diff --cached --quiet && echo "Already at $usage_version" || git commit \
+  -m "chore: bump version to $usage_version" \
+  --trailer "Acked-by: Andrey Akinshin <andrey.akinshin@gmail.com>"
 '''
 
 [tasks.publish]
 description = "Bump version, push, and trigger release"
 usage = 'arg "<version>"'
-run = [
-    "mise run version $usage_version",
-    "git push",
-    "gh workflow run publish.yml",
-]
+run = '''
+node scripts/check-versions.mjs --candidate "$usage_version"
+publish_branch="$(git symbolic-ref --quiet --short HEAD)" || {
+  echo "Error: publishing requires an attached branch" >&2
+  exit 1
+}
+if [ "$publish_branch" != "main" ]; then
+  echo "Error: publishing is only allowed from main (got: $publish_branch)" >&2
+  exit 1
+fi
+publish_upstream="$(git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null)" || {
+  echo "Error: publishing requires an upstream branch" >&2
+  exit 1
+}
+if ! command -v gh >/dev/null 2>&1 || ! gh auth status >/dev/null 2>&1; then
+  echo "Error: publishing requires an authenticated GitHub CLI" >&2
+  exit 1
+fi
+git fetch --quiet
+local_revision="$(git rev-parse HEAD)"
+remote_revision="$(git rev-parse "$publish_upstream")"
+if ! git merge-base --is-ancestor "$remote_revision" "$local_revision"; then
+  echo "Error: $publish_upstream is ahead of or diverged from local HEAD" >&2
+  exit 1
+fi
+mise run version "$usage_version"
+git push
+local_revision="$(git rev-parse HEAD)"
+remote_revision="$(git rev-parse '@{upstream}')"
+if [ "$local_revision" != "$remote_revision" ]; then
+  echo "Error: pushed revision does not match local HEAD" >&2
+  exit 1
+fi
+gh workflow run publish.yml --ref "$publish_branch"
+'''
 
 [tasks.ci]
 description = "Full CI pipeline"

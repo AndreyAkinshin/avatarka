@@ -1,517 +1,315 @@
-# Avatarka - Technical Documentation for LLM Agents
+# Avatarka v4 — Technical Guide for Agents
 
-This document provides comprehensive technical details about the avatarka project for AI assistants and automated tooling.
+This repository contains the clean v4 Avatarka API and artwork. Preserve deterministic output, theme/type correlation, presentation-independent geometry, and the canonical catalog order when making changes.
 
-## Repository Structure
+## Repository layout
 
-```
+```text
 avatarka/
 ├── packages/
-│   ├── avatarka/                    # Core library (single dep: pragmastat for PRNG)
+│   ├── avatarka/                    # Framework-independent core
 │   │   ├── src/
-│   │   │   ├── index.ts             # Main entry, public API exports
-│   │   │   ├── types.ts             # TypeScript type definitions
-│   │   │   ├── prng.ts              # Seeded PRNG wrapper (delegates to pragmastat)
-│   │   │   ├── utils.ts             # Color and SVG utilities
-│   │   │   ├── __tests__/           # Unit tests (vitest)
-│   │   │   │   ├── index.test.ts
-│   │   │   │   ├── prng.test.ts
-│   │   │   │   ├── themes.test.ts
-│   │   │   │   ├── utils.test.ts
-│   │   │   │   ├── snapshots.test.ts
-│   │   │   │   └── __snapshots__/   # Snapshot files for snapshots.test.ts
-│   │   │   └── themes/
-│   │   │       ├── index.ts         # Theme registry and exports
-│   │   │       ├── people.ts        # Human avatars theme
-│   │   │       ├── animals.ts       # Animal faces theme
-│   │   │       ├── monsters.ts      # Monster characters theme
-│   │   │       ├── robots.ts        # Robot heads theme
-│   │   │       ├── aliens.ts        # Extraterrestrial beings theme
-│   │   │       ├── ocean.ts         # Ocean creatures theme
-│   │   │       ├── dinosaurs.ts     # Prehistoric dinosaurs theme
-│   │   │       ├── mythical.ts      # Mythical creatures theme
-│   │   │       ├── insects.ts       # Insects theme
-│   │   │       ├── birds.ts         # Bird species theme
-│   │   │       ├── plants.ts        # Plants theme
-│   │   │       ├── food.ts          # Food items theme
-│   │   │       ├── weather.ts       # Weather phenomena theme
-│   │   │       └── gems.ts          # Gemstones theme
+│   │   │   ├── index.ts             # Root public entry; re-exports core.ts
+│   │   │   ├── core.ts              # Catalog, recipes, generation, galleries
+│   │   │   ├── browser.ts           # Browser-only SVG-to-PNG helpers
+│   │   │   ├── types.ts             # Internal schema primitives + public Seed
+│   │   │   ├── palettes.ts          # Curated palettes and metadata
+│   │   │   ├── version.ts           # Recipe protocol version
+│   │   │   ├── fit.ts               # DOM-free SVG geometry fitting
+│   │   │   ├── internal/
+│   │   │   │   ├── art.ts           # Frame and hidden drawing variation
+│   │   │   │   ├── gallery.ts       # Bounded per-theme base-type scheduling
+│   │   │   │   ├── random.ts        # Seeded named random streams
+│   │   │   │   ├── types.ts         # Internal theme/RNG contracts
+│   │   │   │   └── validation.ts    # Runtime schema validation
+│   │   │   ├── themes/               # Eight v4 SVG theme implementations
+│   │   │   └── __tests__/            # Core, protocol, types, fit, browser tests
 │   │   ├── package.json
-│   │   ├── tsconfig.json
-│   │   └── tsup.config.ts
-│   └── avatarka-react/              # React components
+│   │   └── tsup.config.ts            # Builds root and browser entrypoints
+│   └── avatarka-react/
 │       ├── src/
-│       │   ├── index.ts             # Component exports + core re-exports
-│       │   ├── Avatar.tsx           # Simple renderer component
-│       │   ├── AvatarEditor.tsx     # Interactive editor component
-│       │   ├── AvatarPicker.tsx     # Self-contained picker with gallery
-│       │   ├── styles.css          # AvatarPicker styles (consumers import 'avatarka-react/styles.css')
+│       │   ├── index.ts              # Components + explicit full core API mirror
+│       │   ├── Avatar.tsx            # SSR-safe deterministic <img>
+│       │   ├── AvatarPicker.tsx      # Async gallery picker
+│       │   ├── styles.css            # Picker stylesheet and CSS variables
 │       │   └── __tests__/
-│       │       └── Avatar.test.tsx
 │       ├── package.json
-│       ├── tsconfig.json
 │       └── tsup.config.ts
-├── apps/
-│   └── demo/                        # Vite demo application
-│       ├── src/
-│       │   ├── main.tsx             # React entry point
-│       │   ├── App.tsx              # Main demo component
-│       │   └── styles.css           # Demo styles
-│       ├── index.html
-│       ├── package.json
-│       ├── tsconfig.json
-│       └── vite.config.ts
-├── .github/workflows/
-│   ├── ci.yml                       # CI pipeline (restore → build → test → check)
-│   └── publish.yml                  # Publish to npm + GitHub Pages
-├── VERSION                          # Single version source (currently 1.1.0)
-├── package.json                     # Root workspace config
-├── pnpm-workspace.yaml              # pnpm workspace definition
-├── turbo.json                       # Turborepo pipeline config
-├── tsconfig.base.json               # Shared TypeScript config
-├── vitest.config.mts                # Test configuration (vitest + jsdom)
-├── mise.toml                        # Task runner configuration
-├── README.md                        # User documentation
-└── AGENTS.md                        # This file
+├── apps/demo/
+│   ├── src/App.tsx                   # v4 demo shell
+│   ├── src/galleryLoader.ts          # Cancellable Worker adapter
+│   ├── src/gallery.worker.ts         # Off-main-thread gallery generation
+│   ├── src/catalogReviewLoader.ts     # DEV-only catalog Worker adapter
+│   ├── src/catalogReview.worker.ts    # DEV-only schema-order catalog generation
+│   └── src/App.test.tsx
+├── .github/workflows/                # CI, publish, release, Pages deploy
+├── scripts/check-versions.mjs        # Strict SemVer and package-version guard
+├── VERSION                           # Package-version source of truth
+├── mise.toml                         # Supported project tasks
+├── package.json                      # pnpm/Turborepo workspace scripts
+└── vitest.config.mts                 # Vitest + jsdom configuration
 ```
 
-## Architecture Overview
+## Package graph
 
-### Package Dependencies
-
-```
-demo (app)
-  └── avatarka-react
-        └── avatarka (core)
+```text
+apps/demo → avatarka-react → avatarka
+          └────────────────→ avatarka
 ```
 
-### Data Flow
+`avatarka` has one runtime dependency, `pragmastat`. React is a peer dependency of `avatarka-react`.
 
-1. **Parameter Generation**: `seed → new Rng(seed) → theme.randomize(rng) → params`
-2. **Avatar Generation**: `params → theme.generate() → SVG string`
-3. **React Rendering**: `params → generateAvatar() → SVG → img src (data URL) or dangerouslySetInnerHTML`
-4. **PNG Generation (Browser)**: `SVG string → Canvas API → PNG Blob/data URL`
+## Canonical catalog
 
-## Core Implementation Details
+The order below is part of the public product contract. Keep it identical in `internalThemes`, `themeNames`, galleries, demo controls, React controls, tests, and docs:
 
-### PRNG (pragmastat)
+1. `folks`
+2. `adventurers`
+3. `critters`
+4. `oddlings`
+5. `bots`
+6. `snacks`
+7. `nooks`
+8. `orbs`
 
-Location: `packages/avatarka/src/prng.ts`
+The canonical palette order is `coast`, `orchid`, `clay`, `grove`, `sky`, `mono`.
 
-The PRNG is a thin wrapper around the `pragmastat` library's `Rng` class:
+The ordered Folks `hairStyle` catalog is also a public product contract:
 
-```typescript
-import { Rng } from 'pragmastat';
-export { Rng } from 'pragmastat';
-
-export function createRng(seed?: string | number): Rng {
-  return new Rng(seed);
-}
+```text
+crop, long-straight, space-buns, sweep, beehive, side-braid, cloud, slick-back, high-ponytail, bald,
+pixie, box-braids, pompadour, bob, bantu-knots, wave, undercut, ringlets, half-up-bun, flipped-ends,
+shaved, twin-braids, quiff, shoulder-curls, mohawk, low-chignon, coils, curtain, high-top, double-puffs,
+side-part, rope-twists, spiky, french-twist, shag, braided-crown, finger-waves, twin-ponytails, caesar, locs,
+bowl-cut, loc-bun, asymmetric, cornrows, high-bun, mullet, victory-rolls, twist-out, bubble-ponytail, pineapple-updo
 ```
 
-The `Rng` instance provides methods like `uniformInt()`, `uniformFloat()`, `uniformBool()`, `shuffle()`, etc. All theme `randomize` functions accept `Rng` (not a raw `() => number` function).
+Keep headwear out of this axis, preserve culturally distinct constructions,
+and derive schema order from the exhaustive hair-definition registry.
 
-Key properties:
-- Deterministic: Same seed always produces same sequence
-- Rich API: Integer ranges, floats, booleans, shuffling
-- Stateful: `Rng` instance maintains state between calls
+The ordered Bots `chassis` catalog is likewise a public product contract:
 
-### Parameter Schema System
+```text
+capsule, block, dome, hex, taper, wide, cutout, bust, drum, pyramid,
+shield, ring, hourglass, tripod, bell, stack, split-core, crossframe, clamshell, gyroscope,
+crawler, twin-wheel, mono-wheel, walker, hover-skiff, saucer, quadcopter, satellite, rocket, submarine,
+gantry, forklift, excavator, crane, loader, boiler, piston, turbine, magnet, lantern,
+beetle, crab, spider, jelly, manta, snail, starframe, backpack, buoy, cloud-cluster
+```
 
-Location: `packages/avatarka/src/types.ts`
+Derive schema order and randomizer weights from the exhaustive chassis registry.
+Keep every topology inside the fixed hardware envelope, give every bot permanent
+face semantics, and keep antenna, side-sensor, and panel overrides from moving
+or resizing the chassis and face.
 
-```typescript
-type ColorParam = {
-  type: 'color';
-  default: string;  // Hex color like '#ff0000'
+Palettes are presentation only. An avatar's SVG and exported file must not depend on the application's light/dark mode. Changing `palette` or `backgroundShape` may change colors or framing, but must not change semantic traits, feature positions, hidden drawing variation, or silhouette details.
+
+## Core data flow
+
+The high-level deterministic flow is:
+
+```text
+theme + seed + namespace + options
+  → createRecipe
+  → named random streams
+  → theme.randomize
+  → presentation/trait overrides
+  → validated complete params
+  → theme.generate
+  → { recipe, theme, params, svg }
+```
+
+`createAvatar` is the primary public API. It accepts either a theme plus seed/options or an `AvatarRecipe`. If the seed is omitted, it materializes entropy and stores that seed in the returned recipe.
+
+`generateParams` and `generateAvatar` are the low-level APIs. `generateParams` requires an explicit seed because params alone cannot capture entropy. `generateAvatar` validates and renders exact params and does not create a recipe. Use unseeded `createAvatar(theme)` when fresh entropy is wanted; its returned recipe records the generated seed.
+
+`generateGallery` returns `GeneratedAvatar[]` and balances theme distribution, primary silhouettes, natural palette rotation, and selected high-impact traits. Its `themes` option is a canonical set: order and duplicates are semantically irrelevant. Base types are scheduled independently per theme: every theme-local block of catalog length contains no repeat, a complete block contains the exact catalog, and frequencies differ by at most one. Each item recipe pins only that scheduled base trait; a small fixed candidate pool chooses natural secondary traits without primary-trait seed probing. An explicit gallery seed reproduces the complete set and order. The unseeded convenience overload creates fresh entropy without returning a gallery-level seed; its individual items remain reproducible from their recipes. Preserve seeded byte determinism when optimizing gallery generation.
+
+Gallery base-type cycle membership and order use separate named streams: `base-type-members:<theme>:<cycle>` samples the partial-cycle set, then `base-type-order:<theme>:<cycle>` shuffles that set after it has been restored to canonical catalog order. Avoid a repeated cycle-boundary neighbor with deterministic rotation when the block has another member. Every built-in catalog now contains exactly 50 base types: scheduler tests must keep Gallery 25 unique, Gallery 50 exhaustive exactly once, Gallery 100 exhaustive exactly twice, and the canonical eight-theme Gallery 400 exhaustive across all 400 theme-qualified base identities.
+
+## Recipes and compatibility
+
+Recipes use this public shape:
+
+```ts
+type AvatarRecipe<T extends ThemeName> = {
+  readonly format: 'avatarka';
+  readonly version: 1;
+  readonly theme: T;
+  readonly seed: string | number;
+  readonly namespace: string;
+  readonly palette?: PaletteName;
+  readonly backgroundShape?: BackgroundShape;
+  readonly traits?: Readonly<Partial<ThemeTraits<T>>>;
 };
+```
 
+`RECIPE_VERSION` and `RECIPE_PROTOCOL` govern deterministic recipe rendering and are independent of the npm package version. `scripts/check-determinism.mjs` hashes canonical recipe JSON, params, and SVG from the built ESM/CJS packages; `mise run check:determinism` runs it on Node 18, 20, and 24. Any digest change requires reviewed fixture diffs and an explicit protocol-version decision.
+
+`parseRecipe` is a trust boundary. It must continue to:
+
+- accept only plain records;
+- reject unknown format/version/theme/palette/frame values;
+- reject unknown top-level fields and trait fields;
+- keep the theme and traits correlated;
+- validate string or finite numeric seeds and all schema values;
+- return isolated frozen data rather than the caller's mutable objects.
+
+The root `themes` export exposes deeply frozen metadata and schemas only. Do not expose renderer, randomizer, RNG, or art internals through public metadata.
+
+## Deterministic randomness
+
+`internal/random.ts` builds independent named streams from recipe protocol, namespace, seed type, seed value, and trait key. String seed `"1"` and numeric seed `1` are intentionally different.
+
+Always use a stable, descriptive key for random choices. Never use `Math.random()`, current time, object iteration accidents, or one sequential RNG stream inside deterministic generation. Adding a new named choice must not shift existing unrelated choices.
+
+`AvatarRandom.sample` accepts readonly input and a safe-integer count from zero through the input length. It returns an empty array for zero and otherwise delegates to Pragmastat's deterministic sampling without mutating the input.
+
+`createArtVariation` adds small illustrator-like differences derived from semantic params. It deliberately excludes `palette` and `backgroundShape`; keep that invariant.
+
+## Theme implementation
+
+Each file in `packages/avatarka/src/themes` exports:
+
+- a `schema` declared with `as const satisfies ParamSchema`;
+- an inferred concrete params type;
+- pure string-based SVG generation;
+- randomization through `AvatarRandom` named methods;
+- an `InternalTheme` object with `name`, `description`, `kind`, `baseTypeParam`, `schema`, `generate`, and `randomize`.
+
+`baseTypeParam` must name a select definition in that theme's schema. It is the single source for gallery base-type scheduling, public metadata, and `getBaseTypeCatalog(theme)`. Gallery recipes override that one trait directly, so no parallel random-stream key or primary seed-probing contract belongs in `InternalTheme`.
+
+All avatars use a 100×100 SVG viewBox. Rendering must remain DOM-free and work in Node.js. Reuse `renderAvatarFrame`, `createArtVariation`, and `fitToCircle` where appropriate. Avoid fragile CSS-dependent SVG appearance; exported SVG is the source of truth.
+
+When changing artwork:
+
+- inspect every schema option, not only random samples;
+- verify ears, gear, appendages, strokes, and decorations fit inside circular frames;
+- check all six palettes and all three background shapes;
+- preserve readable contrast on light and dark host surfaces without changing SVG by host theme;
+- keep repeated gallery avatars varied but stylistically coherent;
+- update protocol snapshots only after confirming the change is intentional.
+
+When adding or renaming a theme, update `internalThemes`, `themeNames`, `ThemeParamsMap`, the theme's base-type fields, balance maps, concrete type exports, React/demo assumptions, tests, and every README together.
+
+## Parameter schemas
+
+Built-in theme definitions use these internal schema primitives:
+
+```ts
+type ColorParam = { type: 'color'; default: string };
 type NumberParam = {
   type: 'number';
   default: number;
   min: number;
   max: number;
-  step?: number;  // Optional step for sliders
+  step?: number;
 };
-
 type SelectParam = {
   type: 'select';
   default: string;
-  options: string[];  // Array of valid options
-};
-
-type ParamDefinition = ColorParam | NumberParam | SelectParam;
-type ParamSchema = { [key: string]: ParamDefinition };
-
-// Extract parameter values type from a schema
-type ParamsFromSchema<T extends ParamSchema> = {
-  [K in keyof T]: /* inferred value type based on param kind */
-};
-
-// Theme definition interface
-interface Theme<T extends ParamSchema = ParamSchema> {
-  name: string;
-  schema: T;
-  shapeParam: string & keyof T;
-  generate: (params: ParamsFromSchema<T>) => string;
-  randomize: (rng: Rng) => ParamsFromSchema<T>;
-}
-
-// Generic params type for external use
-type AvatarParams = Record<string, string | number>;
-```
-
-### SVG Generation Approach
-
-All themes follow pure functional SVG generation:
-
-1. **No DOM manipulation**: Functions return strings, never touch DOM
-2. **Composable**: Small functions return SVG fragments, combined by main generator
-3. **Standalone output**: Generated SVG includes xmlns and viewBox attributes
-4. **Fixed viewBox**: All themes use 100x100 viewBox for consistency
-
-Example from `packages/avatarka/src/utils.ts`:
-
-```typescript
-export function wrapSvg(content: string, size: number = 100): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">${content}</svg>`;
-}
-```
-
-### Gallery Generation
-
-Location: `packages/avatarka/src/index.ts` — `generateGallery(count, seed?, options?)`
-
-Generates a diverse gallery of N avatars with guaranteed visual variety:
-- Exactly 1 avatar from the `'people'` theme
-- Round-robin theme distribution across remaining non-people themes
-- Per-field uniqueness tracking: no two avatars share the same value for any field (except exempt values `'none'`/`'no'`)
-- Colors adjusted (lighten/darken) to avoid exact duplicates
-- Graceful degradation when all options for a field are exhausted
-- Final result is shuffled for random ordering
-
-Returns `GalleryItem[]` where each item has `{ theme, params, svg }`.
-
-Options:
-- `backgroundShape?: string` — Force a specific background shape for all items
-- `transparentBackground?: boolean` — Force transparent background for all items
-
-### React: AvatarPicker Component
-
-Location: `packages/avatarka-react/src/AvatarPicker.tsx`
-
-Self-contained avatar picker with internal state management. Requires `import 'avatarka-react/styles.css'` for styling. Features:
-- Tab-based UI: Editor mode (parameter controls) and Gallery mode (grid of random avatars)
-- Theme selector dropdown
-- Parameter locking: users can lock specific fields, then randomize only unlocked ones
-- Dice button for randomization
-- Optional SVG/PNG save buttons (via `onSaveSvg`/`onSavePng` callbacks)
-- CSS custom properties for theming (see avatarka-react README)
-- Two layout modes: `'default'` (stacked) and `'compact'` (side-by-side)
-
-## Theme Implementation Pattern
-
-Each theme module exports:
-
-```typescript
-// Schema with const assertion for type inference
-export const schema = {
-  paramName: {
-    type: 'color' | 'number' | 'select',
-    default: defaultValue,
-    // ... type-specific fields
-  },
-} as const satisfies ParamSchema;
-
-// Inferred params type from schema
-export type ThemeParams = ParamsFromSchema<typeof schema>;
-
-// Generate SVG from parameters
-export function generate(params: ThemeParams): string {
-  // Build SVG string from params
-  return wrapSvg(content);
-}
-
-// Generate random parameters using RNG
-export function randomize(rng: Rng): ThemeParams {
-  return {
-    paramName: randomPick(options, rng),
-    // ... generate each param using rng
-  };
-}
-
-// Theme object for registry
-export const themeName: Theme<typeof schema> = {
-  name: 'Display Name',
-  schema,
-  shapeParam: 'paramName', // Primary visual shape/silhouette field
-  generate,
-  randomize,
+  options: readonly string[];
 };
 ```
 
-The `shapeParam` property identifies which schema key defines the primary visual shape (e.g., `'animalType'` for animals, `'bodyShape'` for monsters). This is used by `generateGallery` to ensure shape diversity.
+Consumers inspect concrete, deeply frozen schema metadata through `themes` and `getTheme`. `getBaseTypeCatalog(theme)` returns a deeply frozen `{ param, values }` view derived directly from the selected schema options, with the theme/parameter/value types correlated and no renderer, randomizer, or RNG key exposed. The generic `ColorParam`, `NumberParam`, `SelectParam`, `ParamSchema`, and `ParamsFromSchema` helpers are implementation details rather than root-package exports.
 
-### Full Theme Example
+`palette` and `backgroundShape` are common presentation params. `ThemeTraits<T>` omits them. Runtime validation must match TypeScript constraints: reject missing/extra direct params, invalid select values, malformed colors, non-finite numbers, and values that violate min/max/step.
 
-Here's a minimal theme implementation:
+## Browser entrypoint
 
-```typescript
-// packages/avatarka/src/themes/example.ts
-import type { Rng } from 'pragmastat';
-import type { ParamSchema, ParamsFromSchema, Theme } from '../types';
-import { randomColor, randomPick, wrapSvg } from '../utils';
+`avatarka/browser` exports `svgToPng` and `svgToPngDataUrl`. Keep Canvas, Image, FileReader, Blob, and object URL assumptions out of the root entrypoint. Validate output sizes before doing browser work, provide clear non-browser errors, and revoke every object URL on success and failure.
 
-export const schema = {
-  backgroundColor: {
-    type: 'color',
-    default: '#3498db',
+## React package
+
+`Avatar` has three mutually exclusive source modes:
+
+- `recipe`;
+- `theme` plus complete `params`;
+- `theme` plus required `seed`, with optional namespace/palette/frame/traits.
+
+It must remain deterministic during render and safe for SSR. It renders an `<img>` with an encoded SVG data URL and forwards normal image attributes.
+
+`AvatarPicker` supports controlled `value`, uncontrolled `defaultValue`, and `onChange(GeneratedAvatar)`. `onThemeChange(theme)` observes only actual user category browsing; controlled recipe synchronization and palette/regeneration lifecycle do not invoke it. `galleryColumns` controls both rendered columns and Arrow Up/Down stride, must be a safe integer from 1 through `count`, and defaults to `ceil(sqrt(count))`. Its gallery loader contract is:
+
+```ts
+type AvatarGalleryLoader = (
+  request: {
+    theme: ThemeName;
+    count: number;
+    seed: Seed;
+    namespace: string;
+    backgroundShape: BackgroundShape;
   },
-  shape: {
-    type: 'select',
-    default: 'circle',
-    options: ['circle', 'square', 'triangle'],
-  },
-  size: {
-    type: 'number',
-    default: 40,
-    min: 20,
-    max: 45,
-  },
-} as const satisfies ParamSchema;
-
-export type ExampleParams = ParamsFromSchema<typeof schema>;
-
-export function generate(params: ExampleParams): string {
-  const { backgroundColor, shape, size } = params;
-
-  let shapeElement: string;
-  switch (shape) {
-    case 'circle':
-      shapeElement = `<circle cx="50" cy="50" r="${size}" fill="white"/>`;
-      break;
-    case 'square':
-      const offset = 50 - size;
-      shapeElement = `<rect x="${offset}" y="${offset}" width="${size * 2}" height="${size * 2}" fill="white"/>`;
-      break;
-    case 'triangle':
-      shapeElement = `<polygon points="50,${50 - size} ${50 + size},${50 + size} ${50 - size},${50 + size}" fill="white"/>`;
-      break;
-  }
-
-  return wrapSvg(`
-    <rect width="100" height="100" fill="${backgroundColor}"/>
-    ${shapeElement}
-  `);
-}
-
-export function randomize(rng: Rng): ExampleParams {
-  const shapes = ['circle', 'square', 'triangle'] as const;
-
-  return {
-    backgroundColor: randomColor(rng),
-    shape: randomPick(shapes, rng),
-    size: rng.uniformInt(20, 46), // 20-45
-  };
-}
-
-export const example: Theme<typeof schema> = {
-  name: 'Example',
-  schema,
-  shapeParam: 'shape',
-  generate,
-  randomize,
-};
+  signal: AbortSignal,
+) => Promise<readonly GeneratedAvatar[]>;
 ```
 
-## Adding a New Theme
+Picker `count` is an integer from 1 through 100 so the mounted image grid, decoding work, transition DOM, and cache remain bounded. The non-UI core `generateGallery` API supports counts from 0 through 1000.
 
-Step-by-step guide:
+The default loader yields before synchronous generation. The demo supplies a Worker loader. Any loader change must preserve abort handling, stale-result rejection, bounded gallery caching, visible failure/retry UI, stable preview/download actions during regeneration, palette-only recoloring, keyboard behavior, and reduced motion.
 
-### 1. Create Theme File
+Treat custom loader results as untrusted data. Require exact count and theme, parse and regenerate every recipe, and accept the result only when its theme, params, and SVG match that canonical avatar. Render accepted SVG through an encoded `<img>` data URL, as `Avatar` does; never place loader-supplied SVG into the DOM with `dangerouslySetInnerHTML`. Report gallery and built-in download failures through the typed `onError` context; never reclassify consumer callback exceptions as loader failures.
+
+Consumers import `avatarka-react/styles.css` for the picker. Its package subpath must keep separate ESM `.d.ts` and CommonJS `.d.cts` targets so strict side-effect imports compile with Bundler, Node16, and NodeNext resolution. A clean production or watch build must emit both declaration targets plus the CSS asset. Preserve the documented `--avatarka-picker-*` custom properties. `Avatar` has no stylesheet dependency.
+
+The React package explicitly mirrors the complete root `avatarka` API so component-oriented consumers can use one import surface. Keep that mirror as a reviewed runtime/type allow-list rather than using `export *`; browser-only PNG helpers stay in `avatarka/browser`.
+
+## Demo
+
+The Vite demo is a production consumer of the published package boundaries. Gallery generation runs in `gallery.worker.ts` through the cancellable adapter in `galleryLoader.ts`. Development builds also expose a review toggle whose separate Worker renders every current base type once in canonical schema order; its imports, controls, CSS, sentinel, and Worker chunk must be guarded by literal `import.meta.env.DEV` and absent from production artifacts. The UI theme may change only interface CSS, never generated SVG content.
+
+For LAN review:
 
 ```bash
-touch packages/avatarka/src/themes/newtheme.ts
+pnpm --filter demo dev -- --host 0.0.0.0 --port 4173
 ```
 
-### 2. Implement Theme Module
+Vite permits `jn8128-box.local` in `apps/demo/vite.config.ts`.
 
-Follow the pattern above with:
-- `schema` constant with `as const satisfies ParamSchema`
-- `generate(params)` function returning SVG string
-- `randomize(rng: Rng)` function returning params object
-- `shapeParam` set to the schema key that defines the primary visual shape
-- `themeName` exported Theme object
+## Commands
 
-### 3. Register in Theme Index
-
-Edit `packages/avatarka/src/themes/index.ts`:
-
-```typescript
-// Add export
-export { newtheme, schema as newthemeSchema } from './newtheme';
-export type { NewthemeParams } from './newtheme';
-
-// Add to themes object
-import { newtheme } from './newtheme';
-
-export const themes = {
-  // ... existing themes
-  newtheme,
-} as const;
-```
-
-### 4. Update ThemeName Type
-
-The `ThemeName` type is automatically inferred from the themes object:
-
-```typescript
-export type ThemeName = keyof ThemeMap; // Will include 'newtheme'
-```
-
-### 5. Rebuild
+Use mise tasks from the repository root:
 
 ```bash
-mise run build
+mise run restore       # pnpm install --frozen-lockfile
+mise run build         # build core, React, and demo in dependency order
+mise run build:static  # stable alias for the same production build
+mise run check         # TypeScript checks for core, React, and demo
+mise run check:determinism # built ESM/CJS protocol corpus on supported Node versions
+mise run test          # all Vitest tests
+mise run clean         # remove package/demo build output
+mise run dev           # package watch mode through Turborepo
+mise run ci            # restore → clean → build → check → test
 ```
 
-## Build & Development Commands
+Run targeted tests while iterating, then `mise run ci` before handoff when practical.
 
-All tasks are run via [mise](https://mise.jdx.dev/):
+## Tests
+
+- `core.test.ts`: deterministic generation, gallery balance, immutable metadata, visual invariants, and golden recipe protocol snapshots
+- `api-types.test.ts`: compile-time theme/params/traits correlation
+- `validation.test.ts`: schema and runtime input validation
+- `fit.test.ts`: DOM-free SVG geometry fitting
+- `browser.test.ts`: Canvas conversion, cleanup, validation, and environment errors
+- React tests: SSR, mutually exclusive sources, async picker lifecycle, controlled state, downloads, keyboard navigation, and reduced motion
+- Demo tests: canonical catalog, Worker lifecycle, stable presentation, regeneration, and favicon integration
+
+Snapshot changes are protocol changes until proven otherwise. Review SVG diffs rather than blindly updating snapshots.
+
+## Versioning and publishing
+
+`VERSION` is the source of truth for both published package versions. `pnpm check:versions` validates strict SemVer syntax and requires `VERSION`, `avatarka`, and `avatarka-react` to agree; it is part of the normal `check` task.
 
 ```bash
-mise run restore       # Install dependencies
-mise run build         # Build all packages
-mise run build:static  # Build all packages and demo static site
-mise run test          # Run tests
-mise run check         # Run TypeScript type checking
-mise run check:fix     # Auto-fix static analysis issues
-mise run clean         # Clean build artifacts
-mise run dev           # Start development mode (watch)
-mise run ci            # Full CI pipeline: restore → clean → build → check → test
-mise run version X.Y.Z # Bump version in VERSION + package.json files, commit
-mise run publish X.Y.Z # Bump version, push, trigger publish workflow
+mise run version 4.0.1
+mise run publish 4.0.1
 ```
 
-### CI/CD Pipelines
+The version task refuses a dirty worktree before writing anything. The publish task validates the candidate, attached `main` branch, upstream state, and GitHub CLI authentication before creating a version commit. The workflow builds, tests, and packs once without registry credentials, then publishes those exact verified tarballs with publish-step-only npm authentication. Stable releases use npm `latest`; SemVer prereleases use `next` and become GitHub prereleases. Separate minimal write jobs create the tag/release and deploy the verified demo artifact to GitHub Pages. Integrity and existing-tag checks make a safely resumed workflow idempotent without accepting mismatched package contents.
 
-- **`.github/workflows/ci.yml`**: Runs on push/PR — restore, build, test, check
-- **`.github/workflows/publish.yml`**: Manual trigger — full CI, npm publish, git tag, GitHub Release, deploy demo to GitHub Pages
+Every commit message must end with this trailer:
 
-### Turborepo Pipeline
-
-The `turbo.json` configures:
-
-- `build`: Runs tsup for each package, respects dependency order
-- `test`: Runs tests after build, no caching
-- `dev`: Parallel watch mode
-- `clean`: Removes dist directories
-
-### Package Build (tsup)
-
-Both packages use tsup with:
-- ESM and CJS outputs
-- TypeScript declarations
-- Source maps
-- External React (for avatarka-react)
-
-## Testing
-
-Tests use **vitest** with jsdom environment (configured in `vitest.config.mts`).
-
-### Test Files
-
-| File | Coverage |
-|------|----------|
-| `packages/avatarka/src/__tests__/prng.test.ts` | PRNG seeding and determinism |
-| `packages/avatarka/src/__tests__/index.test.ts` | Core API (generateAvatar, generateParams, gallery, etc.) |
-| `packages/avatarka/src/__tests__/themes.test.ts` | Theme-specific generation |
-| `packages/avatarka/src/__tests__/utils.test.ts` | Color and SVG utility functions |
-| `packages/avatarka/src/__tests__/snapshots.test.ts` | SVG snapshot regression tests |
-| `packages/avatarka-react/src/__tests__/Avatar.test.tsx` | React component rendering |
-
-### Running Tests
-
-```bash
-mise run test      # Run all tests
+```text
+Acked-by: Andrey Akinshin <andrey.akinshin@gmail.com>
 ```
-
-## Package Publishing
-
-### Version Management
-
-The single source of truth is the `VERSION` file at the repository root. The `mise run version` task propagates it to both `packages/avatarka/package.json` and `packages/avatarka-react/package.json`.
-
-### Publishing
-
-```bash
-mise run publish 1.2.0
-```
-
-This bumps the version, commits, pushes, and triggers the `publish.yml` GitHub Actions workflow which builds, tests, publishes to npm, creates a git tag, a GitHub Release, and deploys the demo site.
-
-## Known Limitations
-
-1. **No SSR optimization**: SVG generated at runtime, not at build time
-2. **Fixed viewBox**: All themes use 100x100, cannot be customized
-3. **No animation support**: Static SVG only
-4. **Limited accessibility**: Alt text on React component, but SVG lacks ARIA attributes
-5. **No caching**: Same params regenerate SVG each render (consider memoization in consuming code)
-
-## Design Decisions
-
-### Why pragmastat for PRNG?
-
-- Provides a rich `Rng` API (integers, floats, booleans, shuffling) without reimplementing
-- Deterministic seeding from strings or numbers
-- Good statistical properties for visual randomization
-- Single dependency keeps the library lightweight
-
-### Why `as const satisfies ParamSchema`?
-
-- `as const` preserves literal types for options arrays
-- `satisfies` ensures schema matches ParamSchema without widening types
-- Enables type inference for `ParamsFromSchema<typeof schema>`
-
-### Why separate randomize from generate?
-
-- Allows users to generate params, modify some, then generate avatar
-- Enables storing/serializing params for deterministic recreation
-- Separates concerns: randomization logic vs rendering logic
-
-### Why data URLs in Avatar component?
-
-- Avoids XSS concerns with dangerouslySetInnerHTML
-- Works as standard img element with proper sizing
-- Can be used in contexts where innerHTML isn't allowed
-
-## Utility Functions Reference
-
-### Color Utilities (`packages/avatarka/src/utils.ts`)
-
-The five color functions below are re-exported from the package's public API (`index.ts`).
-All RNG-accepting functions take a `Rng` instance from `pragmastat`.
-
-| Function                       | Description                                        |
-|--------------------------------|----------------------------------------------------|
-| `hslToHex(h, s, l)`           | Convert HSL to hex color                           |
-| `randomColor(rng: Rng)`       | Generate random saturated color (S 50-89, L 40-69) |
-| `randomPastelColor(rng: Rng)` | Generate random pastel color (S 40-69, L 70-89)    |
-| `darkenColor(hex, amount?)`   | Darken hex color (default amount: 20)              |
-| `lightenColor(hex, amount?)`  | Lighten hex color (default amount: 20)             |
-
-### Random Utilities (internal, not re-exported from package entry)
-
-| Function                         | Description                        |
-|----------------------------------|------------------------------------|
-| `randomPick(arr, rng: Rng)`     | Pick random item from array        |
-| `randomInt(min, max, rng: Rng)` | Random integer in range [min, max] |
-| `randomFloat(min, max, rng: Rng)` | Random float in range [min, max) |
-
-### SVG Utilities (internal, not re-exported from package entry)
-
-| Function                                                  | Description                                   |
-|-----------------------------------------------------------|-----------------------------------------------|
-| `wrapSvg(content, size?)`                                | Wrap content in SVG element (default: 100)    |
-| `generateBackgroundShape(shape, color, size?, contentHash?)` | Generate background + clip path for shape  |
-| `wrapSvgWithShape(content, shape, bgColor, size?)`       | Wrap content in SVG with background shape     |

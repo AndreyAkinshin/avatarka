@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Avatarka Demo</title>
+    <script data-avatarka-color-mode>
+      (() => {
+        let systemDark = false;
+        try {
+          systemDark = typeof window.matchMedia === 'function'
+            && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } catch {}
+
+        document.documentElement.dataset.theme = systemDark ? 'dark' : 'light';
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

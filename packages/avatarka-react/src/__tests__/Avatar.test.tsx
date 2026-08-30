@@ -1,148 +1,226 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { Avatar } from '../Avatar';
-import { getDefaultParams } from 'avatarka';
+import { cleanup, render } from '@testing-library/react';
+import { createAvatar } from 'avatarka';
+import { createElement, type ComponentType } from 'react';
+import { renderToString } from 'react-dom/server';
+import { afterEach, describe, expect, expectTypeOf, it } from 'vitest';
+import { Avatar, type AvatarProps } from '../Avatar';
+import {
+  getBaseTypeCatalog,
+  type BaseTypeCatalog,
+} from '../index';
 
-// Helper to normalize clip IDs for comparison (now deterministic hashes based on content)
-const normalizeClipIds = (str: string) =>
-  str.replace(/clip-(?:circle|rounded|square)-[a-f0-9]+/g, 'clip-normalized');
+const UnsafeAvatar = Avatar as unknown as ComponentType<Record<string, unknown>>;
+
+function renderUnsafeAvatar(props: Record<string, unknown>): string {
+  return renderToString(createElement(UnsafeAvatar, props));
+}
+
+afterEach(cleanup);
+
+function imageSource(container: HTMLElement): string {
+  const image = container.querySelector('img');
+  if (!image) throw new Error('Avatar image was not rendered');
+  return image.getAttribute('src') ?? '';
+}
 
 describe('Avatar', () => {
-  it('renders an image element', () => {
-    render(<Avatar theme="monsters" seed="test" />);
+  it('mirrors the correlated core base-type catalog API', () => {
+    const catalog = getBaseTypeCatalog('critters');
 
-    const img = screen.getByRole('img');
-    expect(img).toBeDefined();
+    expect(catalog.param).toBe('species');
+    expectTypeOf(catalog).toEqualTypeOf<BaseTypeCatalog<'critters'>>();
   });
 
-  it('uses data URL as image source', () => {
-    render(<Avatar theme="monsters" seed="test" />);
+  it('renders a deterministic seeded avatar as an isolated image', () => {
+    const first = render(<Avatar theme="folks" seed="person-42" />);
+    const firstSource = imageSource(first.container);
+    first.unmount();
 
-    const img = screen.getByRole('img') as HTMLImageElement;
-    expect(img.src).toMatch(/^data:image\/svg\+xml,/);
+    const second = render(<Avatar theme="folks" seed="person-42" />);
+    expect(imageSource(second.container)).toBe(firstSource);
+    expect(firstSource).toMatch(/^data:image\/svg\+xml,/);
   });
 
-  it('applies default alt text', () => {
-    render(<Avatar theme="animals" seed="test" />);
+  it('supports a complete recipe', () => {
+    const generated = createAvatar('critters', 'profile-17', {
+      namespace: 'community',
+      palette: 'coast',
+    });
+    const { container } = render(<Avatar recipe={generated.recipe} size={72} />);
+    const image = container.querySelector('img')!;
 
-    const img = screen.getByAltText('Avatar');
-    expect(img).toBeDefined();
+    expect(decodeURIComponent(image.src)).toContain(generated.svg);
+    expect(image.width).toBe(72);
+    expect(image.height).toBe(72);
   });
 
-  it('applies custom alt text', () => {
-    render(<Avatar theme="robots" seed="test" alt="User avatar" />);
+  it('supports complete typed params without changing them', () => {
+    const generated = createAvatar('bots', 'bot-9');
+    const { container } = render(
+      <Avatar theme="bots" params={generated.params} />,
+    );
 
-    const img = screen.getByAltText('User avatar');
-    expect(img).toBeDefined();
+    expect(decodeURIComponent(imageSource(container))).toContain(generated.svg);
   });
 
-  it('applies default size', () => {
-    render(<Avatar theme="monsters" seed="test" />);
+  it('uses an empty alt by default and forwards image attributes', () => {
+    const { container } = render(
+      <Avatar
+        theme="oddlings"
+        seed="decorative"
+        className="identity"
+        loading="lazy"
+        data-owner="settings"
+      />,
+    );
+    const image = container.querySelector('img')!;
 
-    const img = screen.getByRole('img') as HTMLImageElement;
-    expect(img.width).toBe(100);
-    expect(img.height).toBe(100);
+    expect(image.alt).toBe('');
+    expect(image.className).toBe('identity');
+    expect(image.getAttribute('loading')).toBe('lazy');
+    expect(image.dataset.owner).toBe('settings');
   });
 
-  it('applies custom size', () => {
-    render(<Avatar theme="monsters" seed="test" size={200} />);
+  it('supports meaningful alternative text', () => {
+    const { container } = render(
+      <Avatar theme="adventurers" seed="andrey" alt="Andrey's avatar" />,
+    );
 
-    const img = screen.getByRole('img') as HTMLImageElement;
-    expect(img.width).toBe(200);
-    expect(img.height).toBe(200);
+    expect(container.querySelector('img')?.alt).toBe("Andrey's avatar");
   });
 
-  it('applies className', () => {
-    render(<Avatar theme="people" seed="test" className="custom-avatar" />);
+  it('keeps namespaces deterministic and independent', () => {
+    const first = render(
+      <Avatar theme="folks" seed="42" namespace="site-a" />,
+    );
+    const firstSource = imageSource(first.container);
+    first.unmount();
+    const second = render(
+      <Avatar theme="folks" seed="42" namespace="site-b" />,
+    );
 
-    const img = screen.getByRole('img');
-    expect(img.className).toContain('custom-avatar');
+    expect(imageSource(second.container)).not.toBe(firstSource);
   });
 
-  it('applies inline style', () => {
-    render(<Avatar theme="aliens" seed="test" style={{ border: '1px solid red' }} />);
+  it('renders during SSR without browser globals or implicit randomness', () => {
+    const markup = renderToString(
+      <Avatar theme="snacks" seed="server-stable" size={48} />,
+    );
 
-    const img = screen.getByRole('img') as HTMLImageElement;
-    expect(img.style.border).toBe('1px solid red');
+    expect(markup).toContain('<img');
+    expect(markup).toContain('width="48"');
+    expect(markup).toContain('data:image/svg+xml');
   });
 
-  it('generates consistent avatar with same seed', () => {
-    const { unmount } = render(<Avatar theme="monsters" seed="consistent-seed" />);
-    const img1 = screen.getByRole('img') as HTMLImageElement;
-    const src1 = img1.src;
-    unmount();
+  it('makes all three source modes mutually exclusive at compile time', () => {
+    const valid: AvatarProps<'folks'> = {
+      theme: 'folks',
+      seed: 'required',
+    };
+    expect(valid.seed).toBe('required');
 
-    render(<Avatar theme="monsters" seed="consistent-seed" />);
-    const img2 = screen.getByRole('img') as HTMLImageElement;
-    const src2 = img2.src;
-
-    expect(normalizeClipIds(src1)).toBe(normalizeClipIds(src2));
+    // @ts-expect-error A theme without params or a seed would be random during render.
+    const missingSource: AvatarProps<'folks'> = { theme: 'folks' };
+    // @ts-expect-error Recipe and seed modes cannot be combined.
+    const conflictingSources: AvatarProps<'folks'> = {
+      recipe: createAvatar('folks', 'one').recipe,
+      theme: 'folks',
+      seed: 'two',
+    };
+    expect(missingSource).toBeTruthy();
+    expect(conflictingSources).toBeTruthy();
   });
 
-  it('generates different avatar with different seed', () => {
-    const { unmount } = render(<Avatar theme="monsters" seed="seed-a" />);
-    const img1 = screen.getByRole('img') as HTMLImageElement;
-    const src1 = img1.src;
-    unmount();
-
-    render(<Avatar theme="monsters" seed="seed-b" />);
-    const img2 = screen.getByRole('img') as HTMLImageElement;
-    const src2 = img2.src;
-
-    expect(src1).not.toBe(src2);
-  });
-
-  it('uses provided params instead of generating', () => {
-    const params = getDefaultParams('monsters');
-
-    const { unmount } = render(<Avatar theme="monsters" params={params} />);
-    const img1 = screen.getByRole('img') as HTMLImageElement;
-    const src1 = img1.src;
-    unmount();
-
-    render(<Avatar theme="monsters" params={params} />);
-    const img2 = screen.getByRole('img') as HTMLImageElement;
-    const src2 = img2.src;
-
-    expect(normalizeClipIds(src1)).toBe(normalizeClipIds(src2));
-  });
-
-  it('params take precedence over seed', () => {
-    const params = getDefaultParams('monsters');
-
-    const { unmount } = render(<Avatar theme="monsters" params={params} seed="different" />);
-    const img1 = screen.getByRole('img') as HTMLImageElement;
-    const src1 = img1.src;
-    unmount();
-
-    render(<Avatar theme="monsters" params={params} seed="another-seed" />);
-    const img2 = screen.getByRole('img') as HTMLImageElement;
-    const src2 = img2.src;
-
-    // Same params should produce same result regardless of seed
-    expect(normalizeClipIds(src1)).toBe(normalizeClipIds(src2));
-  });
-
-  it('renders different themes', () => {
-    const themes = ['people', 'animals', 'monsters', 'robots', 'aliens'] as const;
-    const sources: string[] = [];
-
-    for (const theme of themes) {
-      const { unmount } = render(<Avatar theme={theme} seed="same-seed" />);
-      const img = screen.getByRole('img') as HTMLImageElement;
-      sources.push(img.src);
-      unmount();
+  it('reserves image source, dimensions, and void-element content', () => {
+    if (false) {
+      // @ts-expect-error Avatar owns every responsive image source.
+      <Avatar theme="folks" seed="owned" srcSet="external.png 1x" />;
+      // @ts-expect-error Avatar owns responsive-source sizing metadata.
+      <Avatar theme="folks" seed="owned" sizes="64px" />;
+      // @ts-expect-error An img is a void element and cannot contain children.
+      <Avatar theme="folks" seed="owned">invalid</Avatar>;
+      // @ts-expect-error An img cannot receive inner HTML.
+      <Avatar theme="folks" seed="owned" dangerouslySetInnerHTML={{ __html: 'invalid' }} />;
     }
 
-    // All themes should produce different results
-    const uniqueSources = new Set(sources);
-    expect(uniqueSources.size).toBe(themes.length);
+    const { container } = render(createElement(UnsafeAvatar, {
+      theme: 'folks',
+      seed: 'owned',
+      src: 'external.png',
+      srcSet: 'external@2x.png 2x',
+      sizes: '64px',
+      width: 1,
+      height: 2,
+      children: 'invalid',
+      dangerouslySetInnerHTML: { __html: 'invalid' },
+    }));
+    const image = container.querySelector('img')!;
+
+    expect(image.src).toContain('data:image/svg+xml');
+    expect(image.hasAttribute('srcset')).toBe(false);
+    expect(image.hasAttribute('sizes')).toBe(false);
+    expect(image.width).toBe(100);
+    expect(image.height).toBe(100);
+    expect(image.innerHTML).toBe('');
   });
 
-  it('applies display: inline-block style', () => {
-    render(<Avatar theme="monsters" seed="test" />);
+  it('rejects every conflicting recipe-mode input from untyped callers', () => {
+    const generated = createAvatar('folks', 'recipe-conflict');
+    const conflicts: Record<string, unknown>[] = [
+      { theme: 'folks' },
+      { params: generated.params },
+      { seed: 'another-seed' },
+      { namespace: 'another-namespace' },
+      { palette: 'coast' },
+      { backgroundShape: 'rounded' },
+      { traits: {} },
+    ];
 
-    const img = screen.getByRole('img') as HTMLImageElement;
-    expect(img.style.display).toBe('inline-block');
+    for (const conflict of conflicts) {
+      expect(() => renderUnsafeAvatar({
+        recipe: generated.recipe,
+        ...conflict,
+      })).toThrowError(
+        'Avatar recipe mode cannot be combined with theme, params, seed, namespace, palette, backgroundShape, or traits',
+      );
+    }
+  });
+
+  it('rejects every conflicting params-mode input from untyped callers', () => {
+    const generated = createAvatar('folks', 'params-conflict');
+    const conflicts: Record<string, unknown>[] = [
+      { seed: 'another-seed' },
+      { namespace: 'another-namespace' },
+      { palette: 'coast' },
+      { backgroundShape: 'rounded' },
+      { traits: {} },
+    ];
+
+    for (const conflict of conflicts) {
+      expect(() => renderUnsafeAvatar({
+        theme: 'folks',
+        params: generated.params,
+        ...conflict,
+      })).toThrowError(
+        'Avatar params mode cannot be combined with seed, namespace, palette, backgroundShape, or traits',
+      );
+    }
+  });
+
+  it('requires a complete runtime source from untyped callers', () => {
+    const params = createAvatar('folks', 'missing-theme').params;
+
+    expect(() => renderUnsafeAvatar({ params })).toThrowError(
+      'Avatar params mode requires a theme',
+    );
+    expect(() => renderUnsafeAvatar({ seed: 'missing-theme' })).toThrowError(
+      'Avatar seeded mode requires a theme',
+    );
+    expect(() => renderUnsafeAvatar({})).toThrowError(
+      'Avatar requires one source mode: recipe, theme with params, or theme with seed',
+    );
+    expect(() => renderUnsafeAvatar({ theme: 'folks' })).toThrowError(
+      'Avatar seeded mode requires an explicit seed',
+    );
   });
 });

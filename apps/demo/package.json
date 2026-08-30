@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/check-production.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist"
   },
@@ -19,6 +19,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "pragmastat": "10.0.5",
     "typescript": "^5.7.2",
     "vite": "^6.0.3"
   }

@@ -4,383 +4,224 @@
 [![npm avatarka-react](https://img.shields.io/npm/v/avatarka-react?label=npm%20avatarka-react)](https://www.npmjs.com/package/avatarka-react)
 [![Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://avatarka.akinshin.dev/)
 
-Generate unique, customizable SVG and PNG avatars with multiple themes.
+Deterministic, curated SVG avatar identities for JavaScript, TypeScript, and React.
 
-## Features
+Avatarka v4 is a clean visual and API reset. It ships eight cohesive character families, six surface-neutral palettes, serializable identity recipes, balanced galleries, and browser PNG export. Within one recipe protocol, the same theme, seed, namespace, and options always reproduce the same identity.
 
-- **14 Built-in Themes**: People, animals, monsters, robots, aliens, ocean, dinosaurs, mythical, insects, birds, plants, food, weather, and gems
-- **Seed-based Generation**: Generate deterministic avatars from any string (email, user ID, etc.)
-- **Fully Customizable**: Every parameter can be tweaked via a typed API
-- **Minimal Dependencies**: Core library depends only on [pragmastat](https://www.npmjs.com/package/pragmastat) for PRNG
-- **React Components**: Ready-to-use Avatar and AvatarEditor components
-- **PNG Export**: Browser-based PNG generation via Canvas API
-- **TypeScript First**: Full type safety with exported types
-
-## Installation
+## Install
 
 ```bash
-# Core library only
 npm install avatarka
 
-# With React components
+# React components
 npm install avatarka avatarka-react
 ```
 
-## Quick Start
+## Quick start
 
-### Basic Usage
+`createAvatar` is the primary API. It returns the rendered SVG together with the exact parameters and a recipe you can store.
 
-```typescript
+```ts
+import { createAvatar } from 'avatarka';
+
+const avatar = createAvatar('folks', 'user-123', {
+  namespace: 'acme-dashboard',
+  palette: 'coast',
+});
+
+avatar.svg;
+avatar.params;
+avatar.recipe;
+```
+
+Strings and numbers are distinct seeds. Use a namespace to keep the same seed independent across products, tenants, or identity domains.
+
+For recipe protocol v1, the same theme, seed, namespace, presentation, and traits produce byte-identical params, recipe JSON, and SVG. This contract is checked against the built ESM and CJS packages on Node 18, 20, and 24. A renderer change cannot silently alter an existing seeded identity without an explicit recipe-protocol decision.
+
+If you omit the seed, Avatarka generates one and records it in `avatar.recipe`, so the result can still be reproduced.
+
+## Recipes
+
+Recipes are JSON-safe identity records. Save the recipe rather than the generated SVG when you want to re-render an identity later.
+
+```ts
+import { createAvatar, parseRecipe } from 'avatarka';
+
+const original = createAvatar('adventurers', 'ada@example.com', {
+  namespace: 'community',
+  palette: 'orchid',
+  backgroundShape: 'rounded',
+  traits: {
+    archetype: 'aviator',
+    expression: 'curious',
+  },
+});
+
+localStorage.setItem('avatar', JSON.stringify(original.recipe));
+
+const stored: unknown = JSON.parse(localStorage.getItem('avatar')!);
+const restored = createAvatar(parseRecipe(stored));
+```
+
+`parseRecipe` strictly validates untrusted input, rejects unknown fields and unsupported recipe versions, canonicalizes equivalent JSON-safe inputs, and returns an immutable clone. Recipe protocol versions are independent from npm package versions.
+
+## Exact parameter control
+
+Use `generateParams` when you need complete editable typed parameters, and `generateAvatar` as the low-level pure renderer. The params stored on a generated identity remain readonly.
+
+`generateParams` always requires an explicit seed. For a fresh random identity, call `createAvatar(theme)` so the generated seed is captured in its recipe.
+
+```ts
 import { generateAvatar, generateParams } from 'avatarka';
 
-// Generate random parameters and create an avatar
-const params = generateParams('monsters');
-const svg = generateAvatar('monsters', params);
+const params = generateParams('folks', 'user-123', {
+  palette: 'clay',
+  traits: { hairStyle: 'wave' },
+});
 
-// Insert into DOM
-document.getElementById('avatar').innerHTML = svg;
+const svg = generateAvatar('folks', params);
 ```
 
-### Seed-based Generation
+Presentation fields (`palette` and `backgroundShape`) are separate from semantic `traits`, so recoloring or reframing an identity does not change its character details. Overriding a parent trait also reselects any unset dependent details from the matching curated set, while explicit child overrides are preserved.
 
-Generate consistent avatars from any string (great for user avatars):
+## Balanced galleries
 
-```typescript
-import { randomAvatar, generateParams } from 'avatarka';
-
-// One-liner: generate avatar from seed
-const svg = randomAvatar('animals', 'user@email.com');
-
-// Same seed always produces the same avatar
-const params1 = generateParams('monsters', 'user-123');
-const params2 = generateParams('monsters', 'user-123');
-// params1 and params2 are identical
-```
-
-#### `generateGallery(count, seed?, options?)`
-
-Generate a diverse gallery of avatars with guaranteed visual variety across all themes.
-
-```typescript
+```ts
 import { generateGallery } from 'avatarka';
 
-const items = generateGallery(25, 'my-seed', {
+const choices = generateGallery(25, 'team-42', {
+  themes: ['critters'],
+  namespace: 'profile-picker',
   backgroundShape: 'circle',
-  transparentBackground: false,
 });
-// Returns: Array of { theme, params, svg }
+
+// Array<{ recipe, theme, params, svg }>
 ```
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `backgroundShape` | `string` | - | Force background shape for all items |
-| `transparentBackground` | `boolean` | - | Force transparent background for all items |
+Omit `palette` for a balanced mix of all palettes, or set one palette for the entire gallery. Mixed galleries store the assigned palette in each item recipe for exact replay. Palette and frame choices do not affect which semantic identity is selected at any gallery index. Omit `themes` to distribute results across all eight families. `themes` is treated as a canonical set: caller order and duplicates do not change a seeded gallery.
 
-### React Components
+Each family schedules its primary catalog independently. A theme-local block up to that catalog's length contains no repeated base type; complete blocks contain every type once, and longer galleries start another deterministic cycle. Every item recipe records only its scheduled primary trait in `traits`, while all secondary details remain naturally seeded and gallery-balanced. This keeps mixed galleries reproducible without searching for a seed that happens to produce the requested type.
 
-```tsx
-import { Avatar, AvatarEditor, generateParams } from 'avatarka-react';
-import { useState } from 'react';
+All eight built-in catalogs contain 50 base types. A single-theme Gallery 25 therefore has 25 distinct types, Gallery 50 contains every type once, and Gallery 100 contains every type twice. A canonical eight-theme Gallery 400 contains each theme-qualified base identity exactly once.
 
-// Simple avatar display
-function UserAvatar({ email }: { email: string }) {
-  return <Avatar theme="animals" seed={email} size={64} />;
-}
+Pass an explicit seed when the complete gallery must be reproducible, including its balance and order. The convenience overload `generateGallery(count, options)` creates a fresh gallery on every call and does not expose its internal gallery seed. Every returned item still carries a reproducible recipe, but replaying the whole set requires supplying and retaining an explicit seed.
 
-// Interactive editor
-function AvatarCustomizer() {
-  const [params, setParams] = useState(() => generateParams('monsters'));
+`count` must be an integer from 0 through 1000; stream individual identities for larger batches.
 
-  return (
-    <AvatarEditor
-      theme="monsters"
-      params={params}
-      onChange={setParams}
-      previewSize={200}
-    />
-  );
-}
+## Catalog
+
+The canonical theme order used by the API, demo, and React picker is:
+
+1. `folks` — clean human portraits
+2. `adventurers` — expressive role-driven people
+3. `critters` — warm animal characters
+4. `oddlings` — playful abstract creatures
+5. `bots` — friendly industrial robots
+6. `snacks` — editorial food and drink characters
+7. `nooks` — tiny architectural characters
+8. `orbs` — calm anonymous identities
+
+Use the frozen `themeNames` tuple for that order and `getTheme(name)` or `themes` for safe metadata and schemas. `getBaseTypeCatalog(theme)` returns the theme's primary catalog axis directly from that schema, with correlated literal types:
+
+```ts
+import { getBaseTypeCatalog } from 'avatarka';
+
+const critters = getBaseTypeCatalog('critters');
+// { param: 'species', values: readonly ('cat' | 'dog' | ...)[] }
 ```
 
-### PNG Generation (Browser)
+The returned catalog object and its `values` are deeply frozen and contain no renderer or randomizer internals.
 
-```typescript
-import { generateAvatar, generateParams, svgToPng, svgToPngDataUrl } from 'avatarka';
+Folks exposes 50 ordered, individually drawn `hairStyle` silhouettes through
+that catalog. Hair styles stay available across every skin tone and face shape;
+headwear is intentionally separate from the hair-style axis.
 
-// Generate SVG first
-const params = generateParams('monsters', 'user@email.com');
-const svg = generateAvatar('monsters', params);
+Bots exposes 50 ordered `chassis` topologies through the same catalog API. Each
+topology has its own face plate and hardware anchors; antennas, side sensors,
+panels, palettes, and frames do not rescale or recenter the underlying robot.
+Every bot keeps a friendly mouth independent of its selected panel.
 
-// Convert to PNG Blob and download
+The canonical palettes are `coast`, `orchid`, `clay`, `grove`, `sky`, and `mono`. They use the same avatar canvas in light and dark interfaces, so previews and exported files stay identical. Use `paletteNames`, `getPalette(name)`, or `palettes` to inspect them. The frozen `backgroundShapeNames` tuple provides the canonical `circle`, `rounded`, `square` frame order.
+
+## PNG export in browsers
+
+Canvas helpers live in the browser-only entrypoint and are not loaded by server code.
+
+```ts
+import { createAvatar } from 'avatarka';
+import { svgToPng, svgToPngDataUrl } from 'avatarka/browser';
+
+const { svg } = createAvatar('orbs', 'user-123');
 const blob = await svgToPng(svg, { size: 512 });
-const url = URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = 'avatar.png';
-a.click();
-URL.revokeObjectURL(url);
-
-// Or get as data URL for embedding
 const dataUrl = await svgToPngDataUrl(svg, { size: 128 });
-// Returns: "data:image/png;base64,..."
 ```
 
-> **Note**: PNG generation uses the Canvas API and is only available in browser environments.
+Output size must be an integer from 1 through 8192. Both helpers report validation and rendering failures as rejected promises.
 
-## API Reference
-
-### Core Functions
-
-#### `generateAvatar(theme, params)`
-
-Generate an SVG string from theme and parameters.
-
-```typescript
-const svg = generateAvatar('robots', {
-  backgroundShape: 'circle',
-  bodyColor: '#95a5a6',
-  accentColor: '#3498db',
-  eyeColor: '#e74c3c',
-  backgroundColor: '#2c3e50',
-  headShape: 'square',
-  antennaStyle: 'single',
-  eyeStyle: 'round',
-  mouthStyle: 'grille',
-  hasPanel: 'no',
-  panelLights: 3,
-});
-```
-
-#### `generateParams(theme, seed?)`
-
-Generate random parameters for a theme. Optionally pass a seed for deterministic output.
-
-```typescript
-// Random
-const params = generateParams('monsters');
-
-// Deterministic
-const params = generateParams('monsters', 'my-seed');
-```
-
-#### `randomAvatar(theme, seed?)`
-
-Convenience function combining `generateParams` and `generateAvatar`.
-
-```typescript
-const svg = randomAvatar('people', 'user@email.com');
-```
-
-#### `getDefaultParams(theme)`
-
-Get default parameters from the theme schema.
-
-```typescript
-const defaults = getDefaultParams('monsters');
-```
-
-#### `getThemeNames()`
-
-Get array of available theme names.
-
-```typescript
-const themes = getThemeNames();
-// ['people', 'animals', 'monsters', 'robots', 'aliens', 'ocean',
-//  'dinosaurs', 'mythical', 'insects', 'birds', 'plants', 'food',
-//  'weather', 'gems']
-```
-
-#### `getTheme(theme)`
-
-Get theme metadata including name and parameter schema.
-
-```typescript
-const { name, schema } = getTheme('animals');
-```
-
-### React Components
-
-#### `<Avatar />`
-
-Simple avatar renderer.
-
-| Prop        | Type               | Default    | Description                        |
-|-------------|--------------------|------------|------------------------------------|
-| `theme`     | `ThemeName`        | required   | Theme to use                       |
-| `params`    | `AvatarParams`     | -          | Avatar parameters                  |
-| `seed`      | `string \| number` | -          | Seed for generation (if no params) |
-| `size`      | `number`           | `100`      | Size in pixels                     |
-| `className` | `string`           | -          | CSS class                          |
-| `style`     | `CSSProperties`    | -          | Inline styles                      |
-| `alt`       | `string`           | `'Avatar'` | Alt text                           |
-
-#### `<AvatarEditor />`
-
-Interactive editor with auto-generated controls.
-
-| Prop               | Type                                          | Default  | Description                                      |
-|--------------------|-----------------------------------------------|----------|--------------------------------------------------|
-| `theme`            | `ThemeName`                                   | required | Theme to use                                     |
-| `params`           | `AvatarParams`                                | required | Current parameters                               |
-| `onChange`         | `(params) => void`                            | required | Change handler                                   |
-| `onThemeChange`    | `(theme: ThemeName) => void`                  | -        | Callback when theme changes                      |
-| `previewSize`      | `number`                                      | `100`    | Preview size in pixels                           |
-| `showPreview`      | `boolean`                                     | `true`   | Show avatar preview                              |
-| `showGalleryButton`| `boolean`                                     | -        | Show gallery toggle button                       |
-| `onGallerySelect`  | `(theme: ThemeName, params: AvatarParams) => void` | -   | Callback when avatar selected from gallery       |
-| `galleryCount`     | `number`                                      | -        | Number of avatars in gallery mode                |
-| `galleryAvatarSize`| `number`                                      | -        | Size of each avatar in the gallery grid          |
-| `className`        | `string`                                      | -        | CSS class                                        |
-| `style`            | `CSSProperties`                               | -        | Inline styles                                    |
-
-#### `<AvatarPicker />`
-
-Self-contained avatar picker with editor and gallery modes. Requires importing the stylesheet:
+## React
 
 ```tsx
-import { AvatarPicker } from 'avatarka-react';
+import { Avatar, AvatarPicker } from 'avatarka-react';
 import 'avatarka-react/styles.css';
 
-function MyApp() {
+export function Profile() {
   return (
-    <AvatarPicker
-      defaultTheme="monsters"
-      onParamsChange={(theme, params) => console.log(theme, params)}
-    />
+    <>
+      <Avatar
+        theme="folks"
+        seed="user-123"
+        namespace="my-app"
+        size={64}
+        alt="Andrey's avatar"
+      />
+
+      <AvatarPicker
+        gallerySeed="profile-picker"
+        namespace="my-app"
+        onChange={(avatar) => {
+          localStorage.setItem('avatar', JSON.stringify(avatar.recipe));
+        }}
+      />
+    </>
   );
 }
 ```
 
-| Prop                         | Type                                          | Default     | Description                                         |
-|------------------------------|-----------------------------------------------|-------------|-----------------------------------------------------|
-| `defaultTheme`               | `ThemeName`                                   | `'people'`  | Initial theme                                       |
-| `onParamsChange`             | `(theme: ThemeName, params: AvatarParams) => void` | -      | Callback when avatar parameters change              |
-| `gridSize`                   | `number`                                      | `5`         | Gallery grid size (n x n), fallback for width/height|
-| `gridWidth`                  | `number`                                      | `gridSize`  | Number of gallery grid columns                      |
-| `gridHeight`                 | `number`                                      | `gridSize`  | Number of gallery grid rows                         |
-| `backgroundColor`            | `string`                                      | -           | Background color (CSS value)                        |
-| `accentColor`                | `string`                                      | -           | Accent color for buttons and active elements        |
-| `layout`                     | `'default' \| 'compact'`                      | `'default'` | Layout mode (stacked or side-by-side)               |
-| `alwaysTransparentBackground`| `boolean`                                     | -           | Force transparent avatar background                 |
-| `onSaveSvg`                  | `() => void`                                  | -           | Callback for SVG save (shows SVG button when set)   |
-| `onSavePng`                  | `() => void`                                  | -           | Callback for PNG save (shows PNG button when set)   |
-| `className`                  | `string`                                      | -           | CSS class                                           |
-| `style`                      | `CSSProperties`                               | -           | Inline styles                                       |
+`Avatar` accepts exactly one source: a recipe, complete params, or a theme plus an explicit seed. `AvatarPicker` supports controlled and uncontrolled selection, observable user category browsing, configurable visual/keyboard column stride, async gallery loaders, SVG/PNG downloads, keyboard navigation, reduced motion, and CSS custom properties. See the [React package guide](packages/avatarka-react/README.md).
 
-### PNG Functions (Browser-only)
+## Migrating from v3
 
-#### `svgToPng(svg, options?)`
+Version 4 intentionally removes the old avatar catalog and compatibility layer. Existing seeded identities will not keep their v3 artwork. If you need those avatars, pin `avatarka@3.0.0` and, for React, `avatarka-react@3.0.0`.
 
-Convert an SVG string to a PNG Blob using the Canvas API.
+- Replace `randomAvatar(theme, seed)` with `createAvatar(theme, seed).svg`.
+- Replace unseeded `generateParams(theme)` with `createAvatar(theme).params`, or pass an explicit seed to `generateParams`.
+- Replace `getThemeNames()` with the frozen `themeNames` tuple.
+- Replace `GalleryItem` and `GenerateGalleryOptions` with `GeneratedAvatar` and `GalleryOptions`.
+- Replace `studio.createRecipe(...)` plus `studio.generateIdentity(...)` with the root `createAvatar(...)` recipe flow.
+- The `avatarka/studio/v1` entrypoint is removed; import the v4 API from `avatarka`.
+- Import `svgToPng` and `svgToPngDataUrl` from `avatarka/browser`.
+- `AvatarEditor` is removed. Use `AvatarPicker`, or build custom controls from `getTheme(theme).schema` with `generateAvatar`.
+- The v3 RNG, color utilities, generic `Theme`/`ThemeMap`/`AvatarParams`, and old concrete theme-param exports have no v4 compatibility aliases. Pin v3 or keep application-specific utilities locally if you depend on them.
 
-```typescript
-const svg = generateAvatar('monsters', params);
-const blob = await svgToPng(svg, { size: 512 });
+## Development
+
+```bash
+mise run restore
+mise run build
+mise run check
+mise run test
+mise run build:static
+mise run ci
 ```
 
-#### `svgToPngDataUrl(svg, options?)`
+`mise run build` already builds the core package, React package, and Vite demo through Turborepo. `build:static` is a stable alias for that same production build.
 
-Convert an SVG string to a PNG data URL.
+TypeScript consumers require TypeScript 5.4 or newer with `moduleResolution` set to `Bundler`, `Node16`, or `NodeNext`. Legacy `Node` resolution does not understand package export subpaths such as `avatarka/browser` and `avatarka-react/styles.css`. JavaScript consumers are unaffected.
 
-```typescript
-const svg = generateAvatar('animals', params);
-const dataUrl = await svgToPngDataUrl(svg, { size: 128 });
-// Returns: "data:image/png;base64,..."
-```
+## Packages
 
-#### PNG Options
-
-| Option | Type     | Default | Description           |
-|--------|----------|---------|----------------------|
-| `size` | `number` | `256`   | Output size in pixels |
-
-> **Note**: These functions require a browser environment with Canvas support. They will throw an error if called in Node.js.
-
-## Themes
-
-### People
-
-Human avatars with various hairstyles and accessories.
-
-**Parameters**: `backgroundShape`, `skinColor`, `hairColor`, `eyeColor`, `backgroundColor`, `hairStyle`, `accessory`, `expression`
-
-### Animals
-
-Animal faces including cats, dogs, bears, bunnies, foxes, pandas, owls, koalas, penguins, and lions.
-
-**Parameters**: `backgroundShape`, `animalType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`
-
-### Monsters
-
-Cute monster characters with customizable features.
-
-**Parameters**: `backgroundShape`, `backgroundColor`, `bodyColor`, `eyeColor`, `mouthColor`, `bodyShape`, `eyeCount`, `hasHorns`, `hasTeeth`, `expression`
-
-### Robots
-
-Retro-futuristic robot heads with various head shapes and features.
-
-**Parameters**: `backgroundShape`, `bodyColor`, `accentColor`, `eyeColor`, `backgroundColor`, `headShape`, `antennaStyle`, `eyeStyle`, `mouthStyle`, `hasPanel`, `panelLights`
-
-### Aliens
-
-Extraterrestrial beings with various head shapes and features.
-
-**Parameters**: `backgroundShape`, `skinColor`, `eyeColor`, `backgroundColor`, `headShape`, `eyeStyle`, `antennae`, `mouthStyle`, `markings`
-
-### Ocean
-
-Ocean creatures including octopus, fish, jellyfish, crab, whale, seahorse, pufferfish, turtle, shark, and starfish.
-
-**Parameters**: `backgroundShape`, `creatureType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Dinosaurs
-
-Prehistoric dinosaurs including trex, triceratops, stegosaurus, brachiosaurus, pterodactyl, and more.
-
-**Parameters**: `backgroundShape`, `dinosaurType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Mythical
-
-Mythical creatures including dragon, unicorn, phoenix, griffin, yeti, cerberus, kitsune, minotaur, fairy, and hydra.
-
-**Parameters**: `backgroundShape`, `creatureType`, `primaryColor`, `secondaryColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Insects
-
-Insects including butterfly, bee, ladybug, ant, beetle, dragonfly, caterpillar, firefly, mantis, and spider.
-
-**Parameters**: `backgroundShape`, `insectType`, `primaryColor`, `secondaryColor`, `wingColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Birds
-
-Bird species including parrot, owl, penguin, flamingo, eagle, toucan, peacock, hummingbird, robin, and crow.
-
-**Parameters**: `backgroundShape`, `birdType`, `primaryColor`, `secondaryColor`, `crestColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Plants
-
-Plants including cactus, sunflower, rose, tulip, venus-flytrap, bonsai, mushroom, fern, bamboo, and succulent.
-
-**Parameters**: `backgroundShape`, `plantType`, `primaryColor`, `secondaryColor`, `potColor`, `bloomColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Food
-
-Food items including sushi, pizza, cupcake, ice-cream, donut, burger, taco, ramen, cookie, and watermelon.
-
-**Parameters**: `backgroundShape`, `foodType`, `primaryColor`, `secondaryColor`, `toppingColor`, `plateColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Weather
-
-Weather phenomena including sun, cloud, raindrop, snowflake, lightning, tornado, rainbow, moon, star, and comet.
-
-**Parameters**: `backgroundShape`, `weatherType`, `primaryColor`, `secondaryColor`, `glowColor`, `precipitationColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
-
-### Gems
-
-Gemstones including diamond, ruby, emerald, sapphire, amethyst, opal, topaz, pearl, crystal, and geode.
-
-**Parameters**: `backgroundShape`, `gemType`, `primaryColor`, `secondaryColor`, `facetColor`, `eyeColor`, `backgroundColor`, `expression`, `pattern`
+- [`avatarka`](packages/avatarka/README.md) — deterministic core, recipes, SVG rendering, galleries, and browser PNG helpers
+- [`avatarka-react`](packages/avatarka-react/README.md) — SSR-safe avatar rendering and an accessible picker
 
 ## License
 
