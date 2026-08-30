@@ -99,10 +99,12 @@ jobs:
   publish:
     needs: [preflight, build]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Restore the verified npm packages
         uses: actions/download-artifact@v4
@@ -151,20 +153,10 @@ jobs:
           check_package avatarka core_published
           check_package avatarka-react react_published
 
-      - name: Configure publish-only npm auth
-        if: steps.package-state.outputs.core_published != 'true' || steps.package-state.outputs.react_published != 'true'
-        run: |
-          umask 077
-          printf '%s\n' "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > "$NPM_CONFIG_USERCONFIG"
-        env:
-          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/avatarka-npmrc
-
       - name: Publish avatarka
         if: steps.package-state.outputs.core_published != 'true'
         run: npm publish "$RUNNER_TEMP/avatarka-packs/avatarka-${RELEASE_VERSION}.tgz" --access public --tag "$NPM_TAG"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/avatarka-npmrc
           NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
           RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
 
@@ -172,8 +164,6 @@ jobs:
         if: steps.package-state.outputs.react_published != 'true'
         run: npm publish "$RUNNER_TEMP/avatarka-packs/avatarka-react-${RELEASE_VERSION}.tgz" --access public --tag "$NPM_TAG"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/avatarka-npmrc
           NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
           RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
 
