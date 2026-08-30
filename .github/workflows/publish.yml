@@ -112,74 +112,46 @@ jobs:
           name: npm-packages
           path: ${{ runner.temp }}/avatarka-packs
 
-      - name: Inspect published package state
-        id: package-state
+      - name: Publish packages
         run: |
-          version="${{ needs.preflight.outputs.version }}"
+          set -o pipefail
           pack_root="$RUNNER_TEMP/avatarka-packs"
 
-          check_package() {
+          publish_package() {
             package_name="$1"
-            output_name="$2"
-            tarball="$pack_root/${package_name}-${version}.tgz"
+            tarball="$pack_root/${package_name}-${RELEASE_VERSION}.tgz"
             if [ ! -f "$tarball" ]; then
               echo "Verified package artifact is missing: ${tarball}" >&2
               exit 1
             fi
+            publish_log="$RUNNER_TEMP/${package_name}-npm-publish.log"
+            if npm publish "$tarball" --access public --tag "$NPM_TAG" 2>&1 | tee "$publish_log"; then
+              echo "${package_name}@${RELEASE_VERSION} published"
+              return 0
+            fi
+            if ! grep -Eq 'E403|EPUBLISHCONFLICT|cannot publish over' "$publish_log"; then
+              echo "${package_name}@${RELEASE_VERSION} publish failed" >&2
+              exit 1
+            fi
+            # A publish conflict means this version already exists: the run is
+            # being resumed. Confirm the published bytes match the verified
+            # tarball (npm reads can lag briefly after the original write).
             local_integrity="sha512-$(openssl dgst -sha512 -binary "$tarball" | openssl base64 -A)"
-            view_error="$RUNNER_TEMP/${package_name}-npm-view-error"
-            if published_integrity="$(npm view "${package_name}@${version}" dist.integrity 2>"$view_error")"; then
-              if [ -z "$published_integrity" ]; then
-                echo "${package_name}@${version} exists without an integrity digest" >&2
-                exit 1
-              fi
-            elif grep -Eq 'E404|404 Not Found' "$view_error"; then
-              published_integrity=""
-            else
-              cat "$view_error" >&2
+            published_integrity=""
+            for attempt in $(seq 1 12); do
+              published_integrity="$(npm view "${package_name}@${RELEASE_VERSION}" dist.integrity 2>/dev/null || true)"
+              [ -n "$published_integrity" ] && break
+              sleep 10
+            done
+            if [ "$published_integrity" != "$local_integrity" ]; then
+              echo "${package_name}@${RELEASE_VERSION} already exists with different contents" >&2
               exit 1
             fi
-
-            if [ -z "$published_integrity" ]; then
-              echo "${output_name}=false" >> "$GITHUB_OUTPUT"
-            elif [ "$published_integrity" = "$local_integrity" ]; then
-              echo "${output_name}=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "${package_name}@${version} already exists with different contents" >&2
-              exit 1
-            fi
+            echo "${package_name}@${RELEASE_VERSION} already published with matching contents; skipping"
           }
 
-          check_package avatarka core_published
-          check_package avatarka-react react_published
-
-      - name: Publish avatarka
-        if: steps.package-state.outputs.core_published != 'true'
-        run: npm publish "$RUNNER_TEMP/avatarka-packs/avatarka-${RELEASE_VERSION}.tgz" --access public --tag "$NPM_TAG"
-        env:
-          NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
-          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
-
-      - name: Publish avatarka-react
-        if: steps.package-state.outputs.react_published != 'true'
-        run: npm publish "$RUNNER_TEMP/avatarka-packs/avatarka-react-${RELEASE_VERSION}.tgz" --access public --tag "$NPM_TAG"
-        env:
-          NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
-          RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
-
-      - name: Verify npm dist-tags
-        run: |
-          verify_dist_tag() {
-            package_name="$1"
-            actual_version="$(npm view "${package_name}@${NPM_TAG}" version 2>/dev/null || true)"
-            if [ "$actual_version" != "$RELEASE_VERSION" ]; then
-              echo "Expected ${package_name}@${NPM_TAG} to resolve to ${RELEASE_VERSION}; got ${actual_version:-nothing}" >&2
-              exit 1
-            fi
-          }
-
-          verify_dist_tag avatarka
-          verify_dist_tag avatarka-react
+          publish_package avatarka
+          publish_package avatarka-react
         env:
           NPM_TAG: ${{ needs.preflight.outputs.npm_tag }}
           RELEASE_VERSION: ${{ needs.preflight.outputs.version }}

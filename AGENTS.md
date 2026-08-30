@@ -306,7 +306,7 @@ mise run version 4.0.1
 mise run publish 4.0.1
 ```
 
-The version task refuses a dirty worktree before writing anything. The publish task validates the candidate, attached `main` branch, upstream state, and GitHub CLI authentication before creating a version commit. The workflow builds, tests, and packs once without registry credentials, then publishes those exact verified tarballs through npm trusted publishing (GitHub OIDC, `id-token: write` in the publish job only) — no long-lived npm token is stored anywhere. Stable releases use npm `latest`; SemVer prereleases use `next` and become GitHub prereleases. Separate minimal write jobs create the tag/release and deploy the verified demo artifact to GitHub Pages. Integrity and existing-tag checks make a safely resumed workflow idempotent without accepting mismatched package contents.
+The version task refuses a dirty worktree before writing anything. The publish task validates the candidate, attached `main` branch, upstream state, and GitHub CLI authentication before creating a version commit. The workflow builds, tests, and packs once without registry credentials, then publishes those exact verified tarballs through npm trusted publishing (GitHub OIDC, `id-token: write` in the publish job only) — no long-lived npm token is stored anywhere. Stable releases use npm `latest`; SemVer prereleases use `next` and become GitHub prereleases. Separate minimal write jobs create the tag/release and deploy the verified demo artifact to GitHub Pages. A safely resumed workflow re-attempts each publish, treats npm's already-published conflict as the resume signal, and re-verifies tarball integrity so mismatched package contents are never accepted.
 
 Every commit message must end with this trailer:
 
